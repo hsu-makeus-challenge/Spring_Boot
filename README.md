@@ -12,7 +12,7 @@
 
 | <img src="https://avatars.githubusercontent.com/u/93406666?s=96&v=4"> | <img src="https://avatars.githubusercontent.com/u/113489721?s=96&v=4"> | <img src="https://avatars.githubusercontent.com/u/127730905?s=96&v=4"> | <img src="https://avatars.githubusercontent.com/u/147074506?s=96&v=4"> |
 | :---: | :---: | :---: | :---: |
-| [김준용](https://github.com/ggamnunq) | [강다현](https://github.com/hyeonda02) | [박미정](https://github.com/mmije0ng) | [박진성](https://github.com/mmije0ng) |
+| [김준용](https://github.com/ggamnunq) | [강다현](https://github.com/hyeonda02) | [박미정](https://github.com/mmije0ng) | [박진성](https://github.com/Jinseong01) |
 
 **👶🏼YB**
 
