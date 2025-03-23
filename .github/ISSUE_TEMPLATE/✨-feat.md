@@ -1,7 +1,7 @@
 ---
 name: "✨\bFeat"
 about: feature issue template
-title: "[Feat] 이름-제목"
+title: "[Feat] #주차-제목"
 labels: ":sparkles: Feature"
 assignees: ''
 
