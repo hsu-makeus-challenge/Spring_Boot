@@ -1,7 +1,7 @@
 ---
 name: "♻️ Refactor"
 about: refactor issue template
-title: "[Refactor] 이름-제목"
+title: "[Refactor] #주차-제목"
 labels: ":hammer: Refactor"
 assignees: ''
 

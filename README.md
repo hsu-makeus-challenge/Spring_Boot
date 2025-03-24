@@ -40,13 +40,13 @@
 
 - ✅ [주차]/[이름]
     
-    ex) week3/Junyong, week5/Haerin -> 소문자로!!
+    ex) week3/Junyong, week5/Haerin
     
 ### 💡커밋 메시지
 
 - ✅ [커밋태그] : [메시지]
     
-    ex) feat : 댓글 등록 기능 추가
+    ex) feat : 댓글 등록 기능 추가  
     ex) fix : 댓글 중복 등록 오류 수정
     
 ### 💡PR 제목
@@ -65,6 +65,7 @@
 | refactor | 코드 리팩토링 |
 | comment | 주석 추가(코드 변경 X) 혹은 오타 수정 |
 | docs | README와 같은 문서 수정 |
+| setting | 프로젝트 세팅 |
 | merge | merge |
 | test | 테스트 코드, 리팩토링 테스트 코드 추가 |
 | rename | 파일, 폴더명 수정 혹은 이동 |

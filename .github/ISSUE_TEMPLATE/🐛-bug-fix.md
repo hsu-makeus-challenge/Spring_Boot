@@ -1,7 +1,7 @@
 ---
 name: "\U0001F41B Bug Fix"
 about: bug issue template
-title: "[Fix] 이름-제목"
+title: "[Fix] #주차-제목"
 labels: ":lady_beetle: BugFix"
 assignees: ''
 
