@@ -40,7 +40,7 @@
 
 - ✅ [주차]/[이름]
     
-    ex) week3/Junyong, week5/Haerin
+    ex) Week3/Junyong, Week5/Haerin
     
 ### 💡커밋 메시지
 
