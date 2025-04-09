@@ -9,20 +9,19 @@ import umc.spring.global.common.data.BaseEntity;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Inquiry extends BaseEntity {
+public class InquiryReply extends BaseEntity {
 
-    // 필드
+    // 필드들
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 20)
-    private String title = "untitled";
-
     @Column(nullable = false, length = 100)
-    private String content;
+    private String content = "";
 
-    @Column(nullable = false)
-    private Boolean isAnswered = false; // 기본값 false
+    // 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inquiry_id")
+    private Inquiry inquiry;
 
 }

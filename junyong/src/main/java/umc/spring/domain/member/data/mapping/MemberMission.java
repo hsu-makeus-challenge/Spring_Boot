@@ -14,13 +14,18 @@ import umc.spring.global.common.data.BaseEntity;
 @AllArgsConstructor
 public class MemberMission extends BaseEntity {
 
+    // 필드
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private MissionStatus status;
+    @Enumerated(EnumType.STRING) // 기본값 = 도전중
+    private MissionStatus status = MissionStatus.CHALLENGING;
 
+    @Column(nullable = false, unique = true)
+    private String confirmNumber; // 데이터 생성 시 값 유일한 랜덤 생성
+
+    // 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "member_id")
     private Member member;

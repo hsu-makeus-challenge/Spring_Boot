@@ -1,10 +1,9 @@
 package umc.spring.domain.review.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import umc.spring.domain.review.data.enums.ReviewStatus;
+import umc.spring.domain.store.data.Store;
 import umc.spring.global.common.data.BaseEntity;
 
 @Entity
@@ -14,12 +13,26 @@ import umc.spring.global.common.data.BaseEntity;
 @AllArgsConstructor
 public class Review extends BaseEntity {
 
+    // 필드
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @Column(nullable = false)
+    private Long member_id; // 유저 매핑 안 함
 
-    private Float score;
+    @Column(nullable = false, length = 50)
+    private String content = "";
+
+    @Column(nullable = false)
+    private Float score = 0.0f;
+
+    @Enumerated(value = EnumType.STRING )
+    private ReviewStatus status = ReviewStatus.CREATED;
+
+    // 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
 }

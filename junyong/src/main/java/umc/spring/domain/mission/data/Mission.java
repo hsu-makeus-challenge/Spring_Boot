@@ -2,13 +2,10 @@ package umc.spring.domain.mission.data;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.spring.domain.member.data.mapping.MemberMission;
 import umc.spring.domain.store.data.Store;
 import umc.spring.global.common.data.BaseEntity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,21 +14,23 @@ import java.util.List;
 @AllArgsConstructor
 public class Mission extends BaseEntity {
 
+    // 필드
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer reward;
+    @Column(nullable = false, length = 20)
+    private String content; // 미션내용
 
+    @Column(nullable = false)
+    private Integer reward = 10; // 값 안 넣으면 10포인트
+
+    // 기간을 무한으로 한다고 했을 때, null로 두도록 설정
     private LocalDate deadline;
 
-    private String missionSpec;
-
+    // 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
-
-    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-    private List<MemberMission> memberMissionList = new ArrayList<>();
 
 }

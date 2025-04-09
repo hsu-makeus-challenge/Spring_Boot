@@ -2,18 +2,11 @@ package umc.spring.domain.member.data;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.spring.domain.member.data.mapping.MemberAgree;
-import umc.spring.domain.member.data.mapping.MemberMission;
-import umc.spring.domain.member.data.mapping.MemberPrefer;
-import umc.spring.domain.review.data.Review;
+import org.hibernate.annotations.ColumnDefault;
 import umc.spring.global.common.data.BaseEntity;
 import umc.spring.domain.member.data.enums.Gender;
 import umc.spring.domain.member.data.enums.MemberStatus;
 import umc.spring.domain.member.data.enums.SocialType;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Member extends BaseEntity {
 
+    // 필드
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,23 +40,22 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private MemberStatus memberStatus;
 
-    private LocalDate inactiveDate;
+    @Column(nullable = false, length = 10)
+    private String birth;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
+    @ColumnDefault("0") // 점수 기본값 0
     private Integer point;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberAgree> memberAgreeList = new ArrayList<>();
+    @Column(nullable = false, length = 15, unique = true)
+    private String phone;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberPrefer> memberPreferList = new ArrayList<>();
+    @Column(nullable = false)
+    private Boolean locationAgree;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Review> reviewList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberMission> memberMissionList = new ArrayList<>();
+    @Column(nullable = false)
+    private Boolean marketingAgree;
 
 }

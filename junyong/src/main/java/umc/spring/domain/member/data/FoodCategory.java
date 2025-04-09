@@ -1,9 +1,6 @@
 package umc.spring.domain.member.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.global.common.data.BaseEntity;
 
@@ -18,6 +15,7 @@ public class FoodCategory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 10, unique = true)
     private String name;
 
 }

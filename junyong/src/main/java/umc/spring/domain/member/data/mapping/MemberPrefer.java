@@ -13,10 +13,12 @@ import umc.spring.global.common.data.BaseEntity;
 @AllArgsConstructor
 public class MemberPrefer extends BaseEntity {
 
+    // 필드
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
