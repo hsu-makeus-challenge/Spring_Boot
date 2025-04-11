@@ -36,7 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
-### application ###
-/src/main/resources/application.yml
-
+### Mac OS ###
 .DS_Store
+
+### application ###
+#/src/main/resources/application.yml

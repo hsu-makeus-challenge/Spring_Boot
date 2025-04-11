@@ -3,6 +3,10 @@ package umc.spring.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.common.BaseEntity;
+import umc.spring.domain.mapping.StoreMission;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +24,8 @@ public class Mission extends BaseEntity {
 
     @Column(nullable = false)
     private Integer missionPoint; // 지급 포인트
+
+    @Builder.Default
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StoreMission> storeMissionList = new ArrayList<>();
 }

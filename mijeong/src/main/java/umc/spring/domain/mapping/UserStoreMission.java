@@ -1,7 +1,8 @@
-package umc.spring.domain;
+package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.MissionStatus;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class UserMission extends BaseEntity {
+public class UserStoreMission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,4 +24,12 @@ public class UserMission extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime deadline; // 마감일
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_mission_id")
+    private StoreMission storeMission;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

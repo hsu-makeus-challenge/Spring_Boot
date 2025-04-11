@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class StoreHours extends BaseEntity {
+public class StoreHour extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,11 @@ public class StoreHours extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Day day;
 
-    private LocalTime openTime;
+    private LocalTime openTime; // 오픈시간
 
-    private LocalTime closeTime;
+    private LocalTime closeTime; // 마감시간
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 }

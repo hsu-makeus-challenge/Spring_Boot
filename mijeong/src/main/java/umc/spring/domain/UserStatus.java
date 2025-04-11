@@ -21,4 +21,8 @@ public class UserStatus {
 
     @Column(nullable = false)
     LocalDateTime inactiveDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user; // 유저와 단방향
 }

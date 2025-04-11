@@ -24,4 +24,8 @@ public class UserPoint extends BaseEntity {
 
     @Column(nullable = false)
     private Integer totalPoints;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -17,4 +17,8 @@ public class ReviewComment extends BaseEntity {
 
     @Column(nullable = false)
     private String comment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
 }

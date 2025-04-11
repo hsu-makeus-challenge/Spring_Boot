@@ -18,4 +18,8 @@ public class OAuth extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user; // 유저와 단방향
 }

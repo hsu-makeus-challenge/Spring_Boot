@@ -17,4 +17,8 @@ public class QuestionImage extends BaseEntity {
 
     @Column(nullable = false)
     private String questionImageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private Question question;
 }

@@ -24,4 +24,8 @@ public class Alarm extends BaseEntity {
 
     @Column(nullable = false, length = 50)
     private String alarmContent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
