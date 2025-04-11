@@ -1,30 +1,24 @@
-package umc.study.domain;
+package umc.study.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.study.domain.Store;
 import umc.study.domain.common.BaseEntity;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Mission extends BaseEntity{
+public class StoreImg extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long missionId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store storeId;
 
-    private String content;
-
-    private LocalDate deadline;
-
-    private Integer point;
-
+    private String imgUrl;
 }
