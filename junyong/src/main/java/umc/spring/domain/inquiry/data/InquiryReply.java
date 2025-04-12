@@ -20,7 +20,7 @@ public class InquiryReply extends BaseEntity {
     private String content = "";
 
     // 연관관계
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inquiry_id")
     private Inquiry inquiry;
 

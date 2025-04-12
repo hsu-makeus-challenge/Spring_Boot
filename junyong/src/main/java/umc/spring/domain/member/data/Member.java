@@ -3,10 +3,18 @@ package umc.spring.domain.member.data;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import umc.spring.domain.member.data.mapping.MemberMission;
+import umc.spring.domain.notice.data.EventNotice;
+import umc.spring.domain.notice.data.InquiryNotice;
+import umc.spring.domain.notice.data.ReviewNotice;
+import umc.spring.domain.review.data.Review;
 import umc.spring.global.common.data.BaseEntity;
 import umc.spring.domain.member.data.enums.Gender;
 import umc.spring.domain.member.data.enums.MemberStatus;
 import umc.spring.domain.member.data.enums.SocialType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -57,5 +65,22 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private Boolean marketingAgree;
+
+    // 매핑
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EventNotice> eventNoticeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InquiryNotice> inquiryNoticeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewNotice> reviewNoticeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MemberMission> memberMissionList = new ArrayList<>();
+
 
 }

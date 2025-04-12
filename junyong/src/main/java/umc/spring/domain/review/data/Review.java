@@ -6,6 +6,9 @@ import umc.spring.domain.review.data.enums.ReviewStatus;
 import umc.spring.domain.store.data.Store;
 import umc.spring.global.common.data.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -34,5 +37,8 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ReviewReply> replyList = new ArrayList<>();
 
 }
