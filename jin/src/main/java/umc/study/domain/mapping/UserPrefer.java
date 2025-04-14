@@ -24,6 +24,11 @@ public class UserPrefer extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
-    private FoodCategory categoryId;
+    private FoodCategory foodCategory;
 
+    // 연관관계 편의 메서드
+    public void setUser(User user) {
+        this.user = user;
+        user.getUserPreferList().add(this);
+    }
 }

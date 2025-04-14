@@ -17,9 +17,15 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    private Store storeId;
+    private Store store;
 
     private Float rate;
 
     private String content;
+
+    // 연관관계 편의 메서드
+    public void setStore(Store store) {
+        this.store = store;
+        store.getStoreReviewList().add(this);
+    }
 }

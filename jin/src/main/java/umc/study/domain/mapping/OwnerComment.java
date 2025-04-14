@@ -18,7 +18,7 @@ public class OwnerComment extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
-    private Review reviewId;
+    private Review review;
 
     private String comment;
 }

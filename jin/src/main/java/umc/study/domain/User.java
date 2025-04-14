@@ -6,7 +6,13 @@ import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.Gender;
 import umc.study.domain.enums.MemberStatus;
 import umc.study.domain.enums.SocialType;
+import umc.study.domain.mapping.Alarm;
+import umc.study.domain.mapping.MissionByUser;
+import umc.study.domain.mapping.UserPrefer;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -57,4 +63,16 @@ public class User extends BaseEntity {
     private LocalDate inActiveDate;
 
     private LocalDate birth;
+
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    private List<Alarm> userAlarmList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    private List<UserPrefer> userPreferList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    private List<MissionByUser> userMissionList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    private List<Inquiry> userInquiryList = new ArrayList<>();
 }

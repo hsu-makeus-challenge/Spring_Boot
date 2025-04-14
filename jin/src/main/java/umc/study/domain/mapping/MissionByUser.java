@@ -20,11 +20,22 @@ public class MissionByUser extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
-    private Mission missionId;
+    private Mission mission;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     private Boolean isCompleted;
+
+    // 연관관게 편의 메서드
+    public void setMission(Mission mission) {
+        this.mission = mission;
+        mission.getUserMissionList().add(this);
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getUserMissionList().add(this);
+    }
 }

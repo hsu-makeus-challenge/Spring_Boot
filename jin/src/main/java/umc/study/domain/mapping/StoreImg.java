@@ -18,7 +18,7 @@ public class StoreImg extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    private Store storeId;
+    private Store store;
 
     private String imgUrl;
 }

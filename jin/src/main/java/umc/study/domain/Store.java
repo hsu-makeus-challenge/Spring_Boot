@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.study.domain.common.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -17,7 +20,7 @@ public class Store extends BaseEntity {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "region_id")
-    private Region regionId;
+    private Region region;
 
     private Integer ownerNum;
 
@@ -33,4 +36,9 @@ public class Store extends BaseEntity {
 
     private String location;
 
+    @OneToMany(mappedBy = "store_id",cascade = CascadeType.ALL)
+    private List<Review> storeReviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store_id", cascade = CascadeType.ALL)
+    private List<Mission> storeMissionList = new ArrayList<>();
 }
