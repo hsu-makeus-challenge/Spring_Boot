@@ -34,6 +34,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+tasks.named('compileJava') {
+	dependsOn 'spotlessApply'
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }
@@ -41,6 +44,9 @@ tasks.named('test') {
 spotless {
 	java {
 		googleJavaFormat()
-		target 'src/**/*.java'
+		importOrder('java', 'javax', 'jakarta', 'org', 'com')
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
 	}
 }

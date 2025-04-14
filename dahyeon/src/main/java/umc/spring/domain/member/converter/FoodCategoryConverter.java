@@ -1,11 +1,13 @@
 package umc.spring.domain.member.converter;
 
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+
 import umc.spring.domain.member.entity.enums.FoodCategory;
 
 @Converter
