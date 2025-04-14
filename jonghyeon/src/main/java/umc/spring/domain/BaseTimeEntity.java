@@ -1,12 +1,21 @@
 package umc.spring.domain;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class baseTimeEntity {
+import java.time.LocalDateTime;
+
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseTimeEntity {
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 }

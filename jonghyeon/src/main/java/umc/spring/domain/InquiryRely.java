@@ -1,25 +1,20 @@
 package umc.spring.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "review_rely")
-public class ReviewRely {
+@Table(name = "inquiry_rely")
+public class InquiryRely extends BaseEntity{
 
-    @ManyToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inquiry_id")
+    private Inquiry inquiry;
 
+    @Column(nullable = false, length = 255)
     private String content;
 }

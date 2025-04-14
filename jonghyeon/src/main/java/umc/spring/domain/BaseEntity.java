@@ -1,4 +1,11 @@
 package umc.spring.domain;
 
-public class baseEntity {
+import jakarta.persistence.*;
+
+@MappedSuperclass
+public abstract class BaseEntity extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 }
