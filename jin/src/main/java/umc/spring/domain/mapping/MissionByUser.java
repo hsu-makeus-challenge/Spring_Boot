@@ -1,11 +1,11 @@
-package umc.study.domain.mapping;
+package umc.spring.domain.mapping;
 
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.Mission;
-import umc.study.domain.User;
-import umc.study.domain.common.BaseEntity;
+import umc.spring.domain.Mission;
+import umc.spring.domain.User;
+import umc.spring.domain.common.BaseEntity;
 
 @Entity
 @Getter
@@ -19,13 +19,14 @@ public class MissionByUser extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_id")
+    @JoinColumn(name = "mission")
     private Mission mission;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user")
     private User user;
 
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean isCompleted;
 
     // 연관관게 편의 메서드

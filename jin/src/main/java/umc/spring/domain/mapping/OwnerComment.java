@@ -1,24 +1,25 @@
-package umc.study.domain.mapping;
+package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.Review;
-import umc.study.domain.common.BaseEntity;
+import umc.spring.domain.Review;
+import umc.spring.domain.common.BaseEntity;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ReviewImg extends BaseEntity {
+public class OwnerComment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
 
-    private String imgUrl;
+    @Column(nullable = false, length = 200)
+    private String comment;
 }

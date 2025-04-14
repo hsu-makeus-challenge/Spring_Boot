@@ -1,9 +1,9 @@
-package umc.study.domain.mapping;
+package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.Store;
-import umc.study.domain.common.BaseEntity;
+import umc.spring.domain.Store;
+import umc.spring.domain.common.BaseEntity;
 
 @Entity
 @Getter
@@ -20,5 +20,6 @@ public class StoreImg extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Column(nullable = false, length = 255)
     private String imgUrl;
 }

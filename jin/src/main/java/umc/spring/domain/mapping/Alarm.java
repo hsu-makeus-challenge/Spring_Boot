@@ -1,16 +1,17 @@
-package umc.study.domain;
+package umc.spring.domain.mapping;
+
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.common.BaseEntity;
-import umc.study.domain.enums.InquiryType;
+import umc.spring.domain.User;
+import umc.spring.domain.common.BaseEntity;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Inquiry extends BaseEntity {
+public class Alarm extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +21,14 @@ public class Inquiry extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String title;
+    @Column(nullable = false, length = 100)
+    private String message;
 
-    @Enumerated(EnumType.STRING)
-    private InquiryType inquiryType;
-
-    private String content;
-
-    private Boolean isAnswerd;
+    private Boolean isRead;
 
     // 연관관계 편의 메서드
     public void setUser(User user) {
         this.user = user;
-        user.getUserInquiryList().add(this);
+        user.getUserAlarmList().add(this);
     }
 }

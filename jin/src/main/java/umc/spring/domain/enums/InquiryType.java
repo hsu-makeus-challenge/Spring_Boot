@@ -1,4 +1,4 @@
-package umc.study.domain.enums;
+package umc.spring.domain.enums;
 
 public enum InquiryType {
     POINT, MISSION, REVIEW, STORE, ACCOUNT, BUG, ETC

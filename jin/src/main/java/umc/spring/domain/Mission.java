@@ -1,9 +1,9 @@
-package umc.study.domain;
+package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.common.BaseEntity;
-import umc.study.domain.mapping.MissionByUser;
+import umc.spring.domain.common.BaseEntity;
+import umc.spring.domain.mapping.MissionByUser;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,13 +24,19 @@ public class Mission extends BaseEntity{
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Column(nullable = false, length = 100)
     private String content;
 
+    @Column(nullable = false)
     private LocalDate deadline;
 
+    @Column(nullable = false)
     private Integer point;
 
-    @OneToMany(mappedBy = "mission_id", cascade = CascadeType.ALL)
+    @Column(columnDefinition = "DEFAULT FALSE")
+    private Boolean isReviewed;
+
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MissionByUser> userMissionList = new ArrayList<>();
 
     // 연관관계 편의 메서드

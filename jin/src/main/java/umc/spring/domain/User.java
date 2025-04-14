@@ -1,14 +1,14 @@
-package umc.study.domain;
+package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.common.BaseEntity;
-import umc.study.domain.enums.Gender;
-import umc.study.domain.enums.MemberStatus;
-import umc.study.domain.enums.SocialType;
-import umc.study.domain.mapping.Alarm;
-import umc.study.domain.mapping.MissionByUser;
-import umc.study.domain.mapping.UserPrefer;
+import umc.spring.domain.common.BaseEntity;
+import umc.spring.domain.enums.Gender;
+import umc.spring.domain.enums.MemberStatus;
+import umc.spring.domain.enums.SocialType;
+import umc.spring.domain.mapping.Alarm;
+import umc.spring.domain.mapping.MissionByUser;
+import umc.spring.domain.mapping.UserPrefer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,54 +25,63 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 20)
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(10)")
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(10)")
     private SocialType socialLoginType;
 
+    @Column(nullable = false, length = 50)
     private String email;
 
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean isServiceAgreed;
 
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean isPrivateAgreed;
 
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean isLocationAgreed;
 
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean isMarketingAgreed;
 
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean alarmAgreed;
 
+    @Column(nullable = false, length = 40)
     private String address;
 
     private Integer point;
 
+    @Column(length = 11)
     private String phoneNumber;
 
-    private String specAddress;
-
+    @Column(columnDefinition = "DEFAULT FALSE")
     private Boolean isPhoneVerified;
 
     private LocalDate inactiveDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private MemberStatus status;
-
-    private LocalDate inActiveDate;
 
     private LocalDate birth;
 
-    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Alarm> userAlarmList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserPrefer> userPreferList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MissionByUser> userMissionList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Inquiry> userInquiryList = new ArrayList<>();
 }

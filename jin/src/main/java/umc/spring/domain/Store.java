@@ -1,8 +1,9 @@
-package umc.study.domain;
+package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.common.BaseEntity;
+import umc.spring.domain.common.BaseEntity;
+import umc.spring.domain.enums.StoreCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +23,27 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "region_id")
     private Region region;
 
+    @Column(nullable = false)
     private Integer ownerNum;
 
+    @Column(nullable = false, length = 50)
     private String storeName;
 
-    private String foodCategory;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StoreCategory category;
 
+    @Column(nullable = false)
     private Boolean openStatus;
 
     private Float rateAvg;
 
-    private String Address;
+    @Column(nullable = false, length = 50)
+    private String address;
 
-    private String location;
-
-    @OneToMany(mappedBy = "store_id",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "store",cascade = CascadeType.ALL)
     private List<Review> storeReviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Mission> storeMissionList = new ArrayList<>();
 }

@@ -1,8 +1,8 @@
-package umc.study.domain;
+package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.common.BaseEntity;
+import umc.spring.domain.common.BaseEntity;
 
 @Entity
 @Getter
@@ -21,6 +21,7 @@ public class Review extends BaseEntity {
 
     private Float rate;
 
+    @Column(nullable = false, length = 100)
     private String content;
 
     // 연관관계 편의 메서드

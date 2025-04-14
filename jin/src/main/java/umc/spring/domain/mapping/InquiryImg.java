@@ -1,9 +1,9 @@
-package umc.study.domain.mapping;
+package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.study.domain.Inquiry;
-import umc.study.domain.common.BaseEntity;
+import umc.spring.domain.Inquiry;
+import umc.spring.domain.common.BaseEntity;
 
 @Entity
 @Getter
@@ -20,5 +20,6 @@ public class InquiryImg extends BaseEntity {
     @JoinColumn(name = "inquiry_id")
     private Inquiry inquiry;
 
+    @Column(nullable = false, length = 255)
     private String imgUrl;
 }
