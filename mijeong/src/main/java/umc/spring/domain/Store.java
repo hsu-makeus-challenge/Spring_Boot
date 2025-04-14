@@ -45,8 +45,8 @@ public class Store extends BaseEntity {
     private List<StoreImage> storeImageList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> storeReviewList = new ArrayList<>();
+    @OneToMany(mappedBy = "store", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Review> storeReviewList = new ArrayList<>(); // 가게가 사라져도 리뷰 목록들은 유지
 
     @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
