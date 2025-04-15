@@ -3,7 +3,6 @@ package umc.spring.domain.mission.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,7 +41,11 @@ public class Mission extends BaseTimeEntity {
   @Column(nullable = false)
   private Integer minAmount;
 
-  @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
+  @Column(nullable = false)
+  @Builder.Default
+  private boolean isDeleted = false;
+
+  @OneToMany(mappedBy = "mission")
   @Builder.Default
   private List<MemberMission> memberMissions = new ArrayList<>();
 

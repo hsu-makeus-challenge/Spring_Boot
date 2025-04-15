@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -60,7 +59,7 @@ public class Store extends BaseTimeEntity {
   @Column(nullable = false)
   private FoodCategory category;
 
-  @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "store")
   @Builder.Default
   private List<Mission> missions = new ArrayList<>();
 }
