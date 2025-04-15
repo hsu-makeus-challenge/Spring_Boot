@@ -11,4 +11,6 @@ public interface PhotoRepository extends JpaRepository<Photos, Long> {
   @Modifying(clearAutomatically = true)
   @Query("DELETE FROM Photos p WHERE p.memberId = :memberId")
   void deleteByMemberId(@Param("memberId") Long memberId);
+
+  boolean existsByMemberId(Long memberId);
 }

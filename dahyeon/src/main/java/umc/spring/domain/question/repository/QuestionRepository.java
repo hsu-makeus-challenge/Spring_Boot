@@ -11,4 +11,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
   @Modifying
   @Query("DELETE FROM Question q WHERE q.memberId = :memberId")
   void deleteByMemberId(@Param("memberId") Long memberId);
+
+  boolean existsByMemberId(Long memberId);
 }
