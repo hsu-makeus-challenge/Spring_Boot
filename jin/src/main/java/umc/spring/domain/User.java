@@ -39,20 +39,20 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isServiceAgreed;
+    @Column(nullable = false)
+    private Boolean isServiceAgreed = false;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isPrivateAgreed;
+    @Column(nullable = false)
+    private Boolean isPrivateAgreed = false;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isLocationAgreed;
+    @Column(nullable = false)
+    private Boolean isLocationAgreed = false;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isMarketingAgreed;
+    @Column(nullable = false)
+    private Boolean isMarketingAgreed = false;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean alarmAgreed;
+    @Column(nullable = false)
+    private Boolean alarmAgreed = false;
 
     @Column(nullable = false, length = 40)
     private String address;
@@ -62,8 +62,8 @@ public class User extends BaseEntity {
     @Column(length = 11)
     private String phoneNumber;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isPhoneVerified;
+    @Column(nullable = false)
+    private Boolean isPhoneVerified = false;
 
     private LocalDate inactiveDate;
 

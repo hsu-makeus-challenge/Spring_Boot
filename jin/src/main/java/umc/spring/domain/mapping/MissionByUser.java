@@ -26,8 +26,8 @@ public class MissionByUser extends BaseEntity {
     @JoinColumn(name = "user")
     private User user;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isCompleted;
+    @Column(nullable = false)
+    private Boolean isCompleted = false;
 
     // 연관관게 편의 메서드
     public void setMission(Mission mission) {

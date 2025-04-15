@@ -29,8 +29,8 @@ public class Inquiry extends BaseEntity {
     @Column(nullable = false, length = 200)
     private String content;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isAnswerd;
+    @Column(nullable = false)
+    private Boolean isAnswered = false; // 기본값 설정
 
     // 연관관계 편의 메서드
     public void setUser(User user) {

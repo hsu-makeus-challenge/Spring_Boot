@@ -33,8 +33,8 @@ public class Mission extends BaseEntity{
     @Column(nullable = false)
     private Integer point;
 
-    @Column(columnDefinition = "DEFAULT FALSE")
-    private Boolean isReviewed;
+    @Column(nullable = false)
+    private Boolean isReviewed = false;
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MissionByUser> userMissionList = new ArrayList<>();
