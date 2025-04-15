@@ -83,12 +83,12 @@ public class Member extends BaseTimeEntity {
   @Convert(converter = FoodCategoryConverter.class)
   private List<FoodCategory> foodCategory;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
   @Builder.Default
   @JoinColumn(name = "member_id")
   private List<Notification> notifications = new ArrayList<>();
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
   @Builder.Default
   @JoinColumn(name = "member_id")
   private List<Agreement> agreements = new ArrayList<>();
