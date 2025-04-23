@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.UserMission;
-import umc.spring.service.ReviewService.ReviewCommandService;
 import umc.spring.service.StoreService.StoreQueryService;
-import umc.spring.service.UserMission.UserMissionQueryService;
-import umc.spring.web.dto.review.ReviewRequest;
+import umc.spring.service.UserMissionService.UserMissionQueryService;
+import umc.spring.service.UserService.UserQueryService;
+import umc.spring.web.dto.user.UserResponse;
 
 @Slf4j
 @EnableJpaAuditing
@@ -81,4 +81,16 @@ public class Application {
 //			reviewCommandService.saveReview(request);
 //		};
 //	}
+
+	@Bean(name = "myPageRunner")
+	public CommandLineRunner myPageRunner(ApplicationContext context, UserQueryService userQueryService) {
+		return args -> {
+			UserResponse.MyPageDto user = userQueryService.getUserMyPage(1L);
+
+			log.info("nickName: {}", user.getNickName());
+			log.info("email: {}", user.getEmail());
+			log.info("isPhoneVerified: {}", user.getIsPhoneVerified());
+			log.info("point: {}", user.getPoint());
+		};
+	}
 }

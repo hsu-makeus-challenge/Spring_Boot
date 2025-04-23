@@ -1,4 +1,4 @@
-package umc.spring.service.UserMission;
+package umc.spring.service.UserMissionService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

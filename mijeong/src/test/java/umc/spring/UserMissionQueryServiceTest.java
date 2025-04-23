@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.UserMission;
-import umc.spring.service.UserMission.UserMissionQueryService;
+import umc.spring.service.UserMissionService.UserMissionQueryService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
