@@ -55,4 +55,17 @@ public class Store extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoreMission> storeMissionList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", storeName='" + storeName + '\'' +
+                ", storeAddress='" + storeAddress + '\'' +
+                ", storeRating=" + storeRating +
+                ", region=" + (region != null
+                ? String.format("%s %s %s", region.getCity(), region.getDistrict(), region.getNeighborhood())
+                : "N/A") +
+                '}';
+    }
 }
