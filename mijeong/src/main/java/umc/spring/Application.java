@@ -13,7 +13,9 @@ import umc.spring.domain.mapping.UserMission;
 import umc.spring.service.StoreService.StoreQueryService;
 import umc.spring.service.UserMissionService.UserMissionQueryService;
 import umc.spring.service.UserService.UserQueryService;
+import umc.spring.web.dto.mission.MissionResponse;
 import umc.spring.web.dto.user.UserResponse;
+
 
 @Slf4j
 @EnableJpaAuditing
@@ -81,6 +83,37 @@ public class Application {
 //			reviewCommandService.saveReview(request);
 //		};
 //	}
+
+	@Bean(name = "homeMissionRunner")
+	public CommandLineRunner homeMissionRunner(ApplicationContext context, UserQueryService userQueryService) {
+		return args -> {
+			Long userId = 1L;
+			Long regionId = 1L;
+			MissionStatus status = MissionStatus.NOT_STARTED;
+			Integer pageNumber = 0;
+
+			UserMissionQueryService userMissionQueryService = context.getBean(UserMissionQueryService.class);
+			MissionResponse.HomeMissionListDto dto = userMissionQueryService.findNotStartedMissionsByRegion(userId, regionId, status, pageNumber);
+
+			// 페이지 정보 출력
+			log.info("총 요소 수: {}", dto.getTotalElements());
+			log.info("총 페이지 수: {}", dto.getTotalPage());
+			log.info("현재 페이지 요소 수: {}", dto.getMissionListSize());
+			log.info("첫 페이지 여부: {}", dto.getIsFirst());
+			log.info("마지막 페이지 여부: {}", dto.getIsLast());
+			log.info("성공한 미션 개수: {}", dto.getCompleteMissionCount());
+
+			dto.getMissionList().forEach(mission -> {
+				log.info("UserMission ID: {}", mission.getMissionId());
+				log.info("UserMission Status: {}", mission.getMissionStatus());
+				log.info("가게 이름: {}", mission.getStoreName());
+				log.info("음식 카테고리: {}", mission.getFoodCategoryList());
+				log.info("기준 금액: {}", mission.getMissionMoney());
+				log.info("지급 포인트: {}", mission.getReward());
+				log.info("------------------------------");
+			});
+		};
+	}
 
 	@Bean(name = "myPageRunner")
 	public CommandLineRunner myPageRunner(ApplicationContext context, UserQueryService userQueryService) {
