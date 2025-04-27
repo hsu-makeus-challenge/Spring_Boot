@@ -30,5 +30,5 @@ public class StoreMission extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "storeMission", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserStoreMission> userStoreMissionList = new ArrayList<>();
+    private List<UserMission> userMissionList = new ArrayList<>();
 }
