@@ -29,4 +29,13 @@ public class Store extends BaseEntity {
     @ColumnDefault("0")
     private Float score;
 
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", score=" + score +
+                '}';
+    }
 }
