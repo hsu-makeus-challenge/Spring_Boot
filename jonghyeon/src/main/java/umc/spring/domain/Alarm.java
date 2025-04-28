@@ -16,7 +16,7 @@ public class Alarm extends BaseEntity {
     private User user;
 
 
-    private enum AlarmType {
+    public enum AlarmType {
         event, review, inquiry
     }
 

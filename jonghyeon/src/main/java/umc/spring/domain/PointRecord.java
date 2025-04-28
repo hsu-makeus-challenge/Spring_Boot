@@ -20,7 +20,7 @@ public class PointRecord extends BaseEntity{
     @JoinColumn(name = "mission_record_id")
     private MissionRecord missionRecord;
 
-    private enum RecordType {
+    public enum RecordType {
         earn,spend
     }
 

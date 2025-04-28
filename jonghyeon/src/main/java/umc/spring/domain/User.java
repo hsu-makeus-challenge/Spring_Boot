@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     @Column(name ="phone_num" ,nullable = true, unique = true, length = 20)
     private String phoneNumber;
 
-    private enum Gender{
+    public enum Gender{
         M,F,Other
     }
 
@@ -45,7 +45,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TandF LocationConsent;
 
-    private enum Active{
+    public enum Active{
         Active, Inactive
     }
 

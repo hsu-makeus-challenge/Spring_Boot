@@ -24,7 +24,7 @@ public class MissionRecord extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    private enum Status {
+    public enum Status {
         Progress, completed
     }
 
