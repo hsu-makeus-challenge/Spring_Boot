@@ -28,4 +28,21 @@ public class StoreMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
+
+    @Override
+    public String toString() {
+        StringBuilder foodCategories = new StringBuilder();
+        for (StoreFoodCategory sfc : store.getStoreFoodCategoryList()) {
+            foodCategories.append(sfc.getFoodCategory().getName()).append(", ");
+        }
+
+        return "StoreMission {" +
+                "neighborhood =" + store.getNeighborhood().getNeighborhood() +
+                ", food_category='" + foodCategories + '\'' +
+                ", name='" + store.getName() + '\'' +
+                ", content='" + mission.getContent() + '\'' +
+                ", reward='" + mission.getReward() + '\'' +
+                ", deadline='" + deadline + '\'' +
+                '}';
+    }
 }
