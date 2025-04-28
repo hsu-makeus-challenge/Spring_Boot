@@ -3,6 +3,7 @@ package umc.spring.domain.mission.data;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.member.data.mapping.MemberMission;
+import umc.spring.domain.region.data.Region;
 import umc.spring.domain.store.data.Store;
 import umc.spring.global.common.data.BaseEntity;
 
@@ -35,6 +36,10 @@ public class Mission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
     List<MemberMission> memberMissionList = new ArrayList<>();
