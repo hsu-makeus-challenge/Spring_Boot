@@ -35,7 +35,7 @@ public class UserMissionServiceImpl implements UserMissionQueryService {
 
     // 홈 화면 - 선택된 지역에서 도전 가능한(시작 전) 미션 목록 조회
     @Override
-    public MissionResponse.HomeMissionListDto findNotStartedMissionsByRegion(Long userId, Long regionId, MissionStatus status, Integer pageNumber) {
+    public MissionResponse.HomeMissionPageDto findNotStartedMissionsByRegion(Long userId, Long regionId, MissionStatus status, Integer pageNumber) {
         // 선택한 지역의 도전 가능한(시작 전) 미션 페이지
         Page<UserMission> missionPage = userMissionRepository.findUserMissionsByRegionAndStatus(userId, regionId, status, pageRequest(pageNumber));
 

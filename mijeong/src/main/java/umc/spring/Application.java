@@ -93,7 +93,7 @@ public class Application {
 			Integer pageNumber = 0;
 
 			UserMissionQueryService userMissionQueryService = context.getBean(UserMissionQueryService.class);
-			MissionResponse.HomeMissionListDto dto = userMissionQueryService.findNotStartedMissionsByRegion(userId, regionId, status, pageNumber);
+			MissionResponse.HomeMissionPageDto dto = userMissionQueryService.findNotStartedMissionsByRegion(userId, regionId, status, pageNumber);
 
 			// 페이지 정보 출력
 			log.info("총 요소 수: {}", dto.getTotalElements());

@@ -10,5 +10,5 @@ public interface UserMissionQueryService {
     Page<UserMission> findMissionsByStatus(Long userId, MissionStatus status, Integer pageNumber);
 
     // 홈 화면 - 선택된 지역에서 도전 가능한(아직 시작 전) 미션 목록 조회
-    MissionResponse.HomeMissionListDto  findNotStartedMissionsByRegion(Long userId, Long regionId, MissionStatus status, Integer pageNumber);
+    MissionResponse.HomeMissionPageDto findNotStartedMissionsByRegion(Long userId, Long regionId, MissionStatus status, Integer pageNumber);
 }

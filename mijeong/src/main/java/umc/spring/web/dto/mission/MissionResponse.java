@@ -7,23 +7,21 @@ import java.util.List;
 
 public class MissionResponse {
 
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
-    public static class HomeMissionListDto{
-        Integer totalPage; // 총 페이지 개수
-        Long totalElements; // 총 데이터 개수
-        Boolean isFirst; // 페이지 처음 여부
-        Boolean isLast; // 페이지 마지막 여부
-        List<MissionInfoDto> missionList;
-        Integer missionListSize; // 현재 페이지의 미션 개수
-        Integer completeMissionCount; // 완료한 미션의 개수 (성공인 미션)
+    @Getter
+    @AllArgsConstructor
+    public static class HomeMissionPageDto {
+        private Integer totalPage; // 총 페이지 개수
+        private Long totalElements; // 총 데이터 개수
+        private Boolean isFirst; // 페이지 처음 여부
+        private Boolean isLast; // 페이지 마지막 여부
+        private List<MissionInfoDto> missionList;
+        private Integer missionListSize; // 현재 페이지의 미션 개수
+        private Integer completeMissionCount; // 완료한 미션의 개수 (성공인 미션)
     }
 
     @Builder
     @Getter
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class MissionInfoDto {
         Long missionId; // 유저 가게 미션 아이디

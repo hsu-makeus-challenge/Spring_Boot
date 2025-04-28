@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 public class MissionConverter {
 
     // 홈 화면 - 도전 가능한 미션 리스트 변환
-    public static MissionResponse.HomeMissionListDto toHomeMissionListDto(Page<UserMission> userMissionPage, Long succeedCount) {
+    public static MissionResponse.HomeMissionPageDto toHomeMissionListDto(Page<UserMission> userMissionPage, Long succeedCount) {
         List<MissionResponse.MissionInfoDto> dtoList = userMissionPage.getContent().stream()
                 .map(MissionConverter::toMissionInfoDto)
                 .collect(Collectors.toList());
 
-        return MissionResponse.HomeMissionListDto.builder()
+        return MissionResponse.HomeMissionPageDto.builder()
                 .totalPage(userMissionPage.getTotalPages())
                 .totalElements(userMissionPage.getTotalElements())
                 .isFirst(userMissionPage.isFirst())

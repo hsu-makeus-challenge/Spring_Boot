@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         userPoint.totalPoints
                 ))
                 .from(user)
-                .join(userPoint).on(user.id.eq(userPoint.user.id))
+                .join(userPoint).on(user.id.eq(userPoint.user.id)).fetchJoin()
                 .where(
                         user.id.eq(userId),
                         // 유저의 가장 최신 종합 포인트 서브쿼리

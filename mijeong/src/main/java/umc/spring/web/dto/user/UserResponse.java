@@ -9,7 +9,6 @@ public class UserResponse {
 
     @Builder
     @Getter
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class MyPageDto {
         String nickName;
