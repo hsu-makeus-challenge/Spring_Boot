@@ -65,7 +65,7 @@ def generated = "src/main/generated"
 sourceSets {
 	main {
 		java {
-			srcDirs = ["src/main/java"]
+			srcDirs = ["src/main/java", generated]
 		}
 	}
 }
@@ -85,4 +85,8 @@ tasks.register("compileQuerydsl", JavaCompile) {
 
 tasks.named('spotlessJava') {
 	dependsOn 'compileQuerydsl'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }
