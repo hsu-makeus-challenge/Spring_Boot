@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
-import umc.spring.domain.mapping.UserStoreMission;
+import umc.spring.domain.mapping.UserMission;
 import umc.spring.domain.mapping.UserPretendFood;
 import umc.spring.domain.mapping.UserRegion;
 
@@ -73,5 +73,5 @@ public class User extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserStoreMission> userStoreMissionList = new ArrayList<>();
+    private List<UserMission> userMissionList = new ArrayList<>();
 }

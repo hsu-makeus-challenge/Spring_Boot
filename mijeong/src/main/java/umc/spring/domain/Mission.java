@@ -23,7 +23,7 @@ public class Mission extends BaseEntity {
     private Integer missionMoney; // 기준 금액
 
     @Column(nullable = false)
-    private Integer missionPoint; // 지급 포인트
+    private Integer reward; // 지급 포인트
 
     @Builder.Default
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
