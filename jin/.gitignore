@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### 큐클래스 ###
-**/generated/
+src/main/java/generated
