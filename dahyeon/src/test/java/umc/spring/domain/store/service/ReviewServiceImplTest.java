@@ -93,6 +93,5 @@ class ReviewServiceImplTest {
     assertThat(reviewRepository.findAll()).hasSize(2);
     // TODO : 평균 점수 계산 검증 필요
   }
-
   // TODO : 존재하지 않는 가게에 리뷰 작성 시 실패 검증 필요
 }
