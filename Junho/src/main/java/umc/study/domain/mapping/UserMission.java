@@ -29,4 +29,15 @@ public class UserMission extends BaseEntity {
 
     @Column(nullable = false,columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isCleared;
+
+    @Override
+    public String toString() {
+        return "UserMission{" +
+                "id=" + id +
+                ", user=" + (user.getId()) +
+                ", mission=" + (mission.getId()) +
+                ", store=" + (store.getId()) +
+                ", isCleared=" + isCleared +
+                '}';
+    }
 }

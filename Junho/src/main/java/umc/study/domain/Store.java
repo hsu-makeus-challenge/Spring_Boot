@@ -45,4 +45,17 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store",cascade = CascadeType.ALL)
     private List<StoreImage> storeImageList = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", name='" + name + '\'' +
+                ", score=" + score +
+                ", storeCategory='" + storeCategory + '\'' +
+                ", region='" + region + '\'' +
+                ", isOpened=" + isOpened +
+                '}';
+    }
+
 }
