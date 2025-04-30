@@ -19,7 +19,7 @@ public class BusinessHours extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    private enum day{
+    public enum day{
         MON,TUE,WED,THU,FRI,SAT,SUN
     }
 

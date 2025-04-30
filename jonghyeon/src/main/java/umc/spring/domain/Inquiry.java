@@ -18,7 +18,7 @@ public class Inquiry extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    private enum InquiryType {
+    public enum InquiryType {
         type1,type2,type3
     }
 
