@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import umc.spring.domain.member.dto.MemberResponseDto;
 import umc.spring.domain.member.entity.Member;
 import umc.spring.domain.member.repository.MemberRepository;
 import umc.spring.domain.photo.repository.PhotoRepository;
@@ -14,8 +15,9 @@ import umc.spring.domain.store.repository.StoreReviewRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
-  private final MemberRepository memberRepositoy;
+  private final MemberRepository memberRepository;
   private final PhotoRepository photoRepository;
   private final AnswerRepository answerRepository;
   private final QuestionRepository questionRepository;
@@ -36,11 +38,19 @@ public class MemberServiceImpl implements MemberService {
     // 연관관계 있는 엔티티들은 cascade + orphanRemoval로 자동 삭제
     // PontLogs, Notification, Agreement, MemberMission은 자동 삭제됨
     Member member =
-        memberRepositoy
+        memberRepository
             .findById(memberId)
             .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
     // 마지막으로 Member 삭제
-    memberRepositoy.delete(member);
+    memberRepository.delete(member);
+  }
+
+  @Override
+  public MemberResponseDto.MyPageResponseDto getMyPage(Long memberId) {
+    Member member = memberRepository.findById(memberId).get();
+    //    TODO : member 존재 여부 검증 필요
+
+    return MemberResponseDto.MyPageResponseDto.from(member);
   }
 }
