@@ -30,4 +30,13 @@ public class UserMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_mission_id")
     private StoreMission storeMission;
+
+    @Override
+    public String toString() {
+        return "UserMission {" +
+                "name =" + storeMission.getStore().getName() +
+                ", content='" + storeMission.getMission().getContent() + '\'' +
+                ", reward='" + storeMission.getMission().getReward() + '\'' +
+                '}';
+    }
 }

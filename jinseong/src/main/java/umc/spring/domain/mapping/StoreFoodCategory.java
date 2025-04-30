@@ -23,4 +23,9 @@ public class StoreFoodCategory extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_category_id")
     private FoodCategory foodCategory;
+
+    @Override
+    public String toString() {
+        return "StoreFoodCategory {foodCategory=" + foodCategory.getName() + "}";
+    }
 }
