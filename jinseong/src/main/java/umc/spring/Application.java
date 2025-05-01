@@ -130,7 +130,7 @@ public class Application {
 		};
 	}*/
 
-	// 4번
+/*	// 4번
 	@Bean
 	public CommandLineRunner run(ApplicationContext context) {
 		return args -> {
@@ -145,5 +145,5 @@ public class Application {
 
 			System.out.println(userService.findUserInfoById(userId));
 		};
-	}
+	}*/
 }
