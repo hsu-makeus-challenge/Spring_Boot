@@ -11,12 +11,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +92,78 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),
         request,
         e.getMessage());
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+      HttpRequestMethodNotSupportedException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    String message =
+        String.format(
+            "지원하지 않는 HTTP 메서드 입니다.'%s'는 사용할 수 없으며, 다음 메서드만 허용됩니다: %s",
+            ex.getMethod(), ex.getSupportedMethods());
+
+    //    return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
+    return handleExceptionInternalFalse(
+        ex, ErrorStatus._BAD_REQUEST, headers, HttpStatus.METHOD_NOT_ALLOWED, request, message);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
+      HttpMediaTypeNotSupportedException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    String message =
+        String.format(
+            "지원하지 않는 미디어 타입입니다. '%s'는 사용할 수 없으며, 다음 타입만 허용됩니다: %s",
+            ex.getContentType(), ex.getSupportedMediaTypes());
+
+    //    return super.handleHttpMediaTypeNotSupported(ex, headers, status, request);
+    return handleExceptionInternalFalse(
+        ex, ErrorStatus._BAD_REQUEST, headers, HttpStatus.UNSUPPORTED_MEDIA_TYPE, request, message);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleMissingPathVariable(
+      MissingPathVariableException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    String message = String.format("필수 경로 변수가 누락되었습니다. '%s' 변수는 필수 입니다.", ex.getVariableName());
+    //    return super.handleMissingPathVariable(ex, headers, status, request);
+    return handleExceptionInternalFalse(
+        ex, ErrorStatus._BAD_REQUEST, headers, HttpStatus.BAD_REQUEST, request, message);
+  }
+
+  //
+  @Override
+  protected ResponseEntity<Object> handleMissingServletRequestParameter(
+      MissingServletRequestParameterException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    String message = String.format("필수 파라미터가 누락되었습니다. '%s' 파라미터는 필수입니다.", ex.getParameterName());
+
+    return handleExceptionInternalFalse(
+        ex, ErrorStatus._BAD_REQUEST, headers, HttpStatus.BAD_REQUEST, request, message);
+    //    return super.handleMissingServletRequestParameter(ex, headers, status, request);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleMissingServletRequestPart(
+      MissingServletRequestPartException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    String message =
+        String.format("필수 request part가 누락되었습니다. '%s' 부분은 필수입니다.", ex.getRequestPartName());
+
+    return handleExceptionInternalFalse(
+        ex, ErrorStatus._BAD_REQUEST, headers, HttpStatus.BAD_REQUEST, request, message);
+    //    return super.handleMissingServletRequestPart(ex, headers, status, request);
   }
 
   // 내부 응답 생성 메서드들 (Internal Handlers)
