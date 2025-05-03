@@ -1,5 +1,6 @@
 package umc.spring.global.exception;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -103,7 +104,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     String message =
         String.format(
             "지원하지 않는 HTTP 메서드 입니다.'%s'는 사용할 수 없으며, 다음 메서드만 허용됩니다: %s",
-            ex.getMethod(), ex.getSupportedMethods());
+            ex.getMethod(), Arrays.toString(ex.getSupportedMethods()));
 
     //    return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
     return handleExceptionInternalFalse(
