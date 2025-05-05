@@ -2,6 +2,7 @@ package umc.spring.apiPayload.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,17 +16,22 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import umc.spring.apiPayload.ApiResponse;
+import umc.spring.apiPayload.code.DiscordClient;
 import umc.spring.apiPayload.code.ErrorReasonDTO;
 import umc.spring.apiPayload.code.status.ErrorStatus;
+import umc.spring.service.DiscordService.DiscordService;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
+    private final DiscordService discordService;
+    private final DiscordClient discordClient;
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
@@ -55,6 +61,11 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         e.printStackTrace();
+
+        // 디스코드로 500에러 메시지 전송
+        discordService.sendErrorToDiscord(e, request);
+        // Feign Client 사용
+        discordClient.sendAlarm(discordService.createMessage(e, request));
 
         return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),request, e.getMessage());
     }

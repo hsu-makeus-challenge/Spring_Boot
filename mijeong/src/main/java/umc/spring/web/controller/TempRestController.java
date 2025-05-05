@@ -29,4 +29,9 @@ public class TempRestController {
         tempQueryService.CheckFlag(flag);
         return ApiResponse.onSuccess(TempConverter.toTempExceptionDTO(flag));
     }
+
+    @GetMapping("/error")
+    public ApiResponse<?> forceInternalServerError() {
+        throw new RuntimeException("500 에러 발생");
+    }
 }
