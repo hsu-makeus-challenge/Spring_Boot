@@ -3,14 +3,13 @@ package umc.spring.apiPayload.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -18,6 +17,9 @@ import umc.spring.apiPayload.ApiResponse;
 import umc.spring.apiPayload.code.ErrorReasonDTO;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +27,14 @@ import java.util.Optional;
 @Slf4j
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+
+    @Value("${discord.webhook-url}")
+    private String discordWebhookUrl;
+
+    @Value("${discord.alert-enabled}")
+    private boolean isDiscordAlertEnabled;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
 
     @ExceptionHandler
@@ -56,12 +66,45 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         e.printStackTrace();
 
+        // 디스코드 알림 전송
+        if (isDiscordAlertEnabled) {
+            sendDiscordAlert(e, request);
+        }
+
         return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),request, e.getMessage());
+    }
+
+    private void sendDiscordAlert(Exception exception, WebRequest request) {
+        String content = String.format(
+                "[Exception 발생]\n" +
+                        "- 에러메시지: `%s`\n" +
+                        "- 경로: `%s`\n" +
+                        "- 발생시각: `%s`",
+                exception.getMessage(),
+                request.getDescription(false),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        );
+        Map<String, String> body = new HashMap<>();
+        body.put("content", content);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+        try {
+            restTemplate.postForEntity(discordWebhookUrl, entity, String.class);
+        } catch (Exception e) {
+            log.error("디스코드 알림 전송 실패", e);
+        }
     }
 
     @ExceptionHandler(value = GeneralException.class)
     public ResponseEntity onThrowException(GeneralException generalException, HttpServletRequest request) {
         ErrorReasonDTO errorReasonHttpStatus = generalException.getErrorReasonHttpStatus();
+
         return handleExceptionInternal(generalException,errorReasonHttpStatus,null,request);
     }
 
