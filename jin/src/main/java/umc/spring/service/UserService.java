@@ -11,7 +11,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUserById(Long userNo) {
+    public User getUserInfo(Long userNo) {
         return userRepository.findById(userNo)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
     }
