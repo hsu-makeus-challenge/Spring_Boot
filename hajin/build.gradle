@@ -43,6 +43,9 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
 
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	// Lombok
 	compileOnly 'org.projectlombok:lombok:1.18.22'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
