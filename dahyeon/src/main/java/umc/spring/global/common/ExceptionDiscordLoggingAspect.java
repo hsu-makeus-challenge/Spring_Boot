@@ -40,10 +40,22 @@ public class ExceptionDiscordLoggingAspect {
     this.objectMapper = objectMapper;
   }
 
+  private boolean shouldSkipNotification(Throwable ex) {
+    SkipNotification skipNotification = ex.getClass().getAnnotation(SkipNotification.class);
+    if (skipNotification == null) {
+      return false;
+    }
+    return skipNotification.value();
+  }
+
   @AfterThrowing(pointcut = "within(umc..*)", throwing = "ex")
   public void handleException(JoinPoint joinPoint, Throwable ex) {
     try {
       // log.info("Webhook URL: {}", webhookUrl);
+      if(shouldSkipNotification(ex)){
+        log.info("알림을 보내지 않음 : {}", ex.getClass().getName());
+        return;
+      }
       List<Map<String, Object>> fields = buildFields(joinPoint, ex);
       // 16711680 : 빨간색
       Map<String, Object> embed = Map.of("title", "서버 예외 발생", "color", 16711680, "fields", fields);
