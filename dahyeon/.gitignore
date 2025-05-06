@@ -39,3 +39,6 @@ out/
 
 ### QClass ###
 /src/main/generated/
+
+### dev properties ###
+/src/main/resources/application-dev.properties

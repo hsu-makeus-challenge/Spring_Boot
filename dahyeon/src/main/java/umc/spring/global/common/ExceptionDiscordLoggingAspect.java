@@ -10,6 +10,8 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
@@ -26,6 +28,7 @@ import umc.spring.global.common.domain.TraceFileResource;
 @Slf4j
 @Aspect
 @Component
+@Profile("!dev & !test")
 public class ExceptionDiscordLoggingAspect {
 
   @Value("${discord.webhook.error-url}")
@@ -33,11 +36,18 @@ public class ExceptionDiscordLoggingAspect {
 
   private final RestTemplate restTemplate;
   private final ObjectMapper objectMapper;
+  private final Environment environment;
 
   public ExceptionDiscordLoggingAspect(
-      RestTemplateBuilder restTemplateBuilder, ObjectMapper objectMapper) {
+      RestTemplateBuilder restTemplateBuilder, ObjectMapper objectMapper, Environment environment) {
     this.restTemplate = restTemplateBuilder.build();
     this.objectMapper = objectMapper;
+    this.environment = environment;
+  }
+
+  private boolean isNotificationDisabled() {
+    // 현재 활성화된 프로파일을 확인하여 로컬이나 테스트 환경이면 알림을 비활성화
+    return environment.acceptsProfiles("dev", "test");
   }
 
   private boolean shouldSkipNotification(Throwable ex) {
@@ -50,9 +60,13 @@ public class ExceptionDiscordLoggingAspect {
 
   @AfterThrowing(pointcut = "within(umc..*)", throwing = "ex")
   public void handleException(JoinPoint joinPoint, Throwable ex) {
+    if (isNotificationDisabled()) {
+      return;
+    }
+
     try {
       // log.info("Webhook URL: {}", webhookUrl);
-      if(shouldSkipNotification(ex)){
+      if (shouldSkipNotification(ex)) {
         log.info("알림을 보내지 않음 : {}", ex.getClass().getName());
         return;
       }
@@ -110,6 +124,9 @@ public class ExceptionDiscordLoggingAspect {
   @Async
   protected void sendToDiscord(String payloadJson, String fullStackTrace) {
     try {
+      if (isNotificationDisabled()) {
+        return;
+      }
       byte[] traceBytes = fullStackTrace.getBytes(StandardCharsets.UTF_8);
       ByteArrayResource traceFile = new TraceFileResource(traceBytes, "stacktrace.txt");
 
