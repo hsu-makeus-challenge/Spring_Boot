@@ -2,6 +2,7 @@ package umc.spring.global.common.apiPayload.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import umc.spring.global.common.apiPayload.ApiResponse;
 import umc.spring.global.common.apiPayload.code.ErrorReasonDTO;
 import umc.spring.global.common.apiPayload.code.status.ErrorStatus;
+import umc.spring.global.common.wehook.DiscordWebhookMessage;
+import umc.spring.global.common.wehook.DiscordWebhookService;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,7 +27,10 @@ import java.util.Optional;
 
 @Slf4j
 @RestControllerAdvice(annotations = RestController.class)
+@RequiredArgsConstructor
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+
+    private final DiscordWebhookService webhookService;
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
@@ -69,6 +75,9 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = GeneralException.class)
     public ResponseEntity onThrowException(GeneralException generalException, HttpServletRequest request) {
         ErrorReasonDTO errorReasonHttpStatus = generalException.getErrorReasonHttpStatus();
+        webhookService.sendDiscordWebhookMessage(DiscordWebhookMessage.of(
+                generalException.getErrorReasonHttpStatus().getCode() + " : " + generalException.getErrorReasonHttpStatus().getMessage())
+        );
         return handleExceptionInternal(generalException, errorReasonHttpStatus, null, request);
     }
 

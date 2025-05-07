@@ -17,3 +17,7 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+
+discord:
+  name: discord-feign-client
+  webhook-url: https://discord.com/api/webhooks/1369411881374187633/OSmD5a7C760NaYXpQ0V5b8AGcU6T9viSTt1qdklzBoy7yZeNEg8wAF_f-bieOcxiX_ry
