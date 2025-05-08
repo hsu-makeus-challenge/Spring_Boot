@@ -1,4 +1,4 @@
-package umc.spring.domain;
+package umc.spring.domain;  
 
 import jakarta.persistence.*;
 
