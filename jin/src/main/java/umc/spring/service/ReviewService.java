@@ -1,16 +1,16 @@
-package umc.spring.service.ReviewService;
+package umc.spring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
-import umc.spring.repository.ReviewRepository.ReviewRepository;
+import umc.spring.repository.ReviewRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ReviewServiceImpl implements ReviewService {
+public class ReviewService{
 
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
@@ -25,7 +25,8 @@ public class ReviewServiceImpl implements ReviewService {
                 .content(content)
                 .build();
 
-        reviewRepository.writeReview(review); // 직접 EntityManager로 저장
+//        reviewRepository.writeReview(review); // 직접 EntityManager로 저장
+        reviewRepository.save(review);
     }
 }
 

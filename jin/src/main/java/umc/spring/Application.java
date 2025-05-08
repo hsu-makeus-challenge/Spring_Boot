@@ -5,10 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import umc.spring.service.MissionByUserService.MissionByUserService;
-import umc.spring.service.ReviewService.ReviewService;
+import umc.spring.service.MissionByUserService;
+import umc.spring.service.ReviewService;
 import umc.spring.service.StoreService.StoreQueryService;
-import umc.spring.service.UserService.UserService;
+import umc.spring.service.UserService;
 
 @SpringBootApplication
 public class Application {
