@@ -7,7 +7,6 @@ import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

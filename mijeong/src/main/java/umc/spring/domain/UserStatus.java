@@ -7,7 +7,6 @@ import umc.spring.domain.common.BaseEntity;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

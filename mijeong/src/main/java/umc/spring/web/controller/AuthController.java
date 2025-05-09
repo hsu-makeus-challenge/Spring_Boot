@@ -30,11 +30,11 @@ public class AuthController {
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON400", description = "잘못된 요청입니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "FOOD_CATEGORY4001", description = "존재하지 않는 음식 카테고리 입니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "FOOD_CATEGORY4001", description = "아이디와 일치하는 음식 카테고리가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @PostMapping("/join")
-    public ApiResponse<UserResponse.JoinResultDTO> join(@RequestBody @Valid UserRequest.JoinDto request){
-        UserResponse.JoinResultDTO response = userCommandService.joinUser(request);
+    public ApiResponse<UserResponse.JoinResultDto> join(@RequestBody @Valid UserRequest.JoinDto request){
+        UserResponse.JoinResultDto response = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(response);
     }
 }

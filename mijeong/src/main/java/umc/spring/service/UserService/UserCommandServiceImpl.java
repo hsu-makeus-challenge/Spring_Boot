@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.spring.apiPayload.code.status.ErrorStatus;
-import umc.spring.apiPayload.exception.handler.ErrorHandler;
 import umc.spring.converter.OAuthConverter;
 import umc.spring.converter.UserConverter;
 import umc.spring.converter.UserPretendFoodConverter;
@@ -20,7 +18,6 @@ import umc.spring.web.dto.user.UserRequest;
 import umc.spring.web.dto.user.UserResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,9 +32,9 @@ public class UserCommandServiceImpl implements UserCommandService {
     // 회원가입
     @Transactional
     @Override
-    public UserResponse.JoinResultDTO joinUser(UserRequest.JoinDto request) {
+    public UserResponse.JoinResultDto joinUser(UserRequest.JoinDto requestDto) {
         // 유저 생성
-        User user = UserConverter.toUser(request);
+        User user = UserConverter.toUser(requestDto);
 
 //        // N+1
 //        List<FoodCategory> foodCategoryList = request.getPreferCategory().stream()
@@ -46,7 +43,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 //                }).collect(Collectors.toList());
 
         // 음식 카테고리 추출
-        List<Long> categoryIds = request.getPreferCategory();
+        List<Long> categoryIds = requestDto.getPreferCategory();
         List<FoodCategory> foodCategoryList = foodCategoryRepository.findAllById(categoryIds);
 
         // 음식 카테고리를 유저 음식 카테고리에 매핑
@@ -59,7 +56,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         userRepository.save(user);
 
         // 소셜로그인 정보 저장
-        OAuth oAuth = OAuthConverter.toOAuth(user, request.getSocialType());
+        OAuth oAuth = OAuthConverter.toOAuth(user, requestDto.getSocialType());
         oauthRepository.save(oAuth);
 
         log.info("회원가입 완료, userId: {}", user.getId());

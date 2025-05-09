@@ -3,12 +3,10 @@ package umc.spring.domain.mapping;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.Region;
-import umc.spring.domain.Store;
 import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

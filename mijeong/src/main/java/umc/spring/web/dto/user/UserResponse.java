@@ -25,7 +25,7 @@ public class UserResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(description = "회원가입 응답 정보")
-    public static class JoinResultDTO{
+    public static class JoinResultDto {
         @Schema(description = "회원가입이 완료된 유저 아이디", example = "1")
         Long userId;
         @Schema(description = "유저 가입 날짜")

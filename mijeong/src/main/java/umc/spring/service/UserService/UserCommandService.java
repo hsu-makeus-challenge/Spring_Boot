@@ -5,5 +5,5 @@ import umc.spring.web.dto.user.UserResponse;
 
 public interface UserCommandService {
     // 회원가입
-    UserResponse.JoinResultDTO joinUser(UserRequest.JoinDto user);
+    UserResponse.JoinResultDto joinUser(UserRequest.JoinDto requestDto);
 }

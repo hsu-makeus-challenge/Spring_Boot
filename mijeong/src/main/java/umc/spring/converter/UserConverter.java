@@ -6,7 +6,6 @@ import umc.spring.web.dto.user.UserRequest;
 import umc.spring.web.dto.user.UserResponse;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class UserConverter {
 
@@ -28,8 +27,8 @@ public class UserConverter {
                 .build();
     }
 
-    public static UserResponse.JoinResultDTO toJoinResultDTO(User user){
-        return UserResponse.JoinResultDTO.builder()
+    public static UserResponse.JoinResultDto toJoinResultDTO(User user){
+        return UserResponse.JoinResultDto.builder()
                 .userId(user.getId())
                 .createdAt(LocalDateTime.now())
                 .build();

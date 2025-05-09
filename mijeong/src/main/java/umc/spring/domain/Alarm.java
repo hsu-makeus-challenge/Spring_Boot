@@ -6,7 +6,6 @@ import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.AlarmType;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
