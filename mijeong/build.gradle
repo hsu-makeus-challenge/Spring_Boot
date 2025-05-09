@@ -47,15 +47,17 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.22'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-	// SpringDoc
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
-	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.9'
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation "com.querydsl:querydsl-jpa"
+	// SpringDoc OpenAPI
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
 	// Feign Client
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "com.querydsl:querydsl-jpa"
 }
 
 tasks.named('test') {

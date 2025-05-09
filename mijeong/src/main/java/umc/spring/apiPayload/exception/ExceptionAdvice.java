@@ -64,8 +64,9 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
         // 디스코드로 500에러 메시지 전송
         discordService.sendErrorToDiscord(e, request);
-        // Feign Client 사용
-        discordClient.sendAlarm(discordService.createMessage(e, request));
+
+//        // Feign Client 사용
+//        discordClient.sendAlarm(discordService.createMessage(e, request));
 
         return handleExceptionInternalFalse(e, ErrorStatus._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ErrorStatus._INTERNAL_SERVER_ERROR.getHttpStatus(),request, e.getMessage());
     }

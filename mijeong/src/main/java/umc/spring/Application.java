@@ -28,6 +28,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	/*
 	@Bean(name = "storeRunner")
 	public CommandLineRunner storeRunner(ApplicationContext context) {
 		return args -> {
@@ -128,4 +129,5 @@ public class Application {
 			log.info("point: {}", user.getPoint());
 		};
 	}
+	 */
 }

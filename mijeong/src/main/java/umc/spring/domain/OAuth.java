@@ -22,4 +22,8 @@ public class OAuth extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // 유저와 단방향
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
