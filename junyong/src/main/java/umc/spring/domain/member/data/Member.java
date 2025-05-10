@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import umc.spring.domain.member.data.mapping.MemberMission;
+import umc.spring.domain.member.data.mapping.MemberPrefer;
 import umc.spring.domain.notice.data.EventNotice;
 import umc.spring.domain.notice.data.InquiryNotice;
 import umc.spring.domain.notice.data.ReviewNotice;
@@ -66,6 +67,9 @@ public class Member extends BaseEntity {
     private Boolean marketingAgree;
 
     // 매핑
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MemberPrefer> memberPreferList = new ArrayList<>();
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EventNotice> eventNoticeList = new ArrayList<>();
 
