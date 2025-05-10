@@ -3,6 +3,8 @@ package umc.spring.domain.member.data;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.member.data.mapping.MemberMission;
 import umc.spring.domain.member.data.mapping.MemberPrefer;
 import umc.spring.domain.notice.data.EventNotice;
@@ -19,6 +21,8 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
+@DynamicUpdate
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Member extends BaseEntity {
@@ -51,13 +55,13 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 10)
     private String birth;
 
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = true, length = 50)
     private String email;
 
     @ColumnDefault("0") // 점수 기본값 0
     private Integer point;
 
-    @Column(nullable = false, length = 15, unique = true)
+    @Column(nullable = false, length = 15)
     private String phone;
 
     @Column(nullable = false)

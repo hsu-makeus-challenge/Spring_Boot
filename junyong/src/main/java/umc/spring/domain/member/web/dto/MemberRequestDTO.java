@@ -10,9 +10,8 @@ public class MemberRequestDTO {
     public static class JoinDto{
         String name;
         Integer gender;
-        Integer birthYear;
-        Integer birthMonth;
-        Integer birthDay;
+        String birth;
+        String phone;
         String address;
         String specAddress;
         List<Long> preferCategory;
