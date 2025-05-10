@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import umc.spring.service.UserService.UserCommandService;
 import umc.spring.web.dto.user.UserRequest;
 import umc.spring.web.dto.user.UserResponse;
 
+@Tag(name = "로그인/회원가입", description = "인증에 관한 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
