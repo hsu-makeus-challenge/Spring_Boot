@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.converter.ReviewConverter;
+import umc.spring.converter.ReviewImageConverter;
 import umc.spring.domain.Review;
 import umc.spring.domain.ReviewImage;
 import umc.spring.domain.Store;
@@ -36,19 +37,19 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
         Store store = validationService.validateStore(storeId);
 
         // Review 객체 생성 및 저장
-        Review review = ReviewConverter.toReview(requestDto, user, store);
-        // 연관관계 설정
+        Review review = ReviewConverter.toReview(requestDto);
+        // 유저, 가게와 연관관계 설정
         review.setUser(user);
         review.setStore(store);
         reviewRepository.save(review);
 
         // ReviewImage 객체 생성 및 저장
-        List<ReviewImage> reviewImageList = ReviewConverter.toReviewImageList(requestDto.getReviewImages(), review);
-        // 라뷰 - 리뷰 이미지 양방향 매핑
+        List<ReviewImage> reviewImageList = ReviewImageConverter.toReviewImageList(requestDto.getReviewImages());
+        // 리뷰 이미지에 리뷰 매핑
         reviewImageList.forEach(reviewImage -> reviewImage.setReview(review));
         reviewImageRepository.saveAll(reviewImageList);
 
-        log.info("리뷰등록 완료, reviewId: {}", review.getId());
+        log.info("리뷰 등록 완료, reviewId: {}", review.getId());
         return ReviewConverter.toReviewCreateResultDto(review.getId());
     }
 }

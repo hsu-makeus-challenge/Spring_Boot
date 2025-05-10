@@ -1,5 +1,6 @@
 package umc.spring.service.ValidationService;
 
+import umc.spring.domain.Region;
 import umc.spring.domain.Store;
 import umc.spring.domain.User;
 
@@ -13,9 +14,15 @@ public interface ValidationService {
     // Store 존재 여부 검증
     Boolean existsStoreById(Long storeId);
 
+    // Region 존재 여부 검증
+    Boolean existsRegionById(Long regionId);
+
     // 유저 반환
     User validateUser(Long userId);
 
     // 가게 반환
     Store validateStore(Long storeId);
+
+    // 지역 반환
+    Region validateRegion(Long regionId);
 }

@@ -11,24 +11,12 @@ import java.util.stream.Collectors;
 public class ReviewConverter {
 
     // createDto -> Review Entity
-    public static Review toReview(ReviewRequest.ReviewCreateDto request, User user, Store store) {
+    public static Review toReview(ReviewRequest.ReviewCreateDto request) {
         return Review.builder()
-                .user(user)
-                .store(store)
                 .reviewContent(request.getReviewContent())
                 .reviewRating(request.getReviewRating())
                 .build();
 
-    }
-
-    // createDto -> Review Image Entity
-    public static List<ReviewImage> toReviewImageList(List<String> reviewImageList, Review review) {
-        return reviewImageList.stream()
-                .map(reviewImage ->
-                        ReviewImage.builder()
-                                .reviewImageUrl(reviewImage)
-                                .build()
-                ).collect(Collectors.toList());
     }
 
     public static ReviewResponse.ReviewCreateResultDto toReviewCreateResultDto(Long reviewId) {

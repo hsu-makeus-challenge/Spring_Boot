@@ -2,6 +2,8 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.mapping.StoreFoodCategory;
 import umc.spring.domain.mapping.StoreMission;
@@ -9,6 +11,8 @@ import umc.spring.domain.mapping.StoreMission;
 import java.util.ArrayList;
 import java.util.List;
 
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,8 +26,8 @@ public class Store extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String storeName;
 
-    @Column(nullable = false, columnDefinition = "DOUBLE DEFAULT 0.0")
-    private Double storeRating;
+    @Column(nullable = false, columnDefinition = "FLOAT DEFAULT 0.0")
+    private Float storeRating;
 
     @Column(nullable = false)
     private String storeAddress;
@@ -66,5 +70,9 @@ public class Store extends BaseEntity {
                 ? String.format("%s %s %s", region.getCity(), region.getDistrict(), region.getNeighborhood())
                 : "N/A") +
                 '}';
+    }
+
+    public void setRegion(Region region){
+        this.region = region;
     }
 }
