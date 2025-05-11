@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import umc.spring.domain.member.converter.MemberConverter;
 import umc.spring.domain.member.dto.MemberResponseDto;
+import umc.spring.domain.member.dto.MemberSignUpRequestDto;
 import umc.spring.domain.member.entity.Member;
 import umc.spring.domain.member.repository.MemberRepository;
 import umc.spring.domain.photo.repository.PhotoRepository;
@@ -52,5 +54,12 @@ public class MemberServiceImpl implements MemberService {
     //    TODO : member 존재 여부 검증 필요
 
     return MemberResponseDto.MyPageResponseDto.from(member);
+  }
+
+  @Override
+  @Transactional
+  public Member signup(MemberSignUpRequestDto request) {
+    Member newMember = MemberConverter.toMember(request);
+    return memberRepository.save(newMember);
   }
 }
