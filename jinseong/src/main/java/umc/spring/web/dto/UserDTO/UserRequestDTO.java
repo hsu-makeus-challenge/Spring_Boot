@@ -9,6 +9,7 @@ public class UserRequestDTO {
     @Getter
     public static class JoinDto{
         String name;
+        String nickname;
         Integer gender;
         String address;
         String detailAddress;

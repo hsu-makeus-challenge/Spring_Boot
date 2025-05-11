@@ -31,9 +31,13 @@ public class UserConverter {
 
         return User.builder()
                 .name(request.getName())
+                .nickname(request.getNickname())
                 .gender(gender)
                 .address(request.getAddress())
                 .detailAddress(request.getDetailAddress())
+                .birthYear(request.getBirthYear())
+                .birthMonth(request.getBirthMonth())
+                .birthDay(request.getBirthDay())
                 .userFoodCategoryList(new ArrayList<>())
                 .build();
     }
