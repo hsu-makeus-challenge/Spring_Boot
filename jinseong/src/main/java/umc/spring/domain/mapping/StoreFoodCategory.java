@@ -28,4 +28,12 @@ public class StoreFoodCategory extends BaseEntity {
     public String toString() {
         return "StoreFoodCategory {foodCategory=" + foodCategory.getName() + "}";
     }
+
+    public void setStore(Store newStore) {
+        if(this.store != null) {
+            store.getStoreFoodCategoryList().remove(this);
+        }
+        this.store = newStore;
+        store.getStoreFoodCategoryList().add(this);
+    }
 }
