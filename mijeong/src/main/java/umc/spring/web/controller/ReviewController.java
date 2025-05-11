@@ -2,7 +2,6 @@ package umc.spring.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,7 +21,7 @@ import umc.spring.web.dto.review.ReviewResponse;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/users/{userId}/stores/{storeId}/reviews")
 public class ReviewController {
 
     private final ReviewCommandService reviewCommandService;
@@ -37,14 +36,16 @@ public class ReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER4001", description = "아이디와 일치하는 사용자가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "STORE4001", description = "아이디와 일치하는 가게가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
-    @Parameters({
-            @Parameter(name = "userId", description = "로그인한 유저의 아이디", example = "1", required = true),
-            @Parameter(name = "storeId", description = "리뷰를 등록하려는 가게의 아이디", example = "1", required = true),
-    })
-    @PostMapping()
-    public ApiResponse<ReviewResponse.ReviewCreateResultDto> postReview(@RequestParam(name="userId") @ExistUser Long userId,
-                                                  @RequestParam(name="storeId") @ExistStore Long storeId,
-                                                  @RequestBody @Valid ReviewRequest.ReviewCreateDto request){
+    @PostMapping
+    public ApiResponse<ReviewResponse.ReviewCreateResultDto> postReview(
+            @Parameter(description = "로그인한 유저의 ID", example = "1", required = true)
+            @PathVariable @ExistUser Long userId,
+
+            @Parameter(description = "리뷰를 등록할 가게의 ID", example = "2", required = true)
+            @PathVariable @ExistStore Long storeId,
+
+            @RequestBody @Valid ReviewRequest.ReviewCreateDto request
+    ) {
         ReviewResponse.ReviewCreateResultDto response = reviewCommandService.saveReview(userId, storeId, request);
         return ApiResponse.onSuccess(response);
     }

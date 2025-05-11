@@ -22,7 +22,7 @@ import umc.spring.web.dto.store.StoreResponse;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/stores")
+@RequestMapping("/api/region/{regionId}/stores")
 public class StoreController {
 
     private final StoreCommandService storeCommandService;
@@ -37,12 +37,13 @@ public class StoreController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER4001", description = "아이디와 일치하는 사용자가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "REGION4001", description = "아이디와 일치하는 지역이 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
-    @Parameters({
-            @Parameter(name = "regionId", description = "가게를 등록하려는 지역의 아이디", example = "1", required = true),
-    })
-    @PostMapping()
-    public ApiResponse<StoreResponse.StoreCreateResultDto> postStoreByRegion(@RequestParam(name="regionId") @ExistRegion Long regionId,
-                                                        @RequestBody @Valid StoreRequest.StoreCreateDto request){
+    @PostMapping
+    public ApiResponse<StoreResponse.StoreCreateResultDto> postStoreByRegion(
+            @Parameter(description = "가게를 등록하려는 지역의 아이디", example = "1", required = true)
+            @PathVariable @ExistRegion Long regionId,
+
+            @RequestBody @Valid StoreRequest.StoreCreateDto request
+    ) {
         StoreResponse.StoreCreateResultDto response = storeCommandService.saveStore(regionId, request);
         return ApiResponse.onSuccess(response);
     }
