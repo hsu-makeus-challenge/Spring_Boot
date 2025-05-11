@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.Mission;
 import umc.spring.domain.Store;
+import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -44,5 +45,21 @@ public class StoreMission extends BaseEntity {
                 ", reward='" + mission.getReward() + '\'' +
                 ", deadline='" + deadline + '\'' +
                 '}';
+    }
+
+    public void setMission(Mission newMission) {
+        if(this.mission != null) {
+            mission.getStoreMissionList().remove(this);
+        }
+        this.mission = newMission;
+        mission.getStoreMissionList().add(this);
+    }
+
+    public void setStore(Store newStore) {
+        if(this.store != null) {
+            store.getStoreMissionList().remove(this);
+        }
+        this.store = newStore;
+        store.getStoreMissionList().add(this);
     }
 }

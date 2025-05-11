@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.StoreStatus;
 import umc.spring.domain.mapping.StoreFoodCategory;
+import umc.spring.domain.mapping.StoreMission;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoreHours> storeHoursList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StoreMission> storeMissionList = new ArrayList<>();
 
     @Override
     public String toString() {

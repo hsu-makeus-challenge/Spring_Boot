@@ -26,7 +26,7 @@ public class ReviewRestController {
     private final ReviewCommandService reviewCommandService;
 
     @PostMapping("/")
-    public ApiResponse<ReviewResponseDTO.CreateReviewResultDTO> join(
+    public ApiResponse<ReviewResponseDTO.CreateReviewResultDTO> create(
             @RequestBody @Valid ReviewRequestDTO.CreateReviewDTO request) {
         Review review = reviewCommandService.createReview(request);
         return ApiResponse.onSuccess(ReviewConverter.toCreateReviewResultDTO(review));
