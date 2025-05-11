@@ -43,6 +43,7 @@ public class Store extends BaseEntity {
     // 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
+    @Setter
     private Region region;
 
 }
