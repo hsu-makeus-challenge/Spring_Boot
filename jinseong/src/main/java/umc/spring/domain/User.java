@@ -23,7 +23,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 20)
+//    @Column(nullable = false, length = 20)
     private String email;
 
     @Column(nullable = false, length = 30)
@@ -53,6 +53,15 @@ public class User extends BaseEntity {
 
     @Column(columnDefinition = "INT DEFAULT 0")
     private Integer point;
+
+    @Column(nullable = false)
+    private Integer birthYear;
+
+    @Column(nullable = false)
+    private Integer birthMonth;
+
+    @Column(nullable = false)
+    private Integer birthDay;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'")
