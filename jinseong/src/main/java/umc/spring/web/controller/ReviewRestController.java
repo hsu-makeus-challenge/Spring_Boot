@@ -28,7 +28,7 @@ public class ReviewRestController {
     @PostMapping("/")
     public ApiResponse<ReviewResponseDTO.CreateReviewResultDTO> create(
             @RequestBody @Valid ReviewRequestDTO.CreateReviewDTO request) {
-        Review review = reviewCommandService.createReview(request);
+        Review review = reviewCommandService.createReview(1L, request);
         return ApiResponse.onSuccess(ReviewConverter.toCreateReviewResultDTO(review));
     }
 }

@@ -36,7 +36,7 @@ public class StoreMissionCommandServiceImpl implements StoreMissionCommandServic
 
         // 미션 연관관계 설정
         Mission mission = missionRepository.findById(request.getMissionId())
-                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSIONS_NOT_FOUND));
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
 
         newStoreMission.setMission(mission);
 

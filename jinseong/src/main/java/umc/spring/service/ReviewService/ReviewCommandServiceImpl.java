@@ -42,11 +42,11 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     }
 
     @Override
-    public Review createReview(ReviewRequestDTO.CreateReviewDTO request) {
+    public Review createReview(Long userId, ReviewRequestDTO.CreateReviewDTO request) {
         Review newReview = ReviewConverter.toReview(request);
 
         // 사용자 연관관계 설정
-        User user = userRepository.findById(1L)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
 
         newReview.setUser(user);
