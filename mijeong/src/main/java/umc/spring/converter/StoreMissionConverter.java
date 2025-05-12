@@ -13,7 +13,6 @@ public class StoreMissionConverter {
                 .build();
     }
 
-    // createDto -> StoreMission Entity
     public static StoreMissionResponse.StoreMissionCreateResultDto toStoreMissionCreateResultDto(Long storeMissionId) {
         return StoreMissionResponse.StoreMissionCreateResultDto.builder()
                 .storeMissionId(storeMissionId)

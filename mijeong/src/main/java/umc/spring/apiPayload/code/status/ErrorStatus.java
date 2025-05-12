@@ -38,7 +38,12 @@ public enum ErrorStatus implements BaseErrorCode {
     MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001", "아이디와 일치하는 미션이 없습니다."),
 
     // 가게 미션 관련
-    STORE_MISSION_EXIST(HttpStatus.BAD_REQUEST, "STORE_MISSION4002", "이미 존재하는 가개 미션 입니다.");
+    STORE_MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE_MISSION4001", "아이디와 일치하는 가게 미션이 없습니다."),
+    STORE_MISSION_EXIST(HttpStatus.BAD_REQUEST, "STORE_MISSION4002", "이미 존재하는 가게 미션 입니다."),
+
+    // 유저 미션 관련
+    USER_MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER_MISSION4001", "아이디와 일치하는 유저 미션이 없습니다."),
+    USER_MISSION_EXIST(HttpStatus.BAD_REQUEST, "USER_MISSION4002", "이미 존재하는 유저 미션 입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

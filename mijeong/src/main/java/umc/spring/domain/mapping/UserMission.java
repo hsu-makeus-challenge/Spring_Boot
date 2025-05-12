@@ -2,6 +2,8 @@ package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.spring.domain.Mission;
+import umc.spring.domain.Store;
 import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.MissionStatus;
@@ -32,4 +34,18 @@ public class UserMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void setStoreMission(StoreMission storeMission) {
+        if(this.storeMission != null)
+            storeMission.getUserMissionList().remove(this);
+        this.storeMission = storeMission;
+        storeMission.getUserMissionList().add(this);
+    }
+
+    public void setUser(User user) {
+        if(this.user != null)
+            user.getUserMissionList().remove(this);
+        this.user = user;
+        user.getUserMissionList().add(this);
+    }
 }

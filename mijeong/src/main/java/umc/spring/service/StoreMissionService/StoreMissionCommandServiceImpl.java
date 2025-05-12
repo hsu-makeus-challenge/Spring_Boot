@@ -48,7 +48,7 @@ public class StoreMissionCommandServiceImpl implements StoreMissionCommandServic
         storeMissionRepository.save(storeMission);
 
         Long storeMissionId = storeMission.getId();
-        log.info("가게 미션 등록 완료, reviewId: {}", storeMissionId);
+        log.info("가게 미션 등록 완료, storeMissionId: {}", storeMissionId);
 
         return StoreMissionConverter.toStoreMissionCreateResultDto(storeMissionId);
     }

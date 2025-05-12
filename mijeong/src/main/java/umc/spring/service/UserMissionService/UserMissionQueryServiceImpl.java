@@ -16,7 +16,7 @@ import umc.spring.web.dto.mission.MissionResponse;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class UserMissionServiceImpl implements UserMissionQueryService {
+public class UserMissionQueryServiceImpl implements UserMissionQueryService {
     private final UserMissionRepository userMissionRepository;
 
     private static final Integer PAGE_SIZE=3;
@@ -43,6 +43,12 @@ public class UserMissionServiceImpl implements UserMissionQueryService {
         Long succeededCount = userMissionRepository.getSucceededMissionCount(userId, regionId);
 
         return MissionConverter.toHomeMissionListDto(missionPage, succeededCount);
+    }
+
+    // 가게 미션 아이디와 유저 아이디를 통해 UserStoreMission 존재 여부 검증
+    @Override
+    public Boolean existsUserStoreMissionByStoreMissionIdAndUserId(Long storeMissionId, Long userId) {
+        return userMissionRepository.existsByStoreMissionIdAndUserId(storeMissionId, userId);
     }
 
 }
