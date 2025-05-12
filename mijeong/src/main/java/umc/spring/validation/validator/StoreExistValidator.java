@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import umc.spring.apiPayload.code.status.ErrorStatus;
-import umc.spring.service.ValidationService.ValidationService;
+import umc.spring.service.StoreService.StoreQueryService;
 import umc.spring.validation.annotation.ExistStore;
 
 // 검증 대상은 Long
@@ -15,7 +15,7 @@ import umc.spring.validation.annotation.ExistStore;
 @Component
 public class StoreExistValidator implements ConstraintValidator<ExistStore,Long> {
 
-    private final ValidationService validationService;
+    private final StoreQueryService storeQueryService;
 
     @Override
     public void initialize(ExistStore constraintAnnotation) {
@@ -25,7 +25,7 @@ public class StoreExistValidator implements ConstraintValidator<ExistStore,Long>
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
         // 파라미터로 넘어온 가게 아이디가 존재하는 아이디인지 검증
-        boolean isValid = validationService.existsStoreById(value);
+        boolean isValid = storeQueryService.existsStoreById(value);
         log.info("ExistStore storeId: {}, isValid: {}", value, isValid);
 
         if(!isValid){

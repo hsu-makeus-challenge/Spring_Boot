@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import umc.spring.apiPayload.code.status.ErrorStatus;
-import umc.spring.service.ValidationService.ValidationService;
+import umc.spring.service.FoodCategoryService.FoodCategoryQueryService;
 import umc.spring.validation.annotation.ExistCategories;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoriesExistValidator implements ConstraintValidator<ExistCategories, List<Long>> {
 
-    private final ValidationService validationService;
+    private final FoodCategoryQueryService foodCategoryQueryService;
 
     @Override
     public void initialize(ExistCategories constraintAnnotation) {
@@ -30,7 +30,7 @@ public class CategoriesExistValidator implements ConstraintValidator<ExistCatego
         // 검증 대상인 List<Long> 의 값을 가진 카테고리가 모두 데이터베이스에 있는 지를 판단
         // 하나라도 없다면 false를 반환
         boolean isValid = values.stream()
-                .allMatch(validationService::existsFoodCategoryById);
+                .allMatch(foodCategoryQueryService::existsFoodCategoryById);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

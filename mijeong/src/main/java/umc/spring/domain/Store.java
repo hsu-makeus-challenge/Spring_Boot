@@ -29,7 +29,7 @@ public class Store extends BaseEntity {
     @Column(nullable = false, columnDefinition = "FLOAT DEFAULT 0.0")
     private Float storeRating;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String storeAddress;
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0", nullable = false)

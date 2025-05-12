@@ -12,9 +12,8 @@ import umc.spring.domain.Store;
 import umc.spring.domain.User;
 import umc.spring.repository.ReviewImageRepository.ReviewImageRepository;
 import umc.spring.repository.ReviewRepository.ReviewRepository;
-import umc.spring.repository.StoreRepository.StoreRepository;
-import umc.spring.repository.UserRepository.UserRepository;
-import umc.spring.service.ValidationService.ValidationService;
+import umc.spring.service.StoreService.StoreQueryService;
+import umc.spring.service.UserService.UserQueryService;
 import umc.spring.web.dto.review.ReviewRequest;
 import umc.spring.web.dto.review.ReviewResponse;
 
@@ -25,7 +24,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class ReviewCommandServiceImpl implements ReviewCommandService {
-    private final ValidationService validationService;
+    private final StoreQueryService storeQueryService;
+    private final UserQueryService userQueryService;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
 
@@ -33,8 +33,8 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     @Transactional
     @Override
     public ReviewResponse.ReviewCreateResultDto saveReview(Long userId, Long storeId, ReviewRequest.ReviewCreateDto requestDto) {
-        User user = validationService.validateUser(userId);
-        Store store = validationService.validateStore(storeId);
+        User user = userQueryService.validateUser(userId);
+        Store store = storeQueryService.validateStore(storeId);
 
         // Review 객체 생성 및 저장
         Review review = ReviewConverter.toReview(requestDto);
@@ -49,7 +49,8 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
         reviewImageList.forEach(reviewImage -> reviewImage.setReview(review));
         reviewImageRepository.saveAll(reviewImageList);
 
-        log.info("리뷰 등록 완료, reviewId: {}", review.getId());
-        return ReviewConverter.toReviewCreateResultDto(review.getId());
+        Long reviewId = review.getId();
+        log.info("리뷰 등록 완료, reviewId: {}", reviewId);
+        return ReviewConverter.toReviewCreateResultDto(reviewId);
     }
 }

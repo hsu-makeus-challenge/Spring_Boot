@@ -16,7 +16,7 @@ import umc.spring.repository.StoreFoodCategoryRepository.StoreFoodCategoryReposi
 import umc.spring.repository.StoreImageRepository.StoreImageRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
 import umc.spring.service.FoodCategoryService.FoodCategoryQueryService;
-import umc.spring.service.ValidationService.ValidationService;
+import umc.spring.service.RegionService.RegionQueryService;
 import umc.spring.web.dto.store.StoreRequest;
 import umc.spring.web.dto.store.StoreResponse;
 
@@ -30,14 +30,14 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final StoreRepository storeRepository;
     private final StoreImageRepository storeImageRepository;
     private final StoreFoodCategoryRepository storeFoodCategoryRepository;
-    private final ValidationService validationService;
+    private final RegionQueryService regionQueryService;
     private final FoodCategoryQueryService foodCategoryQueryService;
 
     // 가게 등록
     @Transactional
     @Override
     public StoreResponse.StoreCreateResultDto saveStore(Long regionId, StoreRequest.StoreCreateDto requestDto) {
-        Region region = validationService.validateRegion(regionId);
+        Region region = regionQueryService.validateRegion(regionId);
 
         // 가게 생성 및 저장
         Store store = StoreConverter.toStore(requestDto);
@@ -61,7 +61,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         storeFoodCategoryList.forEach(storeFoodCategory-> {storeFoodCategory.setStore(store);});
         storeFoodCategoryRepository.saveAll(storeFoodCategoryList);
 
-        log.info("가게 등록 완료, storeId: {}", store.getId());
-        return StoreConverter.toStoreCreateResultDto(store.getId());
+        Long storeId = store.getId();
+        log.info("가게 등록 완료, storeId: {}", storeId);
+        return StoreConverter.toStoreCreateResultDto(storeId);
     }
 }

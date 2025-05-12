@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.Mission;
 import umc.spring.domain.Store;
+import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 
 import java.util.ArrayList;
@@ -30,4 +31,18 @@ public class StoreMission extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "storeMission", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserMission> userMissionList = new ArrayList<>();
+
+    public void setStore(Store store) {
+        if(this.store != null)
+            store.getStoreMissionList().remove(this);
+        this.store = store;
+        store.getStoreMissionList().add(this);
+    }
+
+    public void setMission(Mission mission) {
+        if(this.mission != null)
+            mission.getStoreMissionList().remove(this);
+        this.mission = mission;
+        mission.getStoreMissionList().add(this);
+    }
 }
