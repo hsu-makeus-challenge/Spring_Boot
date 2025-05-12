@@ -26,7 +26,7 @@ public class UserMissionQueryServiceImpl implements UserMissionQueryService {
     }
 
     @Override
-    public boolean existsByUserIdAndStoreMissionId(long userId, Long storeMissionId) {
+    public boolean existsByUserIdAndStoreMissionId(Long userId, Long storeMissionId) {
         return userMissionRepository.existsByUserIdAndStoreMissionId(userId, storeMissionId);
     }
 }
