@@ -1,6 +1,7 @@
 package umc.study.web.dto;
 
 import lombok.Getter;
+import umc.study.validation.annotation.ExistCategories;
 //import umc.study.domain.enums.Gender;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public class UserRequestDTO {
         String phone_number;
         Boolean phone_certification;
         String email;
+        @ExistCategories
         List<Long> preferFood;
     }
 }
