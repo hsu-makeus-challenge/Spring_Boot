@@ -23,7 +23,9 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     // User 존재 여부 검증
     @Override
-    public Boolean existsUserById(Long userId) { return userRepository.existsById(userId); }
+    public Boolean existsUserById(Long userId) {
+        return userRepository.findById(userId).isPresent();
+    }
 
     // 유저 반환
     @Override

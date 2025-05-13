@@ -19,7 +19,7 @@ public class StoreMissionQueryServiceImpl implements StoreMissionQueryService {
     // StoreMission 존재 여부 검증
     @Override
     public Boolean existStoreMissionById(Long storeMissionId) {
-        return storeMissionRepository.existsById(storeMissionId);
+        return storeMissionRepository.findById(storeMissionId).isPresent();
     }
 
     // 미션 아이디와 가게 아이디를 통해 StoreMission 존재 여부 검증

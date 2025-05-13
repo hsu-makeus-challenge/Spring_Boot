@@ -19,7 +19,9 @@ public class MissionQueryServiceImpl implements MissionQueryService {
 
     // Mission 존재 여부 검증
     @Override
-    public Boolean existsMissionById(Long missionId) { return missionRepository.existsById(missionId); }
+    public Boolean existsMissionById(Long missionId) {
+        return missionRepository.findById(missionId).isPresent();
+    }
 
     // 미션 반환
     @Override

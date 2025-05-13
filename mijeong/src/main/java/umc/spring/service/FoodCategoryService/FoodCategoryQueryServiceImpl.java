@@ -25,7 +25,7 @@ public class FoodCategoryQueryServiceImpl implements FoodCategoryQueryService {
 
     // 아이디를 통해 존재하는 음식 카테고리인지 확인
     @Override
-    public Boolean existsFoodCategoryById(Long id) {
-        return foodCategoryRepository.existsById(id);
+    public Boolean existsFoodCategoryById(Long foodCategoryId) {
+        return foodCategoryRepository.findById(foodCategoryId).isPresent();
     }
 }

@@ -33,7 +33,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
     // Store 존재 여부 검증
     @Override
-    public Boolean existsStoreById(Long storeId) { return storeRepository.existsById(storeId); }
+    public Boolean existsStoreById(Long storeId) {
+        return storeRepository.findById(storeId).isPresent();
+    }
 
     // 가게 반환
     @Override

@@ -20,7 +20,7 @@ public class RegionQueryServiceImpl implements RegionQueryService {
     // Region 존재 여부 검증
     @Override
     public Boolean existsRegionById(Long regionId) {
-        return regionRepository.existsById(regionId);
+        return regionRepository.findById(regionId).isPresent();
     }
 
     // 지역 반환
