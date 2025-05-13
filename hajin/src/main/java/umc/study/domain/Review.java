@@ -3,6 +3,7 @@ package umc.study.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.study.domain.common.BaseEntity;
+import umc.study.validation.annotation.ExistStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,4 +37,12 @@ public class Review extends BaseEntity {
 
     @OneToMany(mappedBy ="review", cascade = CascadeType.ALL)
     private List<ReviewImage> ReviewImageList = new ArrayList<>();
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }

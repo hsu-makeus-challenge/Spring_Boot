@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import umc.study.domain.Users;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Integer> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 }
