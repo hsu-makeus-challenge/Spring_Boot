@@ -42,8 +42,9 @@ public class MissionServiceImpl implements MissionService {
   @Override
   public Page<MissionResponseDto.MemberMissionResponseDto> getMemberMissions(
       Long memberId, MissionStatus status, Pageable pageable) {
-    memberRepository.findById(memberId).orElseThrow(() -> new MemberHandler(
-            MemberErrorStatus.MEMBER_NOT_FOUND));
+    memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
 
     return memberMissionRepository
         .findAllByMemberIdAndStatus(memberId, status, pageable)
@@ -73,14 +74,14 @@ public class MissionServiceImpl implements MissionService {
 
   @Override
   public boolean checkMissionChallenge(Long memberId, Long missionId) {
-    Mission mission = missionRepository.findById(missionId)
+    Mission mission =
+        missionRepository
+            .findById(missionId)
             .orElseThrow(() -> new MissionHandler(MissionErrorStatus.MISSION_NOT_FOUND));
-    boolean isAlreadyChallenging = memberMissionRepository.existsByMemberIdAndMissionIdAndStatus(
-            memberId, missionId, MissionStatus.PROGRESS
-    );
+    boolean isAlreadyChallenging =
+        memberMissionRepository.existsByMemberIdAndMissionIdAndStatus(
+            memberId, missionId, MissionStatus.PROGRESS);
     // true이면 "도전 가능"한 상태 → 유효성 검증 통과
     return !isAlreadyChallenging;
   }
-
-
 }

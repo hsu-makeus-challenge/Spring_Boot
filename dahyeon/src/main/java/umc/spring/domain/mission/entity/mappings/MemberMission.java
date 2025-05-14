@@ -50,11 +50,10 @@ public class MemberMission extends BaseTimeEntity {
 
   public static MemberMission startChallenge(Member member, Mission mission) {
     return MemberMission.builder()
-            .member(member)
-            .mission(mission)
-            .status(MissionStatus.PROGRESS)
-            .completedAt(null)
-            .build();
+        .member(member)
+        .mission(mission)
+        .status(MissionStatus.PROGRESS)
+        .completedAt(null)
+        .build();
   }
-
 }

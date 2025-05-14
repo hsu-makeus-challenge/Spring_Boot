@@ -1,11 +1,12 @@
 package umc.spring.domain.member.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import umc.spring.domain.member.converter.MemberConverter;
 import umc.spring.domain.member.dto.MemberSignUpRequestDto;
@@ -30,7 +31,8 @@ public class MemberController {
 
   @PostMapping("/signup")
   @Operation(summary = "회원가입", description = "일반 회원가입 요청을 처리합니다.")
-  public ApiResponse<MemberSignUpResponseDto> signup(@RequestBody @Valid MemberSignUpRequestDto request) {
+  public ApiResponse<MemberSignUpResponseDto> signup(
+      @RequestBody @Valid MemberSignUpRequestDto request) {
     Member newMember = memberService.signup(request);
     return ApiResponse.onSuccess(MemberConverter.toSignUpResponseDto(newMember));
   }

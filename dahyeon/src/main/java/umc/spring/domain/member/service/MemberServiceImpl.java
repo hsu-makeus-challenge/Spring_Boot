@@ -59,9 +59,9 @@ public class MemberServiceImpl implements MemberService {
     return memberRepository.save(newMember);
   }
 
-
   public Member findById(Long memberId) {
-    return memberRepository.findById(memberId).orElseThrow(() -> new MemberHandler(
-        MemberErrorStatus.MEMBER_NOT_FOUND));
+    return memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
   }
 }

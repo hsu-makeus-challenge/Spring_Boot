@@ -1,8 +1,5 @@
 package umc.spring.global.exception;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonMappingException.Reference;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,6 +27,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
 import lombok.extern.slf4j.Slf4j;
 import umc.spring.global.apiPayload.ApiResponse;
 import umc.spring.global.apiPayload.code.ErrorReasonDto;
@@ -42,14 +41,17 @@ import umc.spring.global.apiPayload.code.status.ErrorStatus;
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
   @Override
-  protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-      HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+  protected ResponseEntity<Object> handleHttpMessageNotReadable(
+      HttpMessageNotReadableException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
     Throwable cause = ex.getCause();
     String customMessage = ex.getMessage();
 
-    if(cause instanceof InvalidFormatException ife){
+    if (cause instanceof InvalidFormatException ife) {
       List<Reference> path = ife.getPath();
-      if(!path.isEmpty()){
+      if (!path.isEmpty()) {
         String fieldName = path.get(0).getFieldName();
         String targetType = ife.getTargetType().getSimpleName();
 
@@ -66,8 +68,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         HttpHeaders.EMPTY,
         HttpStatus.BAD_REQUEST,
         request,
-        customMessage
-    );
+        customMessage);
   }
 
   /**

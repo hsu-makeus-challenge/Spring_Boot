@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -107,20 +106,20 @@ class StoreServiceImplTest {
     storeRepository.save(store6);
   }
 
-//  @Test
-//  @DisplayName("[findAll] 존재하는 가게 조회 ")
-//  void findStore() {
-//    // given
-//    Store savedStore = storeRepository.findAll().get(0);
-//    Long storeId = savedStore.getId();
-//
-//    // when
-//    Optional<Store> findStore = storeService.findStore(storeId);
-//
-//    // then
-//    assertThat(findStore).isPresent();
-//    assertThat(findStore.get().getId()).isEqualTo(storeId);
-//  }
+  //  @Test
+  //  @DisplayName("[findAll] 존재하는 가게 조회 ")
+  //  void findStore() {
+  //    // given
+  //    Store savedStore = storeRepository.findAll().get(0);
+  //    Long storeId = savedStore.getId();
+  //
+  //    // when
+  //    Optional<Store> findStore = storeService.findStore(storeId);
+  //
+  //    // then
+  //    assertThat(findStore).isPresent();
+  //    assertThat(findStore.get().getId()).isEqualTo(storeId);
+  //  }
 
   @Test
   @DisplayName("[findStoresByNameAndScore] 이름으로 가게 조회 ")

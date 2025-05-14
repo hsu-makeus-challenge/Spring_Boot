@@ -1,8 +1,9 @@
 package umc.spring.domain.member.exception.status;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 import umc.spring.global.apiPayload.code.BaseErrorCode;
 import umc.spring.global.apiPayload.code.ErrorReasonDto;
 
@@ -14,8 +15,6 @@ public enum MemberErrorStatus implements BaseErrorCode {
   private final HttpStatus httpStatus;
   private final String code;
   private final String message;
-
-
 
   @Override
   public ErrorReasonDto getReason() {

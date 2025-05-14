@@ -1,27 +1,27 @@
-//package umc.spring.domain.store.service;
+// package umc.spring.domain.store.service;
 //
-//import static org.assertj.core.api.Assertions.assertThat;
+// import static org.assertj.core.api.Assertions.assertThat;
 //
-//import java.time.LocalDate;
+// import java.time.LocalDate;
 //
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.transaction.annotation.Transactional;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.DisplayName;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.transaction.annotation.Transactional;
 //
-//import umc.spring.domain.member.entity.Member;
-//import umc.spring.domain.member.entity.enums.FoodCategory;
-//import umc.spring.domain.store.dto.ReviewRequestDto;
-//import umc.spring.domain.store.entity.Review;
-//import umc.spring.domain.store.entity.Store;
-//import umc.spring.domain.store.repository.ReviewRepository;
-//import umc.spring.domain.store.repository.StoreRepository;
+// import umc.spring.domain.member.entity.Member;
+// import umc.spring.domain.member.entity.enums.FoodCategory;
+// import umc.spring.domain.store.dto.ReviewRequestDto;
+// import umc.spring.domain.store.entity.Review;
+// import umc.spring.domain.store.entity.Store;
+// import umc.spring.domain.store.repository.ReviewRepository;
+// import umc.spring.domain.store.repository.StoreRepository;
 //
-//@SpringBootTest
-//@Transactional
-//class ReviewServiceImplTest {
+// @SpringBootTest
+// @Transactional
+// class ReviewServiceImplTest {
 //
 //  @Autowired private ReviewService reviewService;
 //
@@ -94,4 +94,4 @@
 //    // TODO : 평균 점수 계산 검증 필요
 //  }
 //  // TODO : 존재하지 않는 가게에 리뷰 작성 시 실패 검증 필요
-//}
+// }

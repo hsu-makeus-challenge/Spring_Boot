@@ -1,16 +1,12 @@
 package umc.spring.domain.store.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import umc.spring.domain.store.dto.ReviewRequestDto;
-import umc.spring.domain.store.entity.Review;
 import umc.spring.domain.store.entity.Store;
 import umc.spring.domain.store.repository.StoreRepository;
 

@@ -1,6 +1,5 @@
 package umc.spring.domain.mission.repository;
 
-
 import static umc.spring.domain.mission.entity.QMission.mission;
 import static umc.spring.domain.store.entity.QStore.store;
 
