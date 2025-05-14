@@ -1,5 +1,6 @@
 package umc.spring.domain.store.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -11,13 +12,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(title = "ReviewRequestDto", description = "사용자 리뷰 생성을 위한 요청 DTO")
 public class ReviewRequestDto {
 
-  @Getter
-  @Setter
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class CreateReviewDto {
     @NotNull(message = "가게 ID는 필수입니다.")
     private Long storeId;
 
@@ -29,5 +29,4 @@ public class ReviewRequestDto {
     @Min(value = 0, message = "별점은 0점 이상이어야 합니다.")
     @Max(value = 5, message = "별점은 5점 이하여야 합니다.")
     private Float score;
-  }
 }

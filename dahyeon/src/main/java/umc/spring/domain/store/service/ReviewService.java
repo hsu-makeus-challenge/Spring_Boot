@@ -8,5 +8,5 @@ import umc.spring.domain.store.entity.Review;
 
 public interface ReviewService {
   @Transactional
-  Review createReview(Member member, ReviewRequestDto.CreateReviewDto request);
+  Review createReview(Long member, ReviewRequestDto request, Long storeId);
 }

@@ -8,6 +8,8 @@ import umc.spring.domain.member.converter.MemberConverter;
 import umc.spring.domain.member.dto.MemberResponseDto;
 import umc.spring.domain.member.dto.MemberSignUpRequestDto;
 import umc.spring.domain.member.entity.Member;
+import umc.spring.domain.member.exception.MemberHandler;
+import umc.spring.domain.member.exception.status.MemberErrorStatus;
 import umc.spring.domain.member.repository.MemberRepository;
 import umc.spring.domain.photo.repository.PhotoRepository;
 import umc.spring.domain.question.repository.AnswerRepository;
@@ -39,20 +41,14 @@ public class MemberServiceImpl implements MemberService {
 
     // 연관관계 있는 엔티티들은 cascade + orphanRemoval로 자동 삭제
     // PontLogs, Notification, Agreement, MemberMission은 자동 삭제됨
-    Member member =
-        memberRepository
-            .findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-
+    Member member = findById(memberId);
     // 마지막으로 Member 삭제
     memberRepository.delete(member);
   }
 
   @Override
   public MemberResponseDto.MyPageResponseDto getMyPage(Long memberId) {
-    Member member = memberRepository.findById(memberId).get();
-    //    TODO : member 존재 여부 검증 필요
-
+    Member member = findById(memberId);
     return MemberResponseDto.MyPageResponseDto.from(member);
   }
 
@@ -61,5 +57,11 @@ public class MemberServiceImpl implements MemberService {
   public Member signup(MemberSignUpRequestDto request) {
     Member newMember = MemberConverter.toMember(request);
     return memberRepository.save(newMember);
+  }
+
+
+  public Member findById(Long memberId) {
+    return memberRepository.findById(memberId).orElseThrow(() -> new MemberHandler(
+        MemberErrorStatus.MEMBER_NOT_FOUND));
   }
 }

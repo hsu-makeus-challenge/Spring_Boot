@@ -47,4 +47,14 @@ public class MemberMission extends BaseTimeEntity {
   private MissionStatus status = MissionStatus.PROGRESS;
 
   private LocalDate completedAt;
+
+  public static MemberMission startChallenge(Member member, Mission mission) {
+    return MemberMission.builder()
+            .member(member)
+            .mission(mission)
+            .status(MissionStatus.PROGRESS)
+            .completedAt(null)
+            .build();
+  }
+
 }
