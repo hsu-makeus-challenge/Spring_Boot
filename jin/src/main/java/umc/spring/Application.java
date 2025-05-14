@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import umc.spring.service.MissionByUserService;
 import umc.spring.service.ReviewService;
 import umc.spring.service.StoreService.StoreQueryService;
-import umc.spring.service.UserService;
+import umc.spring.service.UserService.UserCommandService;
 
 @SpringBootApplication
 public class Application {
@@ -56,12 +56,12 @@ public class Application {
 			System.out.println("리뷰 저장 완료");
 
 			// 4. UserService 테스트 (유저 조회)
-			UserService userService = context.getBean(UserService.class);
+			UserCommandService userCommandService = context.getBean(UserCommandService.class);
 			Long userId = 1L;
 
 			System.out.println("\n getUserInfo:");
 			System.out.println("UserId: " + userId);
-			System.out.println(userService.getUserInfo(userId));
+
 		};
 	}
 
