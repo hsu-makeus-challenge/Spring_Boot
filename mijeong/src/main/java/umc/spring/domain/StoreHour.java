@@ -8,7 +8,6 @@ import umc.spring.domain.enums.Day;
 import java.time.LocalTime;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class Review extends BaseEntity {
     private String reviewContent;
 
     @Column(nullable = false)
-    private Double reviewRating;
+    private Float reviewRating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -39,4 +38,19 @@ public class Review extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewImage> reviewImageList = new ArrayList<>();
+
+    // === 연관관계 편의 메서드 ===
+    public void setUser(User user) {
+        if(this.user != null)
+            user.getUserReviewList().remove(this);
+        this.user = user;
+        user.getUserReviewList().add(this);
+    }
+
+    public void setStore(Store store) {
+        if(this.store != null)
+            store.getStoreReviewList().remove(this);
+        this.store = store;
+        store.getStoreReviewList().add(this);
+    }
 }

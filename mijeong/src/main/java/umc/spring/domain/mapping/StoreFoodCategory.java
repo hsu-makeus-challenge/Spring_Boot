@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.FoodCategory;
 import umc.spring.domain.Store;
+import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -24,4 +24,15 @@ public class StoreFoodCategory extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_category_id")
     private FoodCategory foodCategory;
+
+    public void setStore(Store store) {
+        if(this.store != null)
+            store.getStoreFoodCategoryList().remove(this);
+        this.store = store;
+        store.getStoreFoodCategoryList().add(this);
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory){
+        this.foodCategory = foodCategory;
+    }
 }

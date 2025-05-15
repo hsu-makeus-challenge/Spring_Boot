@@ -16,15 +16,34 @@ public enum ErrorStatus implements BaseErrorCode {
     _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401","인증이 필요합니다."),
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
-    // 멤버 관려 에러
-    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
-    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
+    // 유저 관련 에러
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "아이디와 일치하는 사용자가 없습니다."),
 
     // 404
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4031", "게시글이 없습니다."),
 
     // For test
-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트");
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
+
+    // 음식 카테고리 관련
+    FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "FOOD_CATEGORY4001", "아이디와 일치하는 음식 카테고리가 없습니다."),
+
+    // 가게 관련
+    STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "아이디와 일치하는 가게가 없습니다."),
+
+    // 지역 관련
+    REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "아이디와 일치하는 지역이 없습니다."),
+
+    // 미션 관련
+    MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001", "아이디와 일치하는 미션이 없습니다."),
+
+    // 가게 미션 관련
+    STORE_MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE_MISSION4001", "아이디와 일치하는 가게 미션이 없습니다."),
+    STORE_MISSION_EXIST(HttpStatus.BAD_REQUEST, "STORE_MISSION4002", "이미 존재하는 가게 미션 입니다."),
+
+    // 유저 미션 관련
+    USER_MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER_MISSION4001", "아이디와 일치하는 유저 미션이 없습니다."),
+    USER_MISSION_EXIST(HttpStatus.BAD_REQUEST, "USER_MISSION4002", "이미 존재하는 유저 미션 입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
@@ -46,7 +65,6 @@ public enum ErrorStatus implements BaseErrorCode {
                 .code(code)
                 .isSuccess(false)
                 .httpStatus(httpStatus)
-                .build()
-                ;
+                .build();
     }
 }

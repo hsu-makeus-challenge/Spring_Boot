@@ -7,7 +7,6 @@ import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -24,4 +23,15 @@ public class UserPretendFood extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_category_id")
     private FoodCategory foodCategory;
+
+    public void setUser(User user) {
+        if(this.user != null)
+            user.getUserPreferList().remove(this);
+        this.user = user;
+        user.getUserPreferList().add(this);
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory){
+        this.foodCategory = foodCategory;
+    }
 }
