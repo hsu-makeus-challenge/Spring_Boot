@@ -3,6 +3,7 @@ package umc.spring.apiPayload;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import umc.spring.apiPayload.code.BaseCode;
@@ -14,8 +15,11 @@ import umc.spring.apiPayload.code.status.SuccessStatus;
 public class ApiResponse<T> {
 
     @JsonProperty("isSuccess")
+    @Schema(example = "true")
     private final Boolean isSuccess;
+    @Schema(example = "COMMON200")
     private final String code;
+    @Schema(example = "성공입니다.11")
     private final String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;

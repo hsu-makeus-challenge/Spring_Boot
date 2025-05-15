@@ -37,11 +37,11 @@ public class User extends BaseEntity {
 
     private String password;
 
-    @ColumnDefault("'T'")
+    @Column(columnDefinition = "tinyint default 'T'")
     @Enumerated(EnumType.STRING)
     private TandF marketingConsent;
 
-    @ColumnDefault("'T'")
+    @Column(columnDefinition = "tinyint default 'T'")
     @Enumerated(EnumType.STRING)
     private TandF LocationConsent;
 
@@ -53,16 +53,13 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Active status;
 
-    @ColumnDefault("'T'")
-    @Column(name = "new_event_alarm")
+    @Column(name = "new_event_alarm",columnDefinition = "tinyint default 'T'")
     private TandF newEventAlarm;
 
-    @ColumnDefault("'T'")
-    @Column(name = "review_rely_alarm")
+    @Column(name = "review_rely_alarm", columnDefinition = "tinyint default 'T'")
     private TandF reviewRelyAlarm;
 
-    @ColumnDefault("'T'")
-    @Column(name = "inquriy_rely_alarm")
+    @Column(name = "inquriy_rely_alarm",columnDefinition = "tinyint default 'T'")
     private TandF inquriyRelyAlarm;
 
     @ManyToOne(fetch = FetchType.LAZY)
