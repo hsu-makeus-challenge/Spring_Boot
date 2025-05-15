@@ -62,6 +62,28 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return handleExceptionInternalArgs(e,HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request,errors);
     }
 
+/*    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+
+        // 1) message 생성
+        Map<String, String> errors = new LinkedHashMap<>();
+
+        ex.getConstraintViolations().forEach(violation -> {
+            String field = violation.getPropertyPath().toString(); // 유효성 검사가 실패한 필드
+            String message = violation.getMessage(); // 에러 메시지
+            errors.put(field, message);
+        });
+
+        // 2) 기존 MethodArgumentNotValidException과 같은 포맷으로 응답
+        return handleExceptionInternalArgs(
+                ex,
+                HttpHeaders.EMPTY,
+                ErrorStatus.valueOf("_BAD_REQUEST"),
+                request,
+                errors
+        );
+    }*/
+
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         e.printStackTrace();

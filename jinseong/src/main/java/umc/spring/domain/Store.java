@@ -2,9 +2,12 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.StoreStatus;
 import umc.spring.domain.mapping.StoreFoodCategory;
+import umc.spring.domain.mapping.StoreMission;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,6 +16,8 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
+@DynamicUpdate
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Store extends BaseEntity {
@@ -30,7 +35,7 @@ public class Store extends BaseEntity {
     private String address;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "VARCHAR(10)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'OPEN'")
     private StoreStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,6 +54,9 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoreHours> storeHoursList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StoreMission> storeMissionList = new ArrayList<>();
+
     @Override
     public String toString() {
         return "Store{" +
@@ -58,5 +66,15 @@ public class Store extends BaseEntity {
                 ", score=" + score +
                 ", region=" + (neighborhood != null ? neighborhood.getNeighborhood() : "N/A") + // region의 이름 출력
                 '}';
+    }
+
+    public void setNeighborhood(Neighborhood newNeighborhood) {
+        if (this.neighborhood != null) {
+            this.neighborhood.getStoreList().remove(this);
+        }
+
+        this.neighborhood = newNeighborhood;
+
+        newNeighborhood.getStoreList().add(this);
     }
 }

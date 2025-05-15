@@ -6,6 +6,7 @@ import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Weekday;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -22,12 +23,20 @@ public class StoreHours extends BaseEntity {
     private Weekday day;
 
     @Column(nullable = false)
-    private LocalDateTime openTime;
+    private LocalTime openTime;
 
     @Column(nullable = false)
-    private LocalDateTime closeTime;
+    private LocalTime closeTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    public void setStore(Store store) {
+        if (this.store != null) {
+            this.store.getStoreHoursList().remove(this);
+        }
+        this.store = store;
+        store.getStoreHoursList().add(this);
+    }
 }

@@ -2,6 +2,10 @@ package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import umc.spring.domain.Mission;
+import umc.spring.domain.Store;
 import umc.spring.domain.User;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.UserMissionStatus;
@@ -9,6 +13,8 @@ import umc.spring.domain.enums.UserMissionStatus;
 @Entity
 @Getter
 @Builder
+@DynamicUpdate
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class UserMission extends BaseEntity {
@@ -38,5 +44,17 @@ public class UserMission extends BaseEntity {
                 ", content='" + storeMission.getMission().getContent() + '\'' +
                 ", reward='" + storeMission.getMission().getReward() + '\'' +
                 '}';
+    }
+
+    public void setUser(User newUser) {
+        if(this.user != null) {
+            user.getUserMissionList().remove(this);
+        }
+        this.user = newUser;
+        user.getUserMissionList().add(this);
+    }
+
+    public void setStoreMission(StoreMission newStoreMission) {
+        this.storeMission = newStoreMission;
     }
 }

@@ -6,4 +6,6 @@ import umc.spring.domain.mapping.UserMission;
 
 public interface UserMissionQueryService {
     Page<UserMission> findMissionByUserIdAndUserMissionStatus(Long userId, UserMissionStatus status, int page, int size);
+
+    boolean existsByUserIdAndStoreMissionId(Long userId, Long storeMissionId);
 }

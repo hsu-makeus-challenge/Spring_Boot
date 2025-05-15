@@ -24,4 +24,9 @@ public class UserMissionQueryServiceImpl implements UserMissionQueryService {
 
         return userMissionRepository.dynamicQueryWithBooleanBuilder(userId, status, pageable);
     }
+
+    @Override
+    public boolean existsByUserIdAndStoreMissionId(Long userId, Long storeMissionId) {
+        return userMissionRepository.existsByUserIdAndStoreMissionId(userId, storeMissionId);
+    }
 }
