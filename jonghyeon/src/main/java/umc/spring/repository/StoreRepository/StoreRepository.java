@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 import umc.spring.domain.Store;
 import umc.spring.repository.StoreRepository.StoreRepositoryCustom;
 
-public interface StoreRepository extends JpaRepository<Store, Long>, StoreRepositoryCustom {
+public interface StoreRepository extends JpaRepository<Store, Long>{
 }

@@ -27,7 +27,7 @@ public class BusinessHours extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private day dayOfWeek;
 
-    @ColumnDefault("'T'")
+    @Column(columnDefinition = "tinyint default 'T'")
     @Enumerated(EnumType.STRING)
     private TandF isOpen;
 
