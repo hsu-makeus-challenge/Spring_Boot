@@ -19,55 +19,29 @@ repositories {
 }
 
 dependencies {
+	// Spring
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// lombok
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// QueryDSL
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
-	// test
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+
+	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	// queryDSL
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	compileOnly 'com.querydsl:querydsl-apt:5.0.0:jakarta'
-	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
-	//Swagger
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
-	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.9'
-
-	//validation
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-	//AOP
-	implementation 'org.springframework.boot:spring-boot-starter-aop'
-
-}
-
-
-tasks.named('compileJava') {
-	dependsOn 'spotlessApply'
-	dependsOn 'compileQuerydsl'
-}
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-spotless {
-	java {
-		googleJavaFormat()
-		importOrder('java', 'javax', 'jakarta', 'org', 'com')
-		removeUnusedImports()
-		trimTrailingWhitespace()
-		endWithNewline()
-	}
 }
 
 def generated = "src/main/generated"
@@ -93,8 +67,19 @@ tasks.register("compileQuerydsl", JavaCompile) {
 	options.annotationProcessorPath = configurations.annotationProcessor
 }
 
-tasks.named('spotlessJava') {
+tasks.named('compileJava') {
+	dependsOn 'spotlessApply'
 	dependsOn 'compileQuerydsl'
+}
+
+spotless {
+	java {
+		googleJavaFormat()
+		importOrder('java', 'javax', 'jakarta', 'org', 'com')
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
 }
 
 tasks.named('test') {

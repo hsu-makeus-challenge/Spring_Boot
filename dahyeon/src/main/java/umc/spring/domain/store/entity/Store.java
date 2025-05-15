@@ -62,4 +62,8 @@ public class Store extends BaseTimeEntity {
   @OneToMany(mappedBy = "store")
   @Builder.Default
   private List<Mission> missions = new ArrayList<>();
+
+  public void updateScore(Float newScore) {
+    this.score = newScore;
+  }
 }

@@ -2,6 +2,7 @@ package umc.spring.global.exception;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +27,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
 import lombok.extern.slf4j.Slf4j;
 import umc.spring.global.apiPayload.ApiResponse;
 import umc.spring.global.apiPayload.code.ErrorReasonDto;
@@ -34,6 +39,37 @@ import umc.spring.global.apiPayload.code.status.ErrorStatus;
 @Slf4j
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+
+  @Override
+  protected ResponseEntity<Object> handleHttpMessageNotReadable(
+      HttpMessageNotReadableException ex,
+      HttpHeaders headers,
+      HttpStatusCode status,
+      WebRequest request) {
+    Throwable cause = ex.getCause();
+    String customMessage = ex.getMessage();
+
+    if (cause instanceof InvalidFormatException ife) {
+      List<Reference> path = ife.getPath();
+      if (!path.isEmpty()) {
+        String fieldName = path.get(0).getFieldName();
+        String targetType = ife.getTargetType().getSimpleName();
+
+        if ("foodCategory".equals(fieldName)) {
+          customMessage = "잘못된 값입니다. 'FoodCategory' 필드는 허용되지 않는 값을 포함하고 있습니다.";
+        } else {
+          customMessage = String.format("'%s' 필드는 '%s' 타입으로 변환할 수 없습니다.", fieldName, targetType);
+        }
+      }
+    }
+    return handleExceptionInternalFalse(
+        ex,
+        ErrorStatus._BAD_REQUEST,
+        HttpHeaders.EMPTY,
+        HttpStatus.BAD_REQUEST,
+        request,
+        customMessage);
+  }
 
   /**
    * Bean Validation API의 제약 조건 위반(@NotNull, @Min 등)에 대한 예외를 처리한다. 제약 조건 위반 시 발생하는
