@@ -3,6 +3,7 @@ package umc.spring.domain.store.data;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import umc.spring.domain.region.data.Region;
 import umc.spring.global.common.data.BaseEntity;
 
 @Entity
@@ -38,4 +39,11 @@ public class Store extends BaseEntity {
                 ", score=" + score +
                 '}';
     }
+
+    // 매핑
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    @Setter
+    private Region region;
+
 }

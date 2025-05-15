@@ -20,6 +20,22 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자 없음"),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수입니다"),
 
+    // 음식 카테고리 관련 에러
+    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD4001", "존재하지 않는 음식 카테고리입니다."),
+
+    // 가게 관련 에러
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "존재하지 않는 식당입니다"),
+    STORE_REQUIRED(HttpStatus.BAD_REQUEST, "STORE4002", "가게 정보가 필요합니다"),
+
+    // 지역 관련 에러
+    REGION_NOT_FOUND(HttpStatus.NOT_FOUND, "REGION4001", "존재하지 않는 지역입니다"),
+    REGION_REQUIRED(HttpStatus.BAD_REQUEST, "REGION4002", "지역 정보가 필요합니다."),
+
+    // 미션 관련 에러
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION4001", "존재하지 않는 미션입니다"),
+    MISSION_BAD_DEADLINE(HttpStatus.BAD_REQUEST, "MISSION4002", "올바르지 않은 날짜 형식입니다 yyyy-mm-dd"),
+    MISSION_CHALLENGING(HttpStatus.BAD_REQUEST, "MISSION4003", "이미 도전한 미션입니다."),
+
     // EX
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글 없음"),
 
