@@ -17,4 +17,14 @@ public class StoreResponse {
         @Schema(description = "등록된 가게 아이디", example = "1")
         Long storeId;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "리뷰 등록 응답 정보")
+    public static class ReviewCreateResultDto {
+        @Schema(description = "등록된 리뷰 아이디", example = "1")
+        Long reviewId;
+    }
 }

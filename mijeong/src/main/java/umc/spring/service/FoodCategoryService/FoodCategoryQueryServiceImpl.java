@@ -21,6 +21,7 @@ public class FoodCategoryQueryServiceImpl implements FoodCategoryQueryService {
     @Override
     public List<FoodCategory> getFoodCategoryList(List<Long> categoryIds) {
         return foodCategoryRepository.findAllById(categoryIds);
+
     }
 
     // 아이디를 통해 존재하는 음식 카테고리인지 확인
