@@ -13,7 +13,10 @@ import umc.spring.apiPayload.exception.handler.UserHandler;
 import umc.spring.domain.QUser;
 import umc.spring.domain.Review;
 import umc.spring.domain.User;
+import umc.spring.domain.enums.UserMissionStatus;
+import umc.spring.domain.mapping.UserMission;
 import umc.spring.repository.ReviewRepository;
+import umc.spring.repository.UserMissionRepository.UserMissionRepository;
 import umc.spring.repository.UserRepository.UserRepository;
 
 import java.util.Collections;
@@ -26,6 +29,7 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final UserMissionRepository userMissionRepository;
 
     @Override
     public Tuple findUserInfoById(Long userId) {
@@ -65,5 +69,29 @@ public class UserQueryServiceImpl implements UserQueryService {
         List<Review> reviews = reviewRepository.findReviewsByIdWithImages(reviewIds);
 
         return new PageImpl<>(reviews, pageable, reviewIdPage.getTotalElements());
+    }
+
+    @Override
+    public Page<UserMission> getMissionList(Long userId, UserMissionStatus status, Integer page) {
+
+        // 1)
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+
+        Pageable pageable = PageRequest.of(page, 10);
+
+
+        // 2. ID만 페이징해서 조회
+        Page<Long> userMissionIdPage = userMissionRepository.findUserMissionIdsByUserAndStatus(user, status, pageable);
+        List<Long> ids = userMissionIdPage.getContent();
+
+        if (ids.isEmpty()) {
+            return new PageImpl<>(Collections.emptyList(), pageable, 0);
+        }
+
+        // 3. ID 기반으로 fetch join 조회
+        List<UserMission> userMissions = userMissionRepository.findUserMissionsWithFetchByIds(ids);
+
+        return new PageImpl<>(userMissions, pageable, userMissionIdPage.getTotalElements());
     }
 }
