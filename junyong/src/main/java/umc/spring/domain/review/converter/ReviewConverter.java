@@ -1,5 +1,6 @@
 package umc.spring.domain.review.converter;
 
+import umc.spring.domain.member.data.Member;
 import umc.spring.domain.review.data.Review;
 import umc.spring.domain.review.web.dto.ReviewRequestDTO;
 import umc.spring.domain.review.web.dto.ReviewResponseDTO;
@@ -9,12 +10,12 @@ import java.util.ArrayList;
 
 public class ReviewConverter {
 
-    public static Review toReview(ReviewRequestDTO.addDto request, Long memberId, Store store) {
+    public static Review toReview(ReviewRequestDTO.addDto request, Member member, Store store) {
         return Review.builder()
                 .content(request.getContent())
                 .score(request.getScore())
                 .status(request.getStatus())
-                .member_id(memberId)
+                .member(member)
                 .store(store)
                 .replyList(new ArrayList<>())
                 .build();

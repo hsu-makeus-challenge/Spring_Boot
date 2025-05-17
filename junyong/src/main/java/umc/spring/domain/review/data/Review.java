@@ -2,6 +2,7 @@ package umc.spring.domain.review.data;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.spring.domain.member.data.Member;
 import umc.spring.domain.review.data.enums.ReviewStatus;
 import umc.spring.domain.store.data.Store;
 import umc.spring.global.common.data.BaseEntity;
@@ -21,8 +22,8 @@ public class Review extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long member_id; // 유저 매핑 안 함
+//    @Column(nullable = false) // 내가 졌다
+//    private Long member_id; // 유저 매핑 안 함
 
     @Column(nullable = false, length = 50)
     private String content = "";
@@ -37,6 +38,10 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ReviewReply> replyList = new ArrayList<>();

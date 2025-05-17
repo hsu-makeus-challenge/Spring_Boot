@@ -1,8 +1,12 @@
 package umc.spring.domain.store.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.spring.domain.review.data.Review;
+import umc.spring.domain.review.repository.ReviewRepository;
 import umc.spring.domain.store.data.Store;
 import umc.spring.domain.store.repository.StoreRepository;
 
@@ -15,6 +19,7 @@ import java.util.Optional;
 public class StoreQueryServiceImpl implements StoreQueryService {
 
     private final StoreRepository storeRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     public Optional<Store> findStore(Long id) {
@@ -32,5 +37,15 @@ public class StoreQueryServiceImpl implements StoreQueryService {
     public Boolean isExistStore(Long id) {
         // id 통해 가게가 존재하는지 조회
         return storeRepository.findById(id).orElse(null) != null;
+    }
+
+    @Override
+    public Page<Review> getReviewList(Long storeId, Integer page) {
+
+        Store store = storeRepository.findById(storeId).get();
+
+        Page<Review> storePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+        return storePage;
+
     }
 }
