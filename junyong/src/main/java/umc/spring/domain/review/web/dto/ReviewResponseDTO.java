@@ -2,6 +2,7 @@ package umc.spring.domain.review.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import umc.spring.global.common.dto.PageDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,11 +21,7 @@ public class ReviewResponseDTO {
     @Getter
     public static class ReviewListDto{
         List<ReviewDto> reviewList;
-        Integer listSize;
-        Integer totalPage;
-        Long totalElements;
-        Boolean isFirst;
-        Boolean isLast;
+        PageDTO.ListPageDto pageInfo;
     }
 
     @Builder

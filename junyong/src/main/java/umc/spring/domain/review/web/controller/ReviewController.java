@@ -40,7 +40,7 @@ public class ReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공")
     })
     @Parameters({
-            @Parameter(name = "page", description = "페이지 번호. 1이상. Path Variable")
+            @Parameter(name = "page", description = "페이지 번호. 1이상. Query String")
     })
     public ApiResponse<ReviewResponseDTO.ReviewListDto> getReviews(@PageValid Integer page) {
         ReviewResponseDTO.ReviewListDto reviewDtoList = reviewQueryService.getReviews(page);

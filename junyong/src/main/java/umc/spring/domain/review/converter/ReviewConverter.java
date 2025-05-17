@@ -6,6 +6,7 @@ import umc.spring.domain.review.data.Review;
 import umc.spring.domain.review.web.dto.ReviewRequestDTO;
 import umc.spring.domain.review.web.dto.ReviewResponseDTO;
 import umc.spring.domain.store.data.Store;
+import umc.spring.global.common.converter.PageConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +48,7 @@ public class ReviewConverter {
 
         return ReviewResponseDTO.ReviewListDto.builder()
                 .reviewList(reviewDtoList)
-                .listSize(reviewList.getSize())
-                .totalPage(reviewList.getTotalPages())
-                .totalElements(reviewList.getTotalElements())
-                .isFirst(reviewList.isFirst())
-                .isLast(reviewList.isLast())
+                .pageInfo(PageConverter.pageToListPageDto(reviewList))
                 .build();
     }
 

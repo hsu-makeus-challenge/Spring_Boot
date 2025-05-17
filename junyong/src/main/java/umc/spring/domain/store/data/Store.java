@@ -20,8 +20,8 @@ public class Store extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false)
-    private Long categoryId; // 카테고리 매핑 안 하고 필드로 생성
+//    @Column(nullable = false)
+//    private Long categoryId; // 카테고리 매핑 안 하고 필드로 생성
 
     @Column(nullable = false, length = 40)
     private String address;
@@ -45,5 +45,9 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "region_id")
     @Setter
     private Region region;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private StoreCategory category;
 
 }

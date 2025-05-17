@@ -27,15 +27,11 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 
         final int size = 10;
 
-        if (page < 0) {
-            throw new ErrorHandler(ErrorStatus.PAGE_NOT_FOUND);
-        }
-
         Member member = memberRepository.findById(1L).get();
         PageRequest pageRequest = PageRequest.of(page, 10);
         Page<Review> reviews = reviewRepository.findAllByMember(member, pageRequest);
 
-        if(page >= reviews.getTotalPages()) {
+        if(page >= reviews.getTotalPages() && reviews.getTotalElements() != 0) {
             throw new ErrorHandler(ErrorStatus.PAGE_OUT_OF_RANGE);
         }
 

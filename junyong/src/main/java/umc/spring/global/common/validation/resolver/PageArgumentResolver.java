@@ -45,6 +45,10 @@ public class PageArgumentResolver implements HandlerMethodArgumentResolver {
             throw new ErrorHandler(ErrorStatus.PAGE_ERROR);
         }
 
+        if (page < 1) {
+            throw new ErrorHandler(ErrorStatus.PAGE_OUT_OF_RANGE);
+        }
+
         return page - 1;
     }
 }

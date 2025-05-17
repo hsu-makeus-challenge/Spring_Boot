@@ -25,7 +25,8 @@ public class StoreExistValidator implements ConstraintValidator<ExistStore, Long
     @Override
     public boolean isValid(Long storeId, ConstraintValidatorContext context) {
 
-        boolean isValid = storeQueryService.isExistStore(storeId);
+        boolean isValid = storeQueryService.findStore(storeId).orElse(null) != null;
+        log.info("isValid = {} ", isValid);
 
         if(!isValid) {
             context.disableDefaultConstraintViolation();

@@ -3,6 +3,7 @@ package umc.spring.domain.store.service;
 import org.springframework.data.domain.Page;
 import umc.spring.domain.review.data.Review;
 import umc.spring.domain.store.data.Store;
+import umc.spring.domain.store.web.dto.StoreResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,5 @@ public interface StoreQueryService {
     Boolean isExistStore(Long id);
 
     Page<Review> getReviewList(Long storeId, Integer page);
+    StoreResponseDTO.MissionListDto getMissionList(Long storeId, Integer page);
 }

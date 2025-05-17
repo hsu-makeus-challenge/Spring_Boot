@@ -2,6 +2,7 @@ package umc.spring.domain.store.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import umc.spring.global.common.dto.PageDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,11 +21,7 @@ public class StoreResponseDTO {
     @Getter
     public static class ReviewPreViewListDto {
         List<ReviewPreViewDto> reviewList;
-        Integer listSize;
-        Integer totalPage;
-        Long totalElements;
-        Boolean isFirst;
-        Boolean isLast;
+        PageDTO.ListPageDto pageInfo;
     }
 
     @Builder
@@ -34,6 +31,25 @@ public class StoreResponseDTO {
         Float score;
         String body;
         LocalDate createdAt;
+    }
+
+    @Builder
+    @Getter
+    public static class MissionListDto {
+        List<MissionDto> missionList;
+        PageDTO.ListPageDto pageInfo;
+    }
+
+    @Builder
+    @Getter
+    public static class MissionDto {
+        Long storeId;
+        String storeName;
+        String storeCategory;
+        Long missionId;
+        String missionContent;
+        Integer missionReward;
+        LocalDate deadLine;
     }
 
 }
