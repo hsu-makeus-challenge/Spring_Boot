@@ -27,13 +27,24 @@ public class ReviewResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(description = "가게의 리뷰 목록 응답 정보")
-    public static class ReviewPreViewListDTO{
-        List<ReviewPreViewDTO> reviewList; // 리뷰 목록
-        Integer listSize; // 현재 페이지의 리뷰 목록 개수
-        Integer totalPage; // 총 페이지
-        Long totalElements; // 총 리뷰 개수
-        Boolean isFirst; // 페이지 처음 여부
-        Boolean isLast; // 페이지 마지막 여부
+    public static class StoreReviewPreViewListDto {
+        @Schema(description = "가게의 리뷰 목록")
+        List<StoreReviewPreViewDto> reviewList;
+
+        @Schema(description = "현재 페이지의 리뷰 목록 개수", example = "10")
+        Integer listSize;
+
+        @Schema(description = "총 페이지 수", example = "8")
+        Integer totalPage;
+
+        @Schema(description = "총 리뷰 개수", example = "80")
+        Long totalElements;
+
+        @Schema(description = "페이지 처음 여부", example = "true")
+        Boolean isFirst;
+
+        @Schema(description = "페이지 마지막 여부", example = "false")
+        Boolean isLast;
     }
 
     @Builder
@@ -41,11 +52,70 @@ public class ReviewResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(description = "가게의 리뷰 응답 정보")
-    public static class ReviewPreViewDTO{
+    public static class StoreReviewPreViewDto {
+        @Schema(description = "리뷰 아이디", example = "1")
         Long reviewId;
+
+        @Schema(description = "리뷰 작성자 닉네임", example = "1")
         String ownerNickName;
+
+        @Schema(description = "리뷰 평점", example = "4.5")
         Float score;
+
+        @Schema(description = "리뷰 내용", example = "너무 맛있어요")
         String content;
+
+        @Schema(description = "리뷰 등록 날짜", example = "2025-05-16")
         LocalDate createdAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "유저 리뷰 목록 응답 정보")
+    public static class UserReviewPreViewListDto {
+        @Schema(description = "유저의 리뷰 목록")
+        List<UserReviewPreViewDto> reviewList;
+
+        @Schema(description = "현재 페이지의 리뷰 목록 개수", example = "10")
+        Integer listSize;
+
+        @Schema(description = "총 페이지 수", example = "8")
+        Integer totalPage;
+
+        @Schema(description = "총 리뷰 개수", example = "80")
+        Long totalElements;
+
+        @Schema(description = "페이지 처음 여부", example = "true")
+        Boolean isFirst;
+
+        @Schema(description = "페이지 마지막 여부", example = "false")
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "사용자 리뷰 응답 정보")
+    public static class UserReviewPreViewDto{
+        @Schema(description = "리뷰 아이디", example = "1")
+        Long reviewId;
+
+        @Schema(description = "리뷰 작성자 닉네임", example = "1")
+        String ownerNickName;
+
+        @Schema(description = "리뷰 평점", example = "4.5")
+        Float score;
+
+        @Schema(description = "리뷰 내용", example = "너무 맛있어요")
+        String content;
+
+        @Schema(description = "리뷰 등록 날짜", example = "2025-05-16")
+        LocalDate createdAt;
+
+        @Schema(description = "리뷰 이미지", example = "2025-05-16")
+        List<String> reviewImageList;
     }
 }

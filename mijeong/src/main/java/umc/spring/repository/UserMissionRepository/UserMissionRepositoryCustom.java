@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.UserMission;
-import umc.spring.web.dto.mission.MissionResponse;
 
 public interface UserMissionRepositoryCustom {
     // 미션 상태에 따른 미션 목록 조회

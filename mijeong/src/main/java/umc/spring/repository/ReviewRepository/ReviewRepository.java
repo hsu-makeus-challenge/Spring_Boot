@@ -5,8 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.domain.User;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom {
     // 가게와 페이지 번호로 리뷰 목록 조회 (페이지네이션)
     Page<Review> findAllByStore(Store store, Pageable pageRequest);
+
+    // 유저와 페이지 번호로 리뷰 목록 조회 (페이지네이션)
+    Page<Review> findAllByUser(User user, Pageable pageRequest);
 }

@@ -18,6 +18,7 @@ import umc.spring.domain.Review;
 import umc.spring.service.ReviewService.ReviewCommandService;
 import umc.spring.service.ReviewService.ReviewQueryService;
 import umc.spring.service.StoreService.StoreCommandService;
+import umc.spring.validation.annotation.CheckPage;
 import umc.spring.validation.annotation.ExistRegion;
 import umc.spring.validation.annotation.ExistStore;
 import umc.spring.validation.annotation.ExistUser;
@@ -91,15 +92,17 @@ public class StoreController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON400", description = "잘못된 요청입니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "STORE4001", description = "아이디와 일치하는 가게가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PAGE4002", description = "페이지 번호가 비어있습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "PAGE4002", description = "페이지 번호는 1 이상이어야 합니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
-            @Parameter(name = "storeId", description = "리뷰를 조회할 가게의 ID", example = "2", required = true)
+            @Parameter(name = "storeId", description = "리뷰를 조회할 가게의 ID", example = "2", required = true),
+            @Parameter(name = "page", description = "페이지 번호, 1부터 시작입니다.", example = "1", required = true)
     })
     @GetMapping("/review")
-    public ApiResponse<ReviewResponse.ReviewPreViewListDTO> getReviewList(@RequestParam @ExistStore Long storeId,
-                                                                          @RequestParam Integer page) {
-        Page<Review> storeReviewPage = reviewQueryService.findReviewList(storeId, page);
+    public ApiResponse<ReviewResponse.StoreReviewPreViewListDto> getStoreReviewList(@RequestParam @ExistStore Long storeId, @CheckPage Integer page) {
+        Page<Review> storeReviewPage = reviewQueryService.findStoreReviewPage(storeId, page);
 
-        return ApiResponse.onSuccess(ReviewConverter.toReviewPreViewListDTO(storeReviewPage));
+        return ApiResponse.onSuccess(ReviewConverter.toStoreReviewPreViewListDto(storeReviewPage));
     }
 }
