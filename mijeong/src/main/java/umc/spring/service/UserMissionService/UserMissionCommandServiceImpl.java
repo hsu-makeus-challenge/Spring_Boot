@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.ErrorHandler;
 import umc.spring.converter.UserMissionConverter;
-import umc.spring.domain.Mission;
 import umc.spring.domain.User;
+import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.StoreMission;
 import umc.spring.domain.mapping.UserMission;
 import umc.spring.repository.UserMissionRepository.UserMissionRepository;
@@ -30,7 +30,7 @@ public class UserMissionCommandServiceImpl implements UserMissionCommandService 
     // 가게의 미션을 도전 중인 미션에 추가(미션 도전하기)
     @Transactional
     @Override
-    public UserMissionResponse.UserMissionCreateResultDto saveUserMission(Long storeMissionId, Long userId) {
+    public UserMissionResponse.UserMissionResultDto saveUserMission(Long storeMissionId, Long userId) {
         StoreMission storeMission = storeMissionQueryService.validateStoreMission(storeMissionId);
         User user = userQueryService.validateUser(userId);
 
@@ -49,7 +49,7 @@ public class UserMissionCommandServiceImpl implements UserMissionCommandService 
         Long userMissionId = userMission.getId();
         log.info("유저미션 등록 완료, userMissionId: {}", userMissionId);
 
-        return UserMissionConverter.toSUserMissionCreateResultDto(userMissionId);
+        return UserMissionConverter.toSUserMissionResultDto(userMission, MissionStatus.CHALLENGE);
     }
 
 }
