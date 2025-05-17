@@ -57,4 +57,8 @@ public class UserMission extends BaseEntity {
     public void setStoreMission(StoreMission newStoreMission) {
         this.storeMission = newStoreMission;
     }
+
+    public void updateStatus() {
+        this.status = UserMissionStatus.COMPLETE;
+    }
 }

@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.StoreMissionHandler;
 import umc.spring.apiPayload.exception.handler.UserHandler;
+import umc.spring.apiPayload.exception.handler.UserMissionHandler;
 import umc.spring.converter.UserMissionConverter;
 import umc.spring.domain.User;
+import umc.spring.domain.enums.UserMissionStatus;
 import umc.spring.domain.mapping.StoreMission;
 import umc.spring.domain.mapping.UserMission;
 import umc.spring.repository.StoreMissionRepository.StoreMissionRepository;
@@ -41,5 +43,26 @@ public class UserMissionCommandServiceImpl implements UserMissionCommandService 
         newUserMission.setStoreMission(storeMission);
 
         return userMissionRepository.save(newUserMission);
+    }
+
+    @Override
+    public UserMission completeUserMission(Long userMissionId, String code) {
+        UserMission userMission = userMissionRepository.findById(userMissionId)
+                .orElseThrow(() -> new UserMissionHandler(ErrorStatus.USER_MISSION_NOT_FOUND));
+
+        if (!userMission.getStatus().equals(UserMissionStatus.INPROGRESS)) {
+            throw new UserMissionHandler(ErrorStatus.UM_NOT_INPROGRESS);
+        }
+
+        if(!userMission.getCode().equals(code)) {
+            throw new UserMissionHandler(ErrorStatus.UM_CODE_INVALID);
+        }
+
+        userMission.updateStatus();
+
+        // 테스트용 updated_at을 위해서
+        userMissionRepository.saveAndFlush(userMission);
+
+        return userMission;
     }
 }

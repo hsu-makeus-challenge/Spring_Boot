@@ -1,5 +1,6 @@
 package umc.spring.web.dto.MissionDTO;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -13,5 +14,11 @@ public class MissionRequestDTO {
 
         @NotNull
         LocalDateTime deadline;
+    }
+
+    @Getter
+    public static class CompleteUserMissionDTO {
+        @NotBlank
+        String code;
     }
 }
