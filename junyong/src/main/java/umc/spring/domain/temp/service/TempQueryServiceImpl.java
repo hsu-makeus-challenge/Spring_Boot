@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import umc.spring.global.common.apiPayload.code.status.ErrorStatus;
-import umc.spring.global.common.apiPayload.exception.handler.TempHandler;
+import umc.spring.global.common.apiPayload.exception.handler.ErrorHandler;
 
 @Service
 @Slf4j
@@ -15,7 +15,7 @@ public class TempQueryServiceImpl implements TempQueryService {
     public void checkFlag(Integer flag) {
         if (flag == 1) {
             log.info("");
-            throw new TempHandler(ErrorStatus.TEMP_EXCEPTION);
+            throw new ErrorHandler(ErrorStatus.TEMP_EXCEPTION);
         }
     }
 }
