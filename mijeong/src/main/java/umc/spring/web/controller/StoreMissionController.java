@@ -19,7 +19,7 @@ import umc.spring.web.dto.storeMission.StoreMissionResponse;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/missions/{missionId}/stores/{storeId}")
+@RequestMapping("/api/missions/{missionId}/")
 public class StoreMissionController {
 
     private final StoreMissionCommandService storeMissionCommandService;
@@ -35,7 +35,7 @@ public class StoreMissionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "STORE4001", description = "아이디와 일치하는 가게가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "STORE4001", description = "아이디와 일치하는 가게가 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
-    @PostMapping
+    @PostMapping("/stores/{storeId}")
     public ApiResponse<StoreMissionResponse.StoreMissionCreateResultDto> postStoreMissionByMission(
             @Parameter(description = "미션 아이디", example = "1", required = true)
             @PathVariable @ExistMission Long missionId,

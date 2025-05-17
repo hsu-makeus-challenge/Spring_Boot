@@ -26,4 +26,5 @@ public class ReviewRequest {
         @Schema(description = "리뷰 이미지 URL 리스트")
         private List<String> reviewImages;
     }
+
 }
