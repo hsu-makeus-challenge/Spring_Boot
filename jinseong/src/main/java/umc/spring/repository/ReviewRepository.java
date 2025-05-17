@@ -15,7 +15,7 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findAllByStore(Store store, PageRequest pageRequest);
 
-    Page<Review> findAllByUser(User user, PageRequest pageRequest);
+    // Page<Review> findAllByUser(User user, PageRequest pageRequest);
 
     // 1. 먼저 ID만 페이징해서 조회
     @Query("SELECT r.id FROM Review r WHERE r.user = :user")
