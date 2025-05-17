@@ -41,6 +41,10 @@ public enum ErrorStatus implements BaseErrorCode {
     STORE_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "SM4001", "해당 가게 미션이 없습니다."),
     USER_MISSION_ALREADY_EXISTS(HttpStatus.CONFLICT, "UM4001", "이미 도전 중인 미션입니다."),
 
+    // 페이지 관련
+    PAGE_EMPTY(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지 번호가 비어있습니다."),
+    PAGE_INVALID(HttpStatus.BAD_REQUEST, "PAGE4002", "페이지 번호는 1 이상이어야 합니다."),
+
     ;
 
 
