@@ -54,7 +54,7 @@ public class ReviewConverter {
     }
 
     // 유저 리뷰 조회 관련 컨버터
-    public static ReviewResponse.UserReviewPreViewDto toUserReviewPreViewDto(Review review, String ownerNickName){
+    public static ReviewResponse.UserReviewPreViewDto toUserReviewPreViewDto(Review review){
         return ReviewResponse.UserReviewPreViewDto.builder()
                 .reviewId(review.getId())
                 .score(review.getReviewRating().floatValue())
@@ -65,7 +65,6 @@ public class ReviewConverter {
                                 .toList()
                 )
                 .createdAt(review.getCreatedAt().toLocalDate())
-                .ownerNickName(ownerNickName)
                 .build();
     }
 
@@ -73,7 +72,7 @@ public class ReviewConverter {
     public static ReviewResponse.UserReviewPreViewListDto toUserReviewPreViewListDto(Page<Review> userReviewPage, String ownerNickName) {
         // Review 리스트를 ReviewPreViewDTO 리스트로 변환
         List<ReviewResponse.UserReviewPreViewDto> reviewList = userReviewPage.stream()
-                .map(review -> toUserReviewPreViewDto(review, ownerNickName))
+                .map(ReviewConverter::toUserReviewPreViewDto)
                 .toList();
 
         return ReviewResponse.UserReviewPreViewListDto.builder()
@@ -83,6 +82,7 @@ public class ReviewConverter {
                 .totalElements(userReviewPage.getTotalElements())
                 .listSize(reviewList.size())
                 .reviewList(reviewList)
+                .ownerNickName(ownerNickName)
                 .build();
     }
 }

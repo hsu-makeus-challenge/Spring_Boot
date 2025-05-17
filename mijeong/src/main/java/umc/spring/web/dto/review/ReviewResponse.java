@@ -92,6 +92,9 @@ public class ReviewResponse {
 
         @Schema(description = "페이지 마지막 여부", example = "false")
         Boolean isLast;
+
+        @Schema(description = "리뷰 작성자 닉네임", example = "1")
+        String ownerNickName;
     }
 
     @Builder
@@ -102,9 +105,6 @@ public class ReviewResponse {
     public static class UserReviewPreViewDto{
         @Schema(description = "리뷰 아이디", example = "1")
         Long reviewId;
-
-        @Schema(description = "리뷰 작성자 닉네임", example = "1")
-        String ownerNickName;
 
         @Schema(description = "리뷰 평점", example = "4.5")
         Float score;

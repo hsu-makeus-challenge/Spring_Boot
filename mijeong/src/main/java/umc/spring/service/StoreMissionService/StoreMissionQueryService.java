@@ -1,6 +1,7 @@
 package umc.spring.service.StoreMissionService;
 
 import umc.spring.domain.mapping.StoreMission;
+import umc.spring.web.dto.storeMission.StoreMissionResponse;
 
 public interface StoreMissionQueryService {
 
@@ -12,4 +13,7 @@ public interface StoreMissionQueryService {
 
     // 가게 미션 반환
     StoreMission validateStoreMission(Long storeMissionId);
+
+    // 가게의 미션 목록을 페이지네이션으로 조회
+    StoreMissionResponse.StoreMissionInfoListDto findStoreMissionPage(Long storeId, Integer page);
 }
