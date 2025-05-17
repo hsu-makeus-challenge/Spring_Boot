@@ -10,6 +10,7 @@ import umc.spring.domain.enums.MissionStatus;
 
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

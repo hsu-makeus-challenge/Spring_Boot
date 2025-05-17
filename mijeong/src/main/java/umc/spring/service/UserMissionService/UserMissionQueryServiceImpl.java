@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.spring.apiPayload.code.status.ErrorStatus;
+import umc.spring.apiPayload.exception.handler.ErrorHandler;
 import umc.spring.converter.UserMissionConverter;
 import umc.spring.domain.User;
 import umc.spring.domain.enums.MissionStatus;
@@ -60,4 +62,16 @@ public class UserMissionQueryServiceImpl implements UserMissionQueryService {
         return userMissionRepository.existsByStoreMissionIdAndUserId(storeMissionId, userId);
     }
 
+    // UserMission 존재 여부 검증
+    @Override
+    public Boolean existsUserMissionById(Long userMissionId) {
+        return userMissionRepository.findById(userMissionId).isPresent();
+    }
+
+    // 유저 미션 반환
+    @Override
+    public UserMission validateUserMission(Long userMissionId) {
+        return userMissionRepository.findById(userMissionId)
+                .orElseThrow(() -> new ErrorHandler(ErrorStatus.USER_MISSION_NOT_FOUND));
+    }
 }

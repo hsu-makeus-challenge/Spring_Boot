@@ -1,6 +1,7 @@
 package umc.spring.service.UserMissionService;
 
 import umc.spring.domain.enums.MissionStatus;
+import umc.spring.domain.mapping.UserMission;
 import umc.spring.web.dto.userMission.UserMissionResponse;
 
 public interface UserMissionQueryService {
@@ -12,4 +13,10 @@ public interface UserMissionQueryService {
 
     // 가게 미션 아이디와 유저 아이디를 통해 UserStoreMission 존재 여부 검증
     Boolean existsUserStoreMissionByStoreMissionIdAndUserId(Long storeMissionId, Long userId);
+
+    // UserMission 존재 여부 검증
+    Boolean existsUserMissionById(Long userMissionId);
+
+    // 유저 미션 반환
+    UserMission validateUserMission(Long userMissionId);
 }
