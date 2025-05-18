@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.domain.region.data.Region;
 import umc.spring.domain.region.validation.annotation.RegionEntity;
@@ -22,6 +23,7 @@ import umc.spring.domain.store.web.dto.StoreResponseDTO;
 import umc.spring.global.common.apiPayload.ApiResponse;
 import umc.spring.global.common.validation.annotation.PageValid;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/stores")

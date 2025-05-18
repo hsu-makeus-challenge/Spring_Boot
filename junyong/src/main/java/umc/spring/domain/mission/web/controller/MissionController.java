@@ -10,7 +10,7 @@ import umc.spring.domain.member.service.MemberMissionCommandService;
 import umc.spring.domain.mission.converter.MissionConverter;
 import umc.spring.domain.mission.data.Mission;
 import umc.spring.domain.mission.service.MissionCommandService;
-import umc.spring.domain.mission.validation.annotation.MemberMissionExist;
+import umc.spring.domain.mission.validation.annotation.MemberMissionExistByMission;
 import umc.spring.domain.mission.web.dto.MissionRequestDTO;
 import umc.spring.domain.mission.web.dto.MissionResponseDTO;
 import umc.spring.domain.store.validation.annotation.ExistStore;
@@ -35,7 +35,7 @@ public class MissionController {
     }
 
     @PostMapping("/{missionId}")
-    public ApiResponse<MissionResponseDTO.ChallengeResultDto> challengeMission(@PathVariable @MemberMissionExist Long missionId) {
+    public ApiResponse<MissionResponseDTO.ChallengeResultDto> challengeMission(@PathVariable @MemberMissionExistByMission Long missionId) {
         MemberMission memberMission = memberMissionCommandService.challengeMission(missionId);
         return ApiResponse.onSuccess(SuccessStatus.MISSION_CHALLENGE, MemberMissionConverter.toChallengeResultDto(memberMission));
     }

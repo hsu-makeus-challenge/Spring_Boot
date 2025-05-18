@@ -9,6 +9,7 @@ import umc.spring.domain.mission.data.enums.MissionStatus;
 import umc.spring.domain.mission.web.dto.MissionResponseDTO;
 import umc.spring.global.common.converter.PageConverter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -56,6 +57,14 @@ public class MemberMissionConverter {
         return MemberResponseDTO.MissionListDto.builder()
                 .missionList(missionDtoList)
                 .pageInfo(PageConverter.pageToListPageDto(memberMissionList))
+                .build();
+    }
+
+    public static MemberResponseDTO.CompleteDto toCompleteDto(MemberMission memberMission) {
+        return MemberResponseDTO.CompleteDto.builder()
+                .memberMissionId(memberMission.getId())
+                .missionId(memberMission.getMission().getId())
+                .completedAt(LocalDateTime.now())
                 .build();
     }
 

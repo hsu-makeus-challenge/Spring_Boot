@@ -36,6 +36,12 @@ public enum ErrorStatus implements BaseErrorCode {
     MISSION_BAD_DEADLINE(HttpStatus.BAD_REQUEST, "MISSION4002", "올바르지 않은 날짜 형식입니다 yyyy-mm-dd"),
     MISSION_CHALLENGING(HttpStatus.BAD_REQUEST, "MISSION4003", "이미 도전한 미션입니다."),
 
+    MISSION_INVALID_CONFIRM_NUMBER(HttpStatus.BAD_REQUEST, "MISSION4004", "확인 번호가 올바르지 않습니다"),
+    MISSION_EXPIRED(HttpStatus.BAD_REQUEST, "MISSION4005", "마감기한이 지난 미션입니다"),
+    MISSION_COMPLETED_MISSION(HttpStatus.BAD_REQUEST, "MISSION4006", "이미 성공한 미션입니다"),
+    MISSION_FAILED_MISSION(HttpStatus.BAD_REQUEST, "MISSION4007", "실패한 미션입니다"),
+    MISSION_NOT_CHALLENGING(HttpStatus.BAD_REQUEST, "MISSION4008", "도전중인 미션이 아닙니다"),
+
     // EX
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글 없음"),
 

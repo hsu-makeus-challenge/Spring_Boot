@@ -28,4 +28,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
                     "where mm.member = :member and mm.status = :status")
     Page<MemberMission> findByMemberAndStatus(@Param("member")Member member, @Param("status") MissionStatus status, PageRequest pageRequest);
 
+    MemberMission findByIdAndMember(Long id, Member member);
+
 }

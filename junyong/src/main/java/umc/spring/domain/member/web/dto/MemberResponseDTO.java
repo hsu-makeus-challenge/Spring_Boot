@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import umc.spring.domain.mission.data.Mission;
 import umc.spring.global.common.dto.PageDTO;
 
 import java.time.LocalDate;
@@ -51,5 +50,14 @@ public class MemberResponseDTO {
         LocalDate deadLine;
         String status;
     }
+
+    @Builder
+    @Getter
+    public static class CompleteDto{
+        Long memberMissionId;
+        Long missionId;
+        LocalDateTime completedAt;
+    }
+
 
 }
