@@ -10,7 +10,7 @@ import umc.spring.domain.store.entity.Review;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
   @Modifying(clearAutomatically = true)
   @Query("DELETE FROM Review r WHERE r.memberId = :memberId")
-  void deleteByMemberId(Long memberId);
+  void deleteByMemberId(@Param("memberId") Long memberId);
 
   boolean existsByMemberId(Long memberId);
 
