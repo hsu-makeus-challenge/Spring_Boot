@@ -1,10 +1,13 @@
 package umc.spring.domain.store.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import umc.spring.domain.member.entity.Member;
 import umc.spring.domain.member.exception.MemberHandler;
 import umc.spring.domain.member.exception.status.MemberErrorStatus;
 import umc.spring.domain.member.repository.MemberRepository;
@@ -28,16 +31,25 @@ public class ReviewServiceImpl implements ReviewService {
   @Transactional
   public Review createReview(Long memberId, ReviewRequestDto request, Long storeId) {
 
-    memberRepository
-        .findById(memberId)
-        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
+    Member member =
+        memberRepository
+            .findById(memberId)
+            .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
     Store store = storeRepository.findById(storeId).get();
 
-    Review review = StoreConverter.toReview(request, storeId, memberId);
+    Review review = StoreConverter.toReview(request, storeId, member);
     review = reviewRepository.save(review);
 
     Float newAverageScore = reviewRepository.calculateAverageScore(storeId);
     store.updateScore(newAverageScore);
     return review;
+  }
+
+  @Override
+  public Page<Review> getReviewList(Long memberId, Long storeId, Integer page) {
+    memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
+    return reviewRepository.findAllByStoreId(storeId, PageRequest.of(page, 10));
   }
 }
