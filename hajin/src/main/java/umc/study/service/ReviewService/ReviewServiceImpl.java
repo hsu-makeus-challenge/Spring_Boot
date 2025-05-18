@@ -28,7 +28,8 @@ public class ReviewServiceImpl implements ReviewService{
         Store store = storeRepository.getReferenceById(storeId);
         // 리뷰 생성
         Review review = ReviewConverter.toReview(user,request);
-        review.setUser(user); // 사용자 정보 매핑
+        review.setUser(user); // 사용자 정보 매핑 , 근데 위에서 user을 한번 넣어서 필요 없는거 같기도 한데
+        // 물어보기
 
         review.setStore(store);
         store.addReview(review);
