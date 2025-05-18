@@ -8,6 +8,8 @@ import umc.study.domain.Users;
 import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.MissionStatus;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Builder
@@ -20,6 +22,8 @@ public class UserMission extends BaseEntity {
     private Long id;
 
     private int confirmNumber;
+
+    private LocalDate deadline;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

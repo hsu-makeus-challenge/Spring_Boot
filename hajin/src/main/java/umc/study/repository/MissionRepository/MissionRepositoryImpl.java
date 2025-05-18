@@ -57,17 +57,15 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
     public List<Mission> missionsByRegion(Long regionId) {
         QMission mission = QMission.mission;
         QStore store = QStore.store;
-        QRegion region = QRegion.region;
+
 
         return queryFactory
                 .select(mission)
                 .from(mission)
                 .join(mission.store, store).fetchJoin()
-                .join(mission.region, region).fetchJoin()
                 .where(
-                        region.id.eq(regionId),
-                        mission.startDate.loe(LocalDate.now()),
-                        mission.endDate.goe(LocalDate.now())
+                        mission.startDate.loe(LocalDate.now().atStartOfDay()),
+                        mission.endDate.goe(LocalDate.now().atTime(23, 59, 59))
                 )
                 .orderBy(
                         mission.endDate.asc(),
