@@ -23,5 +23,11 @@ public class TempResponse {
         Integer flag;
     }
 
+    @Builder
+    @Getter
+    public static class TempMissionDto{
+
+    }
+
 }
 

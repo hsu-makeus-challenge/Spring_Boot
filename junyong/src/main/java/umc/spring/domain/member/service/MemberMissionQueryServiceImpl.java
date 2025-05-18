@@ -1,11 +1,16 @@
 package umc.spring.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.member.data.Member;
+import umc.spring.domain.member.data.mapping.MemberMission;
 import umc.spring.domain.member.repository.memberMission.MemberMissionRepository;
 import umc.spring.domain.mission.data.Mission;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,4 +23,6 @@ public class MemberMissionQueryServiceImpl implements MemberMissionQueryService 
     public boolean isExistByMemberAndMission(Member member, Mission mission) {
         return memberMissionRepository.findByMissionAndMember(mission, member).orElse(null) == null;
     }
+
+
 }
