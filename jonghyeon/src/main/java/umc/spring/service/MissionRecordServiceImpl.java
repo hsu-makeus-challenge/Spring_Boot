@@ -25,13 +25,14 @@ public class MissionRecordServiceImpl implements MissionRecoredService {
     @Override
     public MissionRecord addMissionRecord(
             MissionRecordRequestDTO.addMissionRecordResultDTO request,
-            Long missionId) {
+            Long missionId,
+            Long userId) {
 
         Mission mission = missionRepository.findById(missionId)
-                .orElseThrow(() -> new RuntimeException("해당 미션를 찾을 수 없습니다"));
+                .orElseThrow();
 
-        User user = userRepository.findById(1L) // ✅ 실제 저장된 유저 ID
-                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다"));
+        User user = userRepository.findById(userId)
+                .orElseThrow();
 
         MissionRecord newMissionRecord = MissionRecordConverter.toMissionRecord(request , user, mission);
 

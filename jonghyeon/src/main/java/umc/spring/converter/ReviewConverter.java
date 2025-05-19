@@ -40,4 +40,12 @@ public class ReviewConverter {
         return review;
     }
 
+    public static ReviewResponseDTO.MyReviewListDTO myReviewListDTO(List<Review> reviewList){
+        return null;
+    }
+
+    public static ReviewResponseDTO.MyReviewDTO myReviewDTO(Review review){
+        return null;
+    }
+
 }

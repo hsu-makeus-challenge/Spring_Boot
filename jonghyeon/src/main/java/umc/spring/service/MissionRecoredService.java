@@ -7,5 +7,5 @@ import umc.spring.web.dto.MissionRecordRequestDTO;
 public interface MissionRecoredService {
 
 
-     MissionRecord addMissionRecord(MissionRecordRequestDTO.addMissionRecordResultDTO request, Long missionId);
+     MissionRecord addMissionRecord(MissionRecordRequestDTO.addMissionRecordResultDTO request, Long missionId,Long userId);
 }
