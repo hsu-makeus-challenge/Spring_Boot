@@ -26,7 +26,6 @@ public class Mission extends BaseEntity{
     @Column(nullable = false, length = 255)
     private String content;
 
-    @ColumnDefault("''")
     private LocalDateTime deadline;
 
     @Builder.Default
