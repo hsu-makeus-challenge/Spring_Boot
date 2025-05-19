@@ -21,9 +21,8 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Review save(Long userId, Long storeId, ReviewRequestDTO.ReviewDto request) {
-        // 사용자 조회, 1번 사용자만 리뷰 작성
-        Users user = userRepository.findAll().stream().findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No users available"));
+
+        Users user = userRepository.getReferenceById(Math.toIntExact(userId));
 
         Store store = storeRepository.getReferenceById(storeId);
         // 리뷰 생성
