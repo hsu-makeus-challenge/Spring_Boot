@@ -1,5 +1,6 @@
 package umc.spring.converter;
 
+import org.springframework.data.domain.Page;
 import umc.spring.domain.Review;
 import umc.spring.domain.ReviewImage;
 import umc.spring.domain.Store;
@@ -40,12 +41,24 @@ public class ReviewConverter {
         return review;
     }
 
-    public static ReviewResponseDTO.MyReviewListDTO myReviewListDTO(List<Review> reviewList){
-        return null;
+    public static ReviewResponseDTO.MyReviewListDTO toMyReviewListDTO(Page<Review> reviewList) {
+        return ReviewResponseDTO.MyReviewListDTO.builder()
+                .reviewList(reviewList.getContent().stream().map(ReviewConverter::toMyReviewDTO).toList())
+                .listSize(reviewList.getSize())
+                .totalPage(reviewList.getTotalPages())
+                .totalElements(reviewList.getTotalElements())
+                .isFirst(reviewList.isFirst())
+                .isLast(reviewList.isLast())
+                .build();
+
     }
 
-    public static ReviewResponseDTO.MyReviewDTO myReviewDTO(Review review){
-        return null;
+    public static ReviewResponseDTO.MyReviewDTO toMyReviewDTO(Review review){
+        return ReviewResponseDTO.MyReviewDTO.builder()
+                .content(review.getContent())
+                .score(review.getScore())
+                .createdAt(review.getCreatedAt())
+                .build();
     }
 
 }
