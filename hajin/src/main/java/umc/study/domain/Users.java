@@ -82,4 +82,9 @@ public class Users extends BaseEntity {
     private List<UserMission> userMissionList  = new ArrayList<>();
 
     //CascadeType.All -> User의 변화에 따라 Review, FoodPreference 등의 entity가 영향을 받는다.
+
+    public void addUserMission(UserMission usermission) {
+        this.userMissionList.add(usermission);
+        usermission.setUser(this); // 연관 관계 동기화
+    }
 }

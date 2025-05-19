@@ -43,4 +43,9 @@ public class Mission extends BaseEntity {
     public void setStore(Store store) {
         this.store = store;
     }
+    public void addUserMission(UserMission userMission) {
+        this.UserMissionList.add(userMission);
+        userMission.setMission(this); // 연관 관계 동기화
+    }
+
 }
