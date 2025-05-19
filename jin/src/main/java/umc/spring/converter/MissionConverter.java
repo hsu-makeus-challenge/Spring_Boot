@@ -9,7 +9,7 @@ public class MissionConverter {
 
     public static MissionResponseDTO.AddResultDTO toMissionResultDTO(Mission mission) {
         return MissionResponseDTO.AddResultDTO.builder()
-                .missionId(mission.getMission())
+                .missionId(mission.getId())
                 .createdAt(mission.getCreatedAt())
                 .isReviewed(mission.getIsReviewed())
                 .build();

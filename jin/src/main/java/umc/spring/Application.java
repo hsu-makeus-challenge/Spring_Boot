@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import umc.spring.service.MissionByUserService;
+import umc.spring.service.MissionService.MissionByUserQueryService;
 import umc.spring.service.ReviewService.ReviewCommandServiceImpl;
 import umc.spring.service.StoreService.StoreQueryService;
 import umc.spring.service.UserService.UserCommandService;
@@ -36,16 +36,13 @@ public class Application {
 					.forEach(System.out::println);
 
 			// MissionByUserService 테스트
-			MissionByUserService missionService = context.getBean(MissionByUserService.class);
+			MissionByUserQueryService missionService = context.getBean(MissionByUserQueryService.class);
 			Long userNo = 1L;
 			Boolean isCompleted = true;
 
 			System.out.println("\nExecuting findMissionByUserIsCompleted with parameters:");
 			System.out.println("UserNo: " + userNo);
 			System.out.println("isCompleted: " + isCompleted);
-
-			missionService.findMissionByUserIsCompleted(userNo, isCompleted)
-					.forEach(System.out::println);
 
 			// ReviewService 테스트 (리뷰 insert)
 			ReviewCommandServiceImpl reviewCommandServiceImpl = context.getBean(ReviewCommandServiceImpl.class);

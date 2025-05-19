@@ -18,4 +18,12 @@ public class MissionResponseDTO {
         LocalDateTime createdAt;
         Boolean isReviewed;
     }
+
+    @Builder
+    @Getter
+    public static class ChallengeResultDTO{
+        Long missionId;
+        Long userId;
+        LocalDateTime createdAt;
+    }
 }
