@@ -112,7 +112,7 @@ public class UserController {
 
     @Operation(
             summary = "미션 성공 누르기",
-            description = "미션 성공 처리 API입니다. status에 SUCCEED를 입력해 주세요."
+            description = "진행중인 미션을 성공으로 처리하는 API입니다. status에 SUCCEED를 입력해 주세요."
     )
     @Parameters({
             @Parameter(name = "userId", description = "유저 ID", example = "1", required = true),
@@ -126,7 +126,7 @@ public class UserController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USR_MISSION4001", description = "아이디와 일치하는 유저 미션이 없습니다.", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USR_MISSION4003", description = "진행중인 미션이 아닙니다", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
-    @PostMapping("/{userId}/userMission/{userMissionId}")
+    @PatchMapping("/{userId}/userMission/{userMissionId}")
     public ApiResponse<UserMissionResponse.UserMissionResultDto> patchUserMissionByStatus(@PathVariable @ExistUser Long userId,
                                                                                           @PathVariable @ExistUserMission Long userMissionId,
                                                                                           @RequestParam(name = "status") MissionStatus status
