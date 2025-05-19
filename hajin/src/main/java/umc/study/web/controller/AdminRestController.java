@@ -17,7 +17,6 @@ import umc.study.web.dto.MissionResponseDTO;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@Validated
 @RequestMapping("/admin")
 public class AdminRestController {
 
