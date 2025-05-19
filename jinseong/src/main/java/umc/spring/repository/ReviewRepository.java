@@ -3,6 +3,7 @@ package umc.spring.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +25,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // 2. 조회된 ID로 페치 조인 수행
     @Query("SELECT r FROM Review r LEFT JOIN FETCH r.reviewImageList WHERE r.id IN :ids")
     List<Review> findReviewsByIdWithImages(@Param("ids") List<Long> ids);
+
+    @Query("SELECT r FROM Review r WHERE r.store = :store")
+    Slice<Review> findReviewSliceByStore(@Param("store") Store store, PageRequest of);
 }

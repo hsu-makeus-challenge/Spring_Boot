@@ -1,10 +1,7 @@
 package umc.spring.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
@@ -83,5 +80,14 @@ public class StoreQueryServiceImpl implements StoreQueryService {
         List<StoreMission> storeMissions = storeMissionRepository.findStoreMissionsByIdWithMissions(storeMissionIds);
 
         return new PageImpl<>(storeMissions, pageable, storeMissionIdPage.getTotalElements());
+    }
+
+    @Override
+    public Slice<Review> getReviewListSlice(Long storeId, Integer page) {
+        Store store = storeRepository.findById(storeId).get();
+
+        Slice<Review> storePage = reviewRepository.findReviewSliceByStore(store, PageRequest.of(page, 10));
+
+        return storePage;
     }
 }

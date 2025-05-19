@@ -1,6 +1,7 @@
 package umc.spring.converter;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
 import umc.spring.domain.mapping.StoreMission;
@@ -78,6 +79,42 @@ import java.util.stream.Collectors;
                     .totalElements(storeMissionList.getTotalElements())
                     .listSize(storeMissionPreViewDTOList.size())
                     .storeMissionList(storeMissionPreViewDTOList)
+                    .build()
+                    ;
+        }
+
+        public static StoreResponseDTO.ReviewPreViewListSliceDTO reviewPreViewListSliceDTO(Slice<Review> reviewList) {
+            List<StoreResponseDTO.ReviewPreViewDTO> reviewPreViewDTOList = reviewList.stream()
+                    .map(StoreConverter::reviewPreViewDTO)
+                    .collect(Collectors.toList())
+                    ;
+
+
+            return StoreResponseDTO.ReviewPreViewListSliceDTO.builder()
+                    .reviewList(reviewPreViewDTOList)
+                    .listSize(reviewPreViewDTOList.size())
+                    .isFirst(reviewList.isFirst())
+                    .isLast(reviewList.isLast())
+                    .hasNext(reviewList.hasNext())
+                    .build()
+                    ;
+        }
+
+        public static StoreResponseDTO.ReviewPreViewListSliceDTO reviewPreViewListSliceWithForDTO(Slice<Review> reviewList) {
+            List<StoreResponseDTO.ReviewPreViewDTO> reviewPreViewDTOList = new ArrayList<>();
+
+            for (Review review : reviewList) {
+                StoreResponseDTO.ReviewPreViewDTO dto = StoreConverter.reviewPreViewDTO(review);
+                reviewPreViewDTOList.add(dto);
+            }
+
+
+            return StoreResponseDTO.ReviewPreViewListSliceDTO.builder()
+                    .reviewList(reviewPreViewDTOList)
+                    .listSize(reviewPreViewDTOList.size())
+                    .isFirst(reviewList.isFirst())
+                    .isLast(reviewList.isLast())
+                    .hasNext(reviewList.hasNext())
                     .build()
                     ;
         }

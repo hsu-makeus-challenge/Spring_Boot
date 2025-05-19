@@ -68,4 +68,16 @@ public class StoreResponseDTO {
         LocalDate deadline;
         LocalDate createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReviewPreViewListSliceDTO {
+        List<ReviewPreViewDTO> reviewList;
+        Integer listSize;
+        Boolean isFirst;
+        Boolean isLast;
+        Boolean hasNext;
+    }
 }
