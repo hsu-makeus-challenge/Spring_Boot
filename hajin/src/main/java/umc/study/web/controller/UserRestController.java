@@ -2,6 +2,7 @@ package umc.study.web.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.UserConverter;
@@ -11,7 +12,6 @@ import umc.study.domain.mapping.UserMission;
 import umc.study.service.UserService.UserCommandService;
 import umc.study.service.UserService.UserMissionService;
 import umc.study.validation.annotation.AlreadyJoinedMission;
-import umc.study.validation.annotation.ExistMission;
 import umc.study.web.dto.UserMissionRequestDTO;
 import umc.study.web.dto.UserMissionResponseDTO;
 import umc.study.web.dto.UserRequestDTO;
@@ -19,6 +19,7 @@ import umc.study.web.dto.UserResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/users")
 public class UserRestController {
 
