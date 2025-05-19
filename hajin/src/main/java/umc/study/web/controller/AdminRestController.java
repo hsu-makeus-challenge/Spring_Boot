@@ -4,6 +4,7 @@ package umc.study.web.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.MissionConverter;
@@ -16,6 +17,7 @@ import umc.study.web.dto.MissionResponseDTO;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/admin")
 public class AdminRestController {
 
