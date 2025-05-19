@@ -19,7 +19,9 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;
 
-    private Long regionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 
     @Column(nullable = false)
     private Integer ownerNum;
@@ -46,14 +48,8 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Mission> storeMissionList = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Store{" +
-                "id=" + storeId +
-                ", name='" + storeName + '\'' +
-                ", address='" + address + '\'' +
-                ", score=" + score +
-                ", region=" + (regionId != null ? regionId : "N/A") + // region의 이름 출력
-                '}';
+    // 연관관계 편의 메서드
+    public void assignRegion(Region region) {
+        this.region = region;
     }
 }

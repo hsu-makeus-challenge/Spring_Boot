@@ -11,10 +11,9 @@ import java.time.LocalDate;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
-    @Query("SELECT m FROM Mission m WHERE m.store.regionId = :regionId AND m.deadline >= :today")
-    Page<Mission> findAvailableMissionsByRegionId(
-            @Param("regionId") Long regionId,
-            @Param("today") LocalDate today,
-            Pageable pageable
-    );
+    @Query("SELECT m FROM Mission m WHERE m.store.region.regionId = :regionId AND m.deadline >= :today")
+    Page<Mission> findAvailableMissionsByRegionId(@Param("regionId") Long regionId,
+                                                  @Param("today") LocalDate today,
+                                                  Pageable pageable);
+
 }
