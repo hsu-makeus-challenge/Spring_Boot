@@ -2,23 +2,27 @@ package umc.spring.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import umc.spring.apiPayload.code.status.ErrorStatus;
+import umc.spring.apiPayload.exception.handler.StoreIdHandler;
 import umc.spring.domain.Store;
 import umc.spring.repository.StoreRepository.StoreRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class StoreQueryServiceImpl implements StoreQueryService {
 
     private final StoreRepository storeRepository;
 
+    public boolean existsById(Long storeId) {
+        return storeRepository.existsById(storeId);
+    }
+
     @Override
-    public Optional<Store> findStore(Long id) {
-        return storeRepository.findById(id);
+    public Store getStore(Long storeId) {
+        return storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreIdHandler(ErrorStatus.STORE_NOT_FOUND));
     }
 
     @Override
@@ -29,4 +33,6 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
         return filteredStores;
     }
+
 }
+

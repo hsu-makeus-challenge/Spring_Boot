@@ -16,6 +16,6 @@ public class MissionByUserQueryServiceImpl implements MissionByUserQueryService{
 
     @Override
     public boolean isMissionAlreadyChallenged(User user, Mission mission) {
-        return missionByUserRepository.existsByUserIdAndMissionId(user, mission);
+        return missionByUserRepository.existsByUserAndMission(user, mission);
     }
 }

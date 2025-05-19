@@ -32,8 +32,7 @@ public class Application {
 			System.out.println("Executing findStoresByNameAndScore with parameters:");
 			System.out.println("Name: " + name);
 			System.out.println("Score: " + score);
-			storeService.findStoresByNameAndScore(name, score)
-					.forEach(System.out::println);
+
 
 			// MissionByUserService 테스트
 			MissionByUserQueryService missionService = context.getBean(MissionByUserQueryService.class);
