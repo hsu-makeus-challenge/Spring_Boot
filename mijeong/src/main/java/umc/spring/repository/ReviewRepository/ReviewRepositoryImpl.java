@@ -20,7 +20,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     QReviewImage reviewImage = QReviewImage.reviewImage;
 
     @Override
-    public Page<Review> findAllByUserWithImage(User user, Pageable pageable) {
+    public Page<Review> findAllByUserWithImage(Long userId, Pageable pageable) {
         // 1. 정렬 조건 추출
         List<OrderSpecifier<?>> orders = QueryDSLUtil.getOrderSpecifiers(pageable, Review.class, "review");
 
@@ -28,7 +28,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         List<Long> reviewIds = queryFactory
                 .select(review.id)
                 .from(review)
-                .where(review.user.eq(user))
+                .where(review.user.id.eq(userId))
                 .orderBy(orders.toArray(new OrderSpecifier[0]))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -51,9 +51,46 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         Long count = queryFactory
                 .select(review.count())
                 .from(review)
-                .where(review.user.eq(user))
+                .where(review.user.id.eq(userId))
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, count != null ? count : 0L);
     }
+
+    @Override
+    public Slice<Review> findAllByUserWithImageAndSlice(Long userId, Pageable pageable) {
+        // 1. 정렬 조건 추출
+        List<OrderSpecifier<?>> orders = QueryDSLUtil.getOrderSpecifiers(pageable, Review.class, "review");
+
+        // 2. ID 목록 먼저 limit+1로 페이징 조회
+        List<Long> reviewIds = queryFactory
+                .select(review.id)
+                .from(review)
+                .where(review.user.id.eq(userId))
+                .orderBy(orders.toArray(new OrderSpecifier[0]))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1) // hasNext 판단을 위해 +1
+                .fetch();
+
+        boolean hasNext = reviewIds.size() > pageable.getPageSize();
+        if (hasNext) {
+            reviewIds.remove(reviewIds.size() - 1); // 초과된 1개 제거
+        }
+
+        if (reviewIds.isEmpty()) {
+            return new SliceImpl<>(List.of(), pageable, false);
+        }
+
+        // 3. ID 기반 fetch join 수행
+        List<Review> content = queryFactory
+                .selectFrom(review)
+                .leftJoin(review.reviewImageList, reviewImage).fetchJoin()
+                .where(review.id.in(reviewIds))
+                .orderBy(orders.toArray(new OrderSpecifier[0]))
+                .distinct()
+                .fetch();
+
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
 }

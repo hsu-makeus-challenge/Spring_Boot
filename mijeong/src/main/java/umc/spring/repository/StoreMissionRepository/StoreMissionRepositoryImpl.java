@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import umc.spring.config.QueryDSLUtil;
 import umc.spring.domain.QMission;
-import umc.spring.domain.Store;
 import umc.spring.domain.mapping.QStoreMission;
 import umc.spring.domain.mapping.StoreMission;
 
@@ -25,7 +24,7 @@ public class StoreMissionRepositoryImpl implements StoreMissionRepositoryCustom 
 
     // 가게의 미션 목록을 페이지네이션으로 조회
     @Override
-    public Page<StoreMission> findAllByStoreWithMission(Store store, Pageable pageable) {
+    public Page<StoreMission> findAllByStoreWithMission(Long storeId, Pageable pageable) {
         // 1. 정렬 조건 추출
         List<OrderSpecifier<?>> orders = QueryDSLUtil.getOrderSpecifiers(pageable, StoreMission.class, "storeMission");
 
@@ -33,7 +32,7 @@ public class StoreMissionRepositoryImpl implements StoreMissionRepositoryCustom 
         List<Long> storeMissionIds = queryFactory
                 .select(storeMission.id)
                 .from(storeMission)
-                .where(storeMission.store.eq(store))
+                .where(storeMission.store.id.eq(storeId))
                 .orderBy(orders.toArray(new OrderSpecifier[0]))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -47,7 +46,7 @@ public class StoreMissionRepositoryImpl implements StoreMissionRepositoryCustom 
         List<StoreMission> content = queryFactory
                 .selectFrom(storeMission)
                 .leftJoin(storeMission.mission, mission).fetchJoin()
-                .where(storeMission.id.in(storeMissionIds))
+                .where(storeMission.store.id.eq(storeId))
                 .orderBy(orders.toArray(new OrderSpecifier[0]))
                 .distinct()
                 .fetch();
@@ -56,9 +55,10 @@ public class StoreMissionRepositoryImpl implements StoreMissionRepositoryCustom 
         Long count = queryFactory
                 .select(storeMission.count())
                 .from(storeMission)
-                .where(storeMission.store.eq(store))
+                .where(storeMission.store.id.eq(storeId))
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, count != null ? count : 0L);
     }
+
 }

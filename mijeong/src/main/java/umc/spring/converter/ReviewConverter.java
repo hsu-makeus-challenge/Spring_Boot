@@ -1,12 +1,16 @@
 package umc.spring.converter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import umc.spring.domain.*;
 import umc.spring.web.dto.review.ReviewRequest;
 import umc.spring.web.dto.review.ReviewResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ReviewConverter {
 
     // createDto -> Review Entity
@@ -74,6 +78,61 @@ public class ReviewConverter {
         List<ReviewResponse.UserReviewPreViewDto> reviewList = userReviewPage.stream()
                 .map(ReviewConverter::toUserReviewPreViewDto)
                 .toList();
+
+        return ReviewResponse.UserReviewPreViewListDto.builder()
+                .isFirst(userReviewPage.isFirst())
+                .isLast(userReviewPage.isLast())
+                .totalPage(userReviewPage.getTotalPages())
+                .totalElements(userReviewPage.getTotalElements())
+                .listSize(reviewList.size())
+                .reviewList(reviewList)
+                .ownerNickName(ownerNickName)
+                .build();
+    }
+
+    // 유저 리뷰 목록 슬라이스 조회 관련 컨버터
+    public static ReviewResponse.UserReviewPreViewSliceDto toUserReviewPreViewSliceDto(Slice<Review> userReviewSlice, String ownerNickName) {
+        // Review 리스트를 ReviewPreViewDTO 리스트로 변환
+        List<ReviewResponse.UserReviewPreViewDto> reviewList = userReviewSlice.stream()
+                .map(ReviewConverter::toUserReviewPreViewDto)
+                .toList();
+
+        return ReviewResponse.UserReviewPreViewSliceDto.builder()
+                .reviewList(reviewList)
+                .listSize(reviewList.size())
+                .isFirst(userReviewSlice.isFirst())
+                .hasNext(userReviewSlice.isLast())
+                .ownerNickName(ownerNickName)
+                .build();
+    }
+
+
+    // 유저 리뷰 조회 관련 컨버터 - for
+    public static ReviewResponse.UserReviewPreViewDto toUserReviewPreViewDtoWithFor(Review review) {
+        List<String> imageUrls = new ArrayList<>();
+        for (ReviewImage image : review.getReviewImageList()) {
+            log.info("Mapping image URL for review ID {}: {}", review.getId(), image.getReviewImageUrl());
+            imageUrls.add(image.getReviewImageUrl());
+        }
+
+        return ReviewResponse.UserReviewPreViewDto.builder()
+                .reviewId(review.getId())
+                .score(review.getReviewRating().floatValue())
+                .content(review.getReviewContent())
+                .reviewImageList(imageUrls)
+                .createdAt(review.getCreatedAt().toLocalDate())
+                .build();
+    }
+
+    // 유저 리뷰 목록 조회 관련 컨버터 - for
+    public static ReviewResponse.UserReviewPreViewListDto toUserReviewPreViewListDtoWithFor(Page<Review> userReviewPage, String ownerNickName) {
+        List<ReviewResponse.UserReviewPreViewDto> reviewList = new ArrayList<>();
+
+        for (Review review : userReviewPage) {
+            log.info("Converting review with ID: {}", review.getId());
+            ReviewResponse.UserReviewPreViewDto dto = toUserReviewPreViewDtoWithFor(review);
+            reviewList.add(dto);
+        }
 
         return ReviewResponse.UserReviewPreViewListDto.builder()
                 .isFirst(userReviewPage.isFirst())

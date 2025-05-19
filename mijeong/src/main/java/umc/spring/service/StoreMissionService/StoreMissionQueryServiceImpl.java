@@ -58,7 +58,7 @@ public class StoreMissionQueryServiceImpl implements StoreMissionQueryService {
         Store store = storeQueryService.validateStore(storeId);
 
         // 페이지네이션으로 가게의 미션을 미션과 함께 조회
-        Page<StoreMission> storeMissionPage = storeMissionRepository.findAllByStoreWithMission(store, pageRequest(page));
+        Page<StoreMission> storeMissionPage = storeMissionRepository.findAllByStoreWithMission(storeId, pageRequest(page));
 
         return StoreMissionConverter.toStoreMissionInfoListDto(storeMissionPage, store.getStoreName());
     }
