@@ -50,7 +50,7 @@ public class MissionRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!"),
     })
-    public ApiResponse<MissionResponseDTO.storeMissionListDTO> getMyReviewList(
+    public ApiResponse<MissionResponseDTO.MissionListDTO> getMyReviewList(
             @ExistStore @PathVariable(name="storeId") Long storeId,
             @ExistPage @RequestParam(name = "page") Integer page
     ) {

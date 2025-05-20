@@ -11,20 +11,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
+import umc.spring.converter.MissionConveter;
+import umc.spring.domain.Mission;
 import umc.spring.domain.MissionRecord;
-import umc.spring.service.MissionRecoredService;
-import umc.spring.validation.ExistMission;
+import umc.spring.service.MissionRecordService;
 import umc.spring.validation.ExistPage;
 import umc.spring.validation.ExistUser;
 import umc.spring.web.dto.MissionRecordRequestDTO;
 import umc.spring.web.dto.MissionRecordResponseDTO;
+import umc.spring.web.dto.MissionResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionRecordRestController {
 
-    private final MissionRecoredService missionRecordService;
+    private final MissionRecordService missionRecordService;
 
     @PostMapping("/mission/{missionId}/missionRecords/{userId}")
     public ApiResponse<MissionRecordResponseDTO.MissionRecordResultDTO> addMissionRecord(
@@ -46,11 +48,11 @@ public class MissionRecordRestController {
     @Parameters({
             @Parameter(name = "userId", description = "유저 아이디, path variable 입니다!")
     })
-    public ApiResponse<MissionRecordResponseDTO.MissionRecordResultDTO> getMyMissionRecordList(
+    public ApiResponse<MissionResponseDTO.MissionListDTO> getMyMissionRecordList(
             @ExistUser @PathVariable Long userId,
             @ExistPage @RequestParam(name = "page") Integer page) {
 
-        Page<MissionRecord> missionRecordList = missionRecordService.getAllMissionByUserId(userId, page);
-        return ApiResponse.onSuccess(MissionRecordResponseDTO.toMissionRecordResultDTO(missionRecordList));
+        Page<Mission> missionList = missionRecordService.getInProgressMissionsByUserId(userId,page);
+        return ApiResponse.onSuccess(MissionConveter.toMissionListDTO(missionList));
     }
 }

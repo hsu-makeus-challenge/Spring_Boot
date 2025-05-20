@@ -36,8 +36,8 @@ public class MissionResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class storeMissionListDTO {
-        List<MissionDTO> storeMissionList;
+    public static class MissionListDTO {
+        List<MissionDTO> MissionList;
         int listSize;
         int totalPage;
         long totalElements;

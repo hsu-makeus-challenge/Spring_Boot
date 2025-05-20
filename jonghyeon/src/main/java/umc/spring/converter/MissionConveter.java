@@ -39,9 +39,9 @@ public class MissionConveter {
                 .build();
     }
 
-    public static MissionResponseDTO.storeMissionListDTO toMissionListDTO(Page<Mission> missionList) {
-        return MissionResponseDTO.storeMissionListDTO.builder()
-                .storeMissionList(missionList.getContent().stream()
+    public static MissionResponseDTO.MissionListDTO toMissionListDTO(Page<Mission> missionList) {
+        return MissionResponseDTO.MissionListDTO.builder()
+                .MissionList(missionList.getContent().stream()
                         .map(MissionConveter::toMissionDTO)
                         .toList())
                 .listSize(missionList.getSize())
