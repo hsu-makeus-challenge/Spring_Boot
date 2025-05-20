@@ -2,8 +2,11 @@ package umc.spring.domain.mission.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import lombok.Getter;
 import umc.spring.domain.mission.entity.Mission;
 
+@Getter
+@Builder
 @Schema(description = "미션 생성 응답 DTO")
 public class MissionCreateResponseDto {
   @Schema(description = "미션 ID", example = "1")
@@ -18,21 +21,15 @@ public class MissionCreateResponseDto {
   @Schema(description = "최소 구매 금액", example = "10000")
   private Integer minAmount;
 
+  private String storeName;
+
   public static MissionCreateResponseDto from(Mission mission) {
     return MissionCreateResponseDto.builder()
         .missionId(mission.getId())
         .description(mission.getDescription())
         .rewardPoint(mission.getRewardPoint())
         .minAmount(mission.getMinAmount())
+        .storeName(mission.getStore().getName())
         .build();
-  }
-
-  @Builder
-  public MissionCreateResponseDto(
-      Long missionId, String description, Integer rewardPoint, Integer minAmount) {
-    this.missionId = missionId;
-    this.description = description;
-    this.rewardPoint = rewardPoint;
-    this.minAmount = minAmount;
   }
 }

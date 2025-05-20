@@ -1,7 +1,9 @@
 package umc.spring.domain.mission.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,5 +85,25 @@ public class MissionServiceImpl implements MissionService {
             memberId, missionId, MissionStatus.PROGRESS);
     // true이면 "도전 가능"한 상태 → 유효성 검증 통과
     return !isAlreadyChallenging;
+  }
+
+  @Override
+  public Page<Mission> getMissionList(Long memberId, Long storeId, Integer page) {
+    memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
+
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdDate"));
+    return missionRepository.findAllByStore_Id(storeId, pageable);
+  }
+
+  @Override
+  public Page<MemberMission> getMyMissions(Long memberId, Integer page, MissionStatus status) {
+    memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
+
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdDate"));
+    return memberMissionRepository.findAllByMemberIdAndStatus(memberId, status, pageable);
   }
 }

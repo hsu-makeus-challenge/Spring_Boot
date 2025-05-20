@@ -21,4 +21,8 @@ public interface MissionService {
   MemberMission createChallenge(Long missionId, Long memberId);
 
   boolean checkMissionChallenge(Long memberId, Long missionId);
+
+  Page<Mission> getMissionList(Long memberId, Long storeId, Integer page);
+
+  Page<MemberMission> getMyMissions(Long memberId, Integer page, MissionStatus status);
 }

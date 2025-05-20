@@ -61,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
         .findById(memberId)
         .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
 
-    Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Direction.DESC, "createdDate"));
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdDate"));
     return reviewRepository.findAllByMemberId(memberId, pageable);
   }
 }

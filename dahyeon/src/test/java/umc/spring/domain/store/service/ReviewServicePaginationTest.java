@@ -89,7 +89,7 @@ class ReviewServicePaginationTest {
   @Test
   @DisplayName("1페이지 조회 시 10개 반환 및 isFirst == true")
   void testPageOne() {
-    Page<Review> page = reviewService.getMyReviewList(testMemberId, 1);
+    Page<Review> page = reviewService.getMyReviewList(testMemberId, 0);
 
     assertEquals(10, page.getContent().size());
     assertEquals(3, page.getTotalPages());
@@ -100,7 +100,7 @@ class ReviewServicePaginationTest {
   @Test
   @DisplayName("마지막 페이지 조회 시 isLast == true")
   void testLastPage() {
-    Page<Review> page = reviewService.getMyReviewList(testMemberId, 3);
+    Page<Review> page = reviewService.getMyReviewList(testMemberId, 2);
 
     assertEquals(10, page.getContent().size());
     assertTrue(page.isLast());
@@ -141,7 +141,7 @@ class ReviewServicePaginationTest {
             .collect(Collectors.toList());
 
     // when
-    Page<Review> result = reviewService.getMyReviewList(testMemberId, 1);
+    Page<Review> result = reviewService.getMyReviewList(testMemberId, 0);
     List<Review> reviews = result.getContent();
 
     // then
@@ -174,7 +174,7 @@ class ReviewServicePaginationTest {
                 .build());
 
     // when
-    Page<Review> result = reviewService.getMyReviewList(testMemberId, 1);
+    Page<Review> result = reviewService.getMyReviewList(testMemberId, 0);
     Review firstReview = result.getContent().get(0);
 
     // then
@@ -220,7 +220,7 @@ class ReviewServicePaginationTest {
             });
 
     // when
-    Page<Review> result = reviewService.getMyReviewList(testMemberId, 1);
+    Page<Review> result = reviewService.getMyReviewList(testMemberId, 0);
     List<Review> reviews = result.getContent();
 
     // then
@@ -252,7 +252,7 @@ class ReviewServicePaginationTest {
     }
 
     // when
-    Page<Review> result = reviewService.getMyReviewList(testMemberId, 1);
+    Page<Review> result = reviewService.getMyReviewList(testMemberId, 0);
     Review lastReviewOnFirstPage = result.getContent().get(9);
 
     // then
