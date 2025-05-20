@@ -2,6 +2,9 @@ package umc.study.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.Gender;
 import umc.study.domain.enums.SocialType;
@@ -17,6 +20,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate // update시 null인경우 쿼리를 보내지 않음
+@DynamicInsert // insert시 null인경우 쿼리를 보내지 않음
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자
 @AllArgsConstructor // 모든 매개변수 생성자
@@ -35,9 +40,12 @@ public class Users extends BaseEntity {
 
     private LocalDateTime birth;
 
+    private int age;
+
     @Column(nullable = false, length = 40)
     private String address;
 
+    @ColumnDefault("0")
     private int point;
 
     @Column(nullable = false, length = 40)
@@ -46,7 +54,7 @@ public class Users extends BaseEntity {
     @Column(nullable = false, length = 40)
     private String phone_number;
 
-    private boolean phoneCertification;
+    private boolean phone_certification;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'")
@@ -74,4 +82,9 @@ public class Users extends BaseEntity {
     private List<UserMission> userMissionList  = new ArrayList<>();
 
     //CascadeType.All -> User의 변화에 따라 Review, FoodPreference 등의 entity가 영향을 받는다.
+
+    public void addUserMission(UserMission usermission) {
+        this.userMissionList.add(usermission);
+        usermission.setUser(this); // 연관 관계 동기화
+    }
 }

@@ -3,6 +3,7 @@ package umc.study.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.study.domain.common.BaseEntity;
+import umc.study.validation.annotation.ExistStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,10 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "food_id")
     private Food food;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
+
     @OneToMany(mappedBy ="store", cascade = CascadeType.ALL)
     private List<Review> ReviewList = new ArrayList<>();
 
@@ -47,6 +52,16 @@ public class Store extends BaseEntity {
                 ", address='" + address + '\'' +
                 ", score=" + score +
                 '}';
+    }
+
+    public void addReview(Review review) {
+        this.ReviewList.add(review);
+        review.setStore(this); // 연관 관계 동기화
+    }
+
+    public void addMission(Mission mission) {
+        this.MissionList.add(mission);
+        mission.setStore(this); // 연관 관계 동기화
     }
 
 }
