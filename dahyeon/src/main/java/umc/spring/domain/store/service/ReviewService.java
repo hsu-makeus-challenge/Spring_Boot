@@ -11,4 +11,6 @@ public interface ReviewService {
   Review createReview(Long member, ReviewRequestDto request, Long storeId);
 
   Page<Review> getReviewList(Long memberId, Long storeId, Integer page);
+
+  Page<Review> getMyReviewList(Long memberId, Integer page);
 }

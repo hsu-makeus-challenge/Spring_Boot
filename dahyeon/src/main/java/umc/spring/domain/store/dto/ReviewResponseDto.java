@@ -67,6 +67,9 @@ public class ReviewResponseDto {
     @Schema(description = "리뷰 평점", example = "5.0")
     Float score;
 
+    @Schema(description = "가게 이름", example = "반야마라탕")
+    String storeName;
+
     @Schema(
         description = "리뷰 생성 시각 (ISO 8601 형식)",
         example = "2025-05-12T13:45:00",

@@ -40,6 +40,7 @@ public class StoreController {
   @GetMapping("/{storeId}/reviews")
   @Operation(summary = "가게 리뷰 조회(페이징 포함)", description = "특정 가게의 리뷰 데이터들을 조회합니다. 이때, 페이징을 포함합니다.")
   @Parameter(name = "storeId", description = "가게 Id, path variable 입니다.", example = "1")
+  @Parameter(name = "page", description = "페이지 번호 (0부터 시작하지 않고, 1부터 시작)", example = "1")
   public ApiResponse<ReviewResponseDto.ReviewPreViewListDto> getReviewList(
       @PathVariable(name = "storeId") @ExistStore Long storeId,
       @RequestParam(name = "page") @PageCheck Integer page) {

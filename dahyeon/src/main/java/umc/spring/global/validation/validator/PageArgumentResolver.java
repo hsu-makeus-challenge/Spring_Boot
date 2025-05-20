@@ -29,7 +29,6 @@ public class PageArgumentResolver implements HandlerMethodArgumentResolver {
       throws Exception {
 
     String param = webRequest.getParameter(parameter.getParameterName());
-    log.info(">>> PageArgumentResolver 실행됨. 값 = " + param);
 
     if (param == null) {
       throw new globalHandler(ErrorStatus.PAGE_IS_NULL);

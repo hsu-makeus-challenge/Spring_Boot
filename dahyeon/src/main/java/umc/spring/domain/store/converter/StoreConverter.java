@@ -9,11 +9,12 @@ import umc.spring.domain.member.entity.Member;
 import umc.spring.domain.store.dto.ReviewRequestDto;
 import umc.spring.domain.store.dto.ReviewResponseDto;
 import umc.spring.domain.store.entity.Review;
+import umc.spring.domain.store.entity.Store;
 
 public class StoreConverter {
-  public static Review toReview(ReviewRequestDto request, Long storeId, Member member) {
+  public static Review toReview(ReviewRequestDto request, Store store, Member member) {
     return Review.builder()
-        .storeId(storeId)
+        .store(store)
         .member(member)
         .score(request.getScore())
         .content(request.getContent())
@@ -29,6 +30,7 @@ public class StoreConverter {
 
   public static ReviewResponseDto.ReviewPreViewDto toReviewPreViewDto(Review review) {
     return ReviewResponseDto.ReviewPreViewDto.builder()
+        .storeName(review.getStore().getName())
         .nickname(review.getMember().getNickname())
         .score(review.getScore())
         .content(review.getContent())

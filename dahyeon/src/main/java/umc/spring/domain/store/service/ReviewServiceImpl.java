@@ -2,6 +2,8 @@ package umc.spring.domain.store.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +39,10 @@ public class ReviewServiceImpl implements ReviewService {
             .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
     Store store = storeRepository.findById(storeId).get();
 
-    Review review = StoreConverter.toReview(request, storeId, member);
+    Review review = StoreConverter.toReview(request, store, member);
     review = reviewRepository.save(review);
 
-    Float newAverageScore = reviewRepository.calculateAverageScore(storeId);
+    Float newAverageScore = reviewRepository.calculateAverageScore(store);
     store.updateScore(newAverageScore);
     return review;
   }
@@ -51,5 +53,15 @@ public class ReviewServiceImpl implements ReviewService {
         .findById(memberId)
         .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
     return reviewRepository.findAllByStoreId(storeId, PageRequest.of(page, 10));
+  }
+
+  @Override
+  public Page<Review> getMyReviewList(Long memberId, Integer page) {
+    memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new MemberHandler(MemberErrorStatus.MEMBER_NOT_FOUND));
+
+    Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Direction.DESC, "createdDate"));
+    return reviewRepository.findAllByMemberId(memberId, pageable);
   }
 }

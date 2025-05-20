@@ -79,7 +79,7 @@ public class StoreReviewIntegrationTest {
       reviewRepository.save(
           Review.builder()
               .member(savedMember)
-              .storeId(savedStore.getId())
+              .store(savedStore)
               .score(4.0f)
               .content("맛있어요! " + i)
               .build());
@@ -88,7 +88,7 @@ public class StoreReviewIntegrationTest {
       reviewRepository.save(
           Review.builder()
               .member(otherMember)
-              .storeId(savedStore.getId())
+              .store(savedStore)
               .score(4.0f)
               .content("맛있어요! " + i)
               .build());
@@ -110,7 +110,7 @@ public class StoreReviewIntegrationTest {
     assertThat(reviewPage.getTotalPages()).isEqualTo(2);
 
     Review review = reviewPage.getContent().get(0);
-    assertThat(review.getStoreId()).isEqualTo(savedStore.getId());
+    assertThat(review.getStore().getId()).isEqualTo(savedStore.getId());
     assertThat(review.getMember().getId()).isEqualTo(savedMember.getId());
   }
 
