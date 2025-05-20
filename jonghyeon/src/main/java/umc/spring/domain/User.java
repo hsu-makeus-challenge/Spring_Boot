@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Table(name = "user")
 public class User extends BaseEntity {
 
     @Column(nullable = false, length = 20)
