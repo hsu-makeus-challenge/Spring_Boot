@@ -6,10 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.StoreIdHandler;
+import umc.spring.apiPayload.exception.handler.UserIdHandler;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.domain.User;
 import umc.spring.repository.ReviewRepository.ReviewRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
+import umc.spring.repository.UserRepository;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
     public boolean existsById(Long storeId) {
         return storeRepository.existsById(storeId);
@@ -46,6 +50,16 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
         Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
         return StorePage;
+    }
+
+    @Override
+    public Page<Review> getMyReviewList(Long StoreId, Long UserId, Integer page){
+        Store store = storeRepository.findById(StoreId)
+                .orElseThrow(() -> new StoreIdHandler(ErrorStatus.STORE_NOT_FOUND));
+        User user = userRepository.findById(UserId)
+                .orElseThrow(() -> new UserIdHandler(ErrorStatus.USER_NOT_FOUND));
+        Page<Review> MyStoreReviewPage = reviewRepository.findAllByStoreAndUser(store, user, PageRequest.of(page, 10));
+        return MyStoreReviewPage;
     }
 
 }
