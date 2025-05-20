@@ -31,4 +31,12 @@ public class MissionRecordConverter {
                 .pointRecordList(new ArrayList<>())
                 .build();
     }
+
+    public static MissionRecordResponseDTO.MissionRecordUpdateDTO toMissionRecordUpdateDTO(MissionRecord missionRecord) {
+        return MissionRecordResponseDTO.MissionRecordUpdateDTO.builder()
+                .MissionRecordId(missionRecord.getId())
+                .status(missionRecord.getStatus())
+                .updatedAt(missionRecord.getUpdatedAt())
+                .build();
+    }
 }

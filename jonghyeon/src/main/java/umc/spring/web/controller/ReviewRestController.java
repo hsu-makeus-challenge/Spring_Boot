@@ -53,7 +53,7 @@ public class ReviewRestController {
     public ApiResponse<ReviewResponseDTO.MyReviewListDTO> getMyReviewList(
             @ExistStore @PathVariable(name="storeId") Long storeId,
             @ExistUser @PathVariable(name="userId") Long userId,
-            @ExistPage @RequestParam(name = "page") Integer page
+            @ExistPage Integer page
             ) {
         Page<Review> reviewList = storeReviewService.getMyReviewList(storeId, userId, page);
         return ApiResponse.onSuccess(ReviewConverter.toMyReviewListDTO(reviewList));

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.spring.domain.Mission;
+import umc.spring.domain.MissionRecord;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,18 @@ public class MissionRecordResponseDTO {
         Long MissionRecordId;
         LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionRecordUpdateDTO {
+        Long MissionRecordId;
+        MissionRecord.Status status;
+        LocalDateTime updatedAt;
+    }
+
+
 //    @Builder
 //    @Getter
 //    @NoArgsConstructor

@@ -27,4 +27,6 @@ public interface MissionRecordRepository extends JpaRepository<MissionRecord,Lon
     Page<Mission> findAllByUser(User user, PageRequest of);
 
     Optional<MissionRecord> findByUserId(Long userId);
+
+
 }

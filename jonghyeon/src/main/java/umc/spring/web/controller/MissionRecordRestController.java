@@ -15,6 +15,7 @@ import umc.spring.converter.MissionConveter;
 import umc.spring.domain.Mission;
 import umc.spring.domain.MissionRecord;
 import umc.spring.service.MissionRecordService;
+import umc.spring.validation.ExistMission;
 import umc.spring.validation.ExistPage;
 import umc.spring.validation.ExistUser;
 import umc.spring.web.dto.MissionRecordRequestDTO;
@@ -46,13 +47,35 @@ public class MissionRecordRestController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "MEMBER4001", description = "해당 유저가 없습니다",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
-            @Parameter(name = "userId", description = "유저 아이디, path variable 입니다!")
+            @Parameter(name = "userId", description = "유저 아이디, path variable 입니다!"),
+            @Parameter(name = "page", description = "페이지 번호, query String 입니다!")
     })
     public ApiResponse<MissionResponseDTO.MissionListDTO> getMyMissionRecordList(
             @ExistUser @PathVariable Long userId,
-            @ExistPage @RequestParam(name = "page") Integer page) {
+            @ExistPage Integer page) {
 
         Page<Mission> missionList = missionRecordService.getInProgressMissionsByUserId(userId,page);
         return ApiResponse.onSuccess(MissionConveter.toMissionListDTO(missionList));
     }
+
+    @PatchMapping("/mission/{missionRecordId}/user/{userId}")
+    @Operation(summary = "미션 기록 수정 API",description = "미션 기록을 수정하는 API입니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "MISSION4001", description = "해당 미션 기록이 없습니다",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @Parameters({
+            @Parameter(name = "missionRecordId", description = "미션 기록 아이디, path variable 입니다!"),
+            @Parameter(name = "userId", description = "유저 아이디, path variable 입니다!")
+    })
+    public ApiResponse<MissionRecordResponseDTO.MissionRecordUpdateDTO> updateMissionRecord(
+            @PathVariable Long missionRecordId,
+            @PathVariable Long userId) {
+
+        MissionRecordResponseDTO.MissionRecordUpdateDTO missionRecordUpdateDTO
+                = missionRecordService.updateMissionRecord(missionRecordId, userId, MissionRecord.Status.completed);
+        return ApiResponse.onSuccess(missionRecordUpdateDTO);
+    }
+
+
 }

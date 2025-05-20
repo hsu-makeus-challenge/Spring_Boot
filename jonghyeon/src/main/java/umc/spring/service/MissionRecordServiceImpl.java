@@ -16,6 +16,7 @@ import umc.spring.repository.MissionRepository.MissionRecordRepository;
 import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.repository.UserRepository;
 import umc.spring.web.dto.MissionRecordRequestDTO;
+import umc.spring.web.dto.MissionRecordResponseDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +55,23 @@ public class MissionRecordServiceImpl implements MissionRecordService {
                 pageable
         );
     }
+
+
+    @Transactional
+    @Override
+    public MissionRecordResponseDTO.MissionRecordUpdateDTO updateMissionRecord(Long missionRecordId, Long userId, MissionRecord.Status status) {
+        MissionRecord missionRecord = missionRecordRepository.findById(missionRecordId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MISSION_RECORD_NOT_FOUND));
+
+        if (!missionRecord.getUser().getId().equals(userId)) {
+            throw new GeneralException(ErrorStatus.MISSION_RECORD_NOT_FOUND);
+        }
+
+        missionRecord.setStatus(status);
+
+        return MissionRecordConverter.toMissionRecordUpdateDTO(missionRecord);
+    }
+
 //    @Override
 //    @Transactional(readOnly = true)
 //    public Page<Mission> getIsProgressMissionByUserId(Long userId, Integer page){

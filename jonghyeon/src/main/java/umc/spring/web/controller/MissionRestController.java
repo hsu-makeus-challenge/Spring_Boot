@@ -17,10 +17,8 @@ import umc.spring.domain.Mission;
 import umc.spring.service.MissionService;
 import umc.spring.validation.ExistPage;
 import umc.spring.validation.ExistStore;
-import umc.spring.validation.ExistUser;
 import umc.spring.web.dto.MissionRequestDTO;
 import umc.spring.web.dto.MissionResponseDTO;
-import umc.spring.web.dto.ReviewResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,7 +50,7 @@ public class MissionRestController {
     })
     public ApiResponse<MissionResponseDTO.MissionListDTO> getMyReviewList(
             @ExistStore @PathVariable(name="storeId") Long storeId,
-            @ExistPage @RequestParam(name = "page") Integer page
+            @ExistPage Integer page
     ) {
         Page<Mission> MissionList = missionService.getAllMissionsByStoreId(storeId, page);
         return ApiResponse.onSuccess(MissionConveter.toMissionListDTO(MissionList));

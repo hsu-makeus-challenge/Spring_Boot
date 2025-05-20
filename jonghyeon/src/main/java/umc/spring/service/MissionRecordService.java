@@ -5,11 +5,13 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.Mission;
 import umc.spring.domain.MissionRecord;
 import umc.spring.web.dto.MissionRecordRequestDTO;
+import umc.spring.web.dto.MissionRecordResponseDTO;
 
 public interface MissionRecordService {
 
      MissionRecord addMissionRecord(MissionRecordRequestDTO.addMissionRecordResultDTO request, Long missionId, Long userId);
 
      Page<Mission> getInProgressMissionsByUserId(Long userId, Integer page);
-     //Page<Mission> getIsProgressMissionByUserId(Long userId, Integer page);
+
+     MissionRecordResponseDTO.MissionRecordUpdateDTO updateMissionRecord(Long missionRecordId, Long userId, MissionRecord.Status status);
 }

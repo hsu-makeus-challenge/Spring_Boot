@@ -3,6 +3,7 @@ package umc.spring.apiPayload.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.ErrorHandler;
 import umc.spring.apiPayload.code.BaseErrorCode;
 import umc.spring.apiPayload.code.ErrorReasonDTO;
 
@@ -40,7 +41,13 @@ public enum ErrorStatus implements BaseErrorCode {
     // 페이징 에러
     PAGE_NOT_FOUND(HttpStatus.BAD_REQUEST, "PAGE4001", "페이지를 찾을 수 없습니다."),
     INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4002", "유효하지 않은 페이지입니다."),
-    MISSION_RECORD_NOT_FOUND(HttpStatus.BAD_REQUEST,"MISSIONRECORD4001", "유저의 미션 기록이 없습니다."),;
+    MISSION_RECORD_NOT_FOUND(HttpStatus.BAD_REQUEST,"MISSIONRECORD4001", "유저의 미션 기록이 없습니다."),
+
+    PAGE_NOT_NUMBER(HttpStatus.BAD_REQUEST, "PAGE4003", "페이지는 숫자여야 합니다."),
+    PAGE_ERROR(HttpStatus.BAD_REQUEST, "PAGE4004", "페이지 오류입니다."),
+    PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "PAGE4005", "페이지는 1보다 작을 수 없습니다.");
+
+
 
     private final HttpStatus httpStatus;
     private final String code;
