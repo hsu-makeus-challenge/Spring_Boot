@@ -18,6 +18,7 @@ public class Mission extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "mission")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,7 +1,10 @@
 package umc.spring.web.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.converter.MissionByUserConverter;
@@ -9,9 +12,8 @@ import umc.spring.converter.MissionConverter;
 import umc.spring.domain.Mission;
 import umc.spring.domain.mapping.MissionByUser;
 import umc.spring.service.MissionService.MissionByUserCommandServiceImpl;
-import umc.spring.service.MissionService.MissionByUserQueryService;
 import umc.spring.service.MissionService.MissionCommandService;
-import umc.spring.service.MissionService.MissionCommandServiceImpl;
+import umc.spring.service.MissionService.MissionQueryService;
 import umc.spring.validation.annotation.ExistStores;
 import umc.spring.validation.annotation.NotAlreadyChallenged;
 import umc.spring.web.dto.mission.MissionRequestDTO;
@@ -23,9 +25,8 @@ import umc.spring.web.dto.mission.MissionResponseDTO;
 public class MissionRestController{
 
     public final MissionCommandService missionCommandService;
-    private final MissionCommandServiceImpl missionCommandServiceImpl;
-    private final MissionByUserQueryService missionByUserQueryService;
     private final MissionByUserCommandServiceImpl missionByUserCommandServiceImpl;
+    private final MissionQueryService missionQueryService;
 
     @PostMapping
     public ApiResponse<MissionResponseDTO.AddResultDTO> addMission(
@@ -46,4 +47,14 @@ public class MissionRestController{
 
         return ApiResponse.onSuccess(MissionByUserConverter.toChallengeResultDTO(missionByUser));
     }
+
+    @GetMapping("/{storeId}/missions")
+    @Operation(summary = "특정 가게의 미션 목록 조회 API", description = "특정 가게에 등록된 미션 목록을 조회합니다.")
+    @Parameter(name = "storeId")
+    public ApiResponse<MissionResponseDTO.MissionPreViewListDto> getMissionList
+            (@ExistStores @PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page) {
+        Page<Mission> missionList = missionQueryService.getMissionList(storeId, page);
+        return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
+    }
+
 }
