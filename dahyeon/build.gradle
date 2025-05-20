@@ -57,6 +57,7 @@ dependencies {
 
 tasks.withType(JavaCompile).configureEach {
 	options.annotationProcessorGeneratedSourcesDirectory = file(generated)
+	options.compilerArgs += '-parameters'
 }
 
 spotless {

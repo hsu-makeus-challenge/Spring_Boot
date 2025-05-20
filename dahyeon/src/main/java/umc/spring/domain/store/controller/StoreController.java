@@ -17,6 +17,7 @@ import umc.spring.domain.store.entity.Review;
 import umc.spring.domain.store.service.ReviewService;
 import umc.spring.domain.store.validation.annotation.ExistStore;
 import umc.spring.global.apiPayload.ApiResponse;
+import umc.spring.global.validation.annotation.PageCheck;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class StoreController {
   @Parameter(name = "storeId", description = "가게 Id, path variable 입니다.", example = "1")
   public ApiResponse<ReviewResponseDto.ReviewPreViewListDto> getReviewList(
       @PathVariable(name = "storeId") @ExistStore Long storeId,
-      @RequestParam(name = "page") Integer page) {
+      @RequestParam(name = "page") @PageCheck Integer page) {
     Long memberId = 1L;
     Page<Review> reviewList = reviewServiceImpl.getReviewList(memberId, storeId, page);
     return ApiResponse.onSuccess(StoreConverter.toReviewPreViewListDto(reviewList));
