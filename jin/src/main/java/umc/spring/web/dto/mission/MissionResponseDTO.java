@@ -53,4 +53,6 @@ public class MissionResponseDTO {
         Integer point;
         Boolean isReviewed;
     }
+
+
 }
