@@ -39,4 +39,3 @@ public class PageArgumentResolver implements HandlerMethodArgumentResolver {
         return page - 1;
     }
 }
-PageImpl
