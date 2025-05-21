@@ -29,4 +29,13 @@ public class UserMissionConverter {
                 .createdAt(LocalDateTime.now())
                 .build();
     }
+
+    public static MissionResponseDTO.CompleteUserMissionResultDTO completeUserMissionResultDTO(UserMission userMission) {
+        return MissionResponseDTO.CompleteUserMissionResultDTO.builder()
+                .userMissionId(userMission.getId())
+                .status(userMission.getStatus())
+                .updatedAt(userMission.getUpdatedAt().toLocalDate())
+                .build()
+                ;
+    }
 }
