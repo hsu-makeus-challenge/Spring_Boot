@@ -24,8 +24,8 @@ public class Store extends BaseEntity {
     @Column(nullable = false,length = 15)
     private String name;
 
-    @Column(nullable = false,columnDefinition = "INTEGER DEFAULT 0")
-    private Float score;
+    @Column(columnDefinition = "INTEGER DEFAULT 0")
+    private Float score = (float) 0.0;
 
     @Column(nullable = false)
     private String storeCategory; // user 테이블의 카테고리와 어떻게 구분할까
@@ -33,8 +33,8 @@ public class Store extends BaseEntity {
     @Column(nullable = false)
     private String region;
 
-    @Column(nullable = false , columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean isOpened;
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isOpened = false;
 
     @OneToMany(mappedBy = "store",cascade = CascadeType.ALL)
     private List<Review> reviewsList = new ArrayList<>();

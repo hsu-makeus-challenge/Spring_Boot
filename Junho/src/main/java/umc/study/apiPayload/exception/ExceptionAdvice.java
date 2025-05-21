@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import umc.study.apiPayload.ApiResponse;
 import umc.study.apiPayload.code.ErrorReasonDTO;
 import umc.study.apiPayload.code.status.ErrorStatus;
+import umc.study.apiPayload.exception.handler.InvalidPageException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,6 +28,12 @@ import java.util.Optional;
 @RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(InvalidPageException.class)
+    public ResponseEntity<ApiResponse> handleInvalidPageException(InvalidPageException ex) {
+        ErrorStatus errorStatus = ex.getErrorStatus();
+        return ResponseEntity.status(errorStatus.getHttpStatus())
+                .body(ApiResponse.onFailure(errorStatus.getCode(), errorStatus.getMessage(),null));
+    }
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
