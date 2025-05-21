@@ -3,18 +3,14 @@ package umc.spring.domain.store.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.spring.domain.member.entity.Member;
 import umc.spring.global.common.BaseTimeEntity;
 import umc.spring.global.converter.IntegerListConverter;
 
@@ -29,11 +25,13 @@ public class Review extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "store_id", nullable = false)
-  private Long storeId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "store_id", nullable = false)
+  private Store store;
 
-  @Column(name = "member_id", nullable = false)
-  private Long memberId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
 
   @Column(nullable = false, length = 1000)
   private String content;

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -115,6 +116,21 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
     return handleExceptionInternalArgs(
         e, HttpHeaders.EMPTY, ErrorStatus.valueOf("_BAD_REQUEST"), request, errors);
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<Object> handleTypeMismatch(
+      MethodArgumentTypeMismatchException ex, WebRequest request) {
+    String message =
+        String.format("파라미터 '%s'는 유효한 타입이 아닙니다. 입력값: '%s'", ex.getName(), ex.getValue());
+
+    return handleExceptionInternalFalse(
+        ex,
+        ErrorStatus.PAGE_FORMAT_INVALID,
+        HttpHeaders.EMPTY,
+        HttpStatus.BAD_REQUEST,
+        request,
+        message);
   }
 
   /** 위의 핸들러들에서 처리되지 않은 모든 예외를 처리한다. 일반적인 서버 에러로 처리된다. */
