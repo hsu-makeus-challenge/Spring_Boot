@@ -36,7 +36,7 @@ public class UserRestController {
     @Operation(summary = "내가 진행 중인 미션 목록 조회 API", description = "완료되지 않은 미션 목록을 페이징해서 조회합니다.")
     @Parameter(name = "userId")
     public ApiResponse<MissionResponseDTO.MissionPreViewListDto> getUserMissionList
-            (@PathVariable(name = "userId") Long userId, @ValidPage @RequestParam(name = "page") Integer page){
+            (@PathVariable(name = "userId") Long userId, @Parameter(name = "page") @ValidPage Integer page){
         Page<MissionByUser> userMissionList = missionByUserQueryService.getMissionByUserList(userId, page);
         return ApiResponse.onSuccess(MissionByUserConverter.userMissionPreViewListDTO(userMissionList));
     }
