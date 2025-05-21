@@ -17,6 +17,7 @@ import umc.spring.domain.Store;
 import umc.spring.service.StoreService.StoreCommandService;
 import umc.spring.service.StoreService.StoreQueryService;
 import umc.spring.validation.annotation.ExistStores;
+import umc.spring.validation.annotation.ValidPage;
 import umc.spring.web.dto.store.StoreRequestDTO;
 import umc.spring.web.dto.store.StoreResponseDTO;
 
@@ -51,7 +52,7 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<StoreResponseDTO.ReviewPreViewListDto> getReviewList(@ExistStores @PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<StoreResponseDTO.ReviewPreViewListDto> getReviewList(@ExistStores @PathVariable(name = "storeId") Long storeId, @Parameter(name = "page") @ValidPage Integer page){
         Page<Review> reviewList = storeQueryService.getReviewList(storeId, page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
     }
@@ -63,7 +64,7 @@ public class StoreRestController {
             @Parameter(name = "userId", description = "나의 아이디, path variable 입니다!")
     })
     public ApiResponse<StoreResponseDTO.ReviewPreViewListDto> getMyReviewList(@ExistStores @PathVariable(name = "storeId") Long storeId,
-                                                                              @PathVariable(name = "userId") Long userId, @RequestParam(name = "page") Integer page){
+                                                                              @PathVariable(name = "userId") Long userId, @Parameter(name = "page") @ValidPage Integer page){
         Page<Review> myReviewList = storeQueryService.getMyReviewList(storeId, userId, page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(myReviewList));
     }

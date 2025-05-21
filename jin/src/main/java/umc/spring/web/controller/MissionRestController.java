@@ -16,6 +16,7 @@ import umc.spring.service.MissionService.MissionCommandService;
 import umc.spring.service.MissionService.MissionQueryService;
 import umc.spring.validation.annotation.ExistStores;
 import umc.spring.validation.annotation.NotAlreadyChallenged;
+import umc.spring.validation.annotation.ValidPage;
 import umc.spring.web.dto.mission.MissionRequestDTO;
 import umc.spring.web.dto.mission.MissionResponseDTO;
 
@@ -52,7 +53,7 @@ public class MissionRestController{
     @Operation(summary = "특정 가게의 미션 목록 조회 API", description = "특정 가게에 등록된 미션 목록을 조회합니다.")
     @Parameter(name = "storeId")
     public ApiResponse<MissionResponseDTO.MissionPreViewListDto> getMissionList
-            (@ExistStores @PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page) {
+            (@ExistStores @PathVariable(name = "storeId") Long storeId, @Parameter(name = "page") @ValidPage Integer page) {
         Page<Mission> missionList = missionQueryService.getMissionList(storeId, page);
         return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
     }
