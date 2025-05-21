@@ -52,4 +52,6 @@ public class UserRequest {
         @Schema(description = "선호 음식 카테고리 아이디", example = "[1, 2]")
         List<Long> preferCategory;
     }
+
+
 }

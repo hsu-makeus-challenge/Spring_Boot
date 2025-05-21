@@ -1,9 +1,7 @@
 package umc.spring.web.dto.store;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import umc.spring.validation.annotation.ExistCategories;
 
@@ -31,4 +29,5 @@ public class StoreRequest {
         @Schema(description = "가게 이미지 URL 리스트")
         private List<String> storeImages;
     }
+
 }

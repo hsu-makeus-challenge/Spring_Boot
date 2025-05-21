@@ -1,10 +1,7 @@
 package umc.spring.repository.UserMissionRepository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +18,6 @@ import umc.spring.domain.mapping.QStoreFoodCategory;
 import umc.spring.domain.mapping.QStoreMission;
 import umc.spring.domain.mapping.QUserMission;
 import umc.spring.domain.mapping.UserMission;
-import umc.spring.web.dto.mission.MissionResponse;
 
 import java.util.List;
 
