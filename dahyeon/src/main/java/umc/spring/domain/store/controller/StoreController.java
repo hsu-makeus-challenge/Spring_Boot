@@ -3,6 +3,7 @@ package umc.spring.domain.store.controller;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,5 +67,19 @@ public class StoreController {
     Long memberId = 1L;
     Page<Mission> missionList = missionServiceImpl.getMissionList(memberId, storeId, page);
     return ApiResponse.onSuccess(MissionConverter.toMissionListResponseDto(missionList));
+  }
+
+  @GetMapping("/{storeId}/missions/slice")
+  @Operation(
+      summary = "가게 미션 목록 조회(Slice 페이징)",
+      description = "특정 가게의 미션 데이터 목록들을 조회합니다. 이때, Slice 페이징을 포함합니다.")
+  @Parameter(name = "storeId", description = "가게 Id, path variable 입니다.", example = "1")
+  @Parameter(name = "page", description = "페이지 번호 (1부터 시작)", example = "1")
+  public ApiResponse<MissionListResponseDto.MissionsPreViewListDto> getMissionListAsSlice(
+      @PathVariable(name = "storeId") @ExistStore Long storeId,
+      @RequestParam(name = "page") @PageCheck Integer page) {
+    Long memberId = 1L; // TODO: 인증 적용 시 변경 필요
+    Slice<Mission> missionSlice = missionServiceImpl.getMissionListAsSlice(memberId, storeId, page);
+    return ApiResponse.onSuccess(MissionConverter.toMissionListResponseDto(missionSlice));
   }
 }

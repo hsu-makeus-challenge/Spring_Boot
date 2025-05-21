@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 
 import umc.spring.domain.mission.dto.MissionCreateRequestDto;
 import umc.spring.domain.mission.dto.MissionCreateResponseDto;
@@ -52,6 +53,23 @@ public class MissionConverter {
         .listSize(missionList.getNumberOfElements())
         .totalPage(missionList.getTotalPages())
         .totalElements(missionList.getTotalElements())
+        .isFirst(missionList.isFirst())
+        .isLast(missionList.isLast())
+        .build();
+  }
+
+  public static MissionListResponseDto.MissionsPreViewListDto toMissionListResponseDto(
+      Slice<Mission> missionList) {
+    List<MissionCreateResponseDto> missionResponseDtos =
+        missionList.getContent().stream()
+            .map(MissionCreateResponseDto::from)
+            .collect(Collectors.toList());
+
+    return MissionListResponseDto.MissionsPreViewListDto.builder()
+        .missinoList(missionResponseDtos)
+        .listSize(missionList.getNumberOfElements())
+        .totalPage(null)
+        .totalElements(null)
         .isFirst(missionList.isFirst())
         .isLast(missionList.isLast())
         .build();

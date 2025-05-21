@@ -2,6 +2,7 @@ package umc.spring.domain.mission.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import umc.spring.domain.mission.dto.MissionCreateRequestDto;
 import umc.spring.domain.mission.dto.MissionResponseDto;
@@ -25,4 +26,6 @@ public interface MissionService {
   Page<Mission> getMissionList(Long memberId, Long storeId, Integer page);
 
   Page<MemberMission> getMyMissions(Long memberId, Integer page, MissionStatus status);
+
+  Slice<Mission> getMissionListAsSlice(Long memberId, Long storeId, Integer page);
 }
