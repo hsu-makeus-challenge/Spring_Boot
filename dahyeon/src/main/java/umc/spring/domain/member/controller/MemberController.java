@@ -57,8 +57,7 @@ public class MemberController {
   @GetMapping("/mypage/reviews")
   @Operation(summary = "내가 작성한 리뷰 목록 조회", description = "회원 정보를 바탕으로 해당 회원이 작성한 리뷰 목록을 조회합니다.")
   @Parameter(name = "page", description = "페이지 번호 (0부터 시작하지 않고, 1부터 시작)", example = "1")
-  public ApiResponse<ReviewResponseDto.ReviewPreViewListDto> getMyReviews(
-      @RequestParam(name = "page") @PageCheck Integer page) {
+  public ApiResponse<ReviewResponseDto.ReviewPreViewListDto> getMyReviews(@PageCheck Integer page) {
     Long memberId = 1L; // TODO : 회원 관련 로직 도입시 변경해야 된다.
     Page<Review> reviewList = reviewServiceImpl.getMyReviewList(memberId, page);
     return ApiResponse.onSuccess(StoreConverter.toReviewPreViewListDto(reviewList));
@@ -76,7 +75,7 @@ public class MemberController {
         example = "IN_PROGRESS")
   })
   public ApiResponse<MissionListResponseDto.MemberMissionsPreViewListDto> getMyMissionsWithStatus(
-      @RequestParam(name = "page") @PageCheck Integer page,
+      @PageCheck Integer page,
       @RequestParam(name = "status", required = false) MissionStatus status) {
 
     Long memberId = 1L; // TODO : 회원 관련 로직 도입시 변경해야 된다.

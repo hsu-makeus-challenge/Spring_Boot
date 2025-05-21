@@ -48,8 +48,7 @@ public class StoreController {
   @Parameter(name = "storeId", description = "가게 Id, path variable 입니다.", example = "1")
   @Parameter(name = "page", description = "페이지 번호 (0부터 시작하지 않고, 1부터 시작)", example = "1")
   public ApiResponse<ReviewResponseDto.ReviewPreViewListDto> getReviewList(
-      @PathVariable(name = "storeId") @ExistStore Long storeId,
-      @RequestParam(name = "page") @PageCheck Integer page) {
+      @PathVariable(name = "storeId") @ExistStore Long storeId, @PageCheck Integer page) {
     Long memberId = 1L;
     Page<Review> reviewList = reviewServiceImpl.getReviewList(memberId, storeId, page);
     return ApiResponse.onSuccess(StoreConverter.toReviewPreViewListDto(reviewList));
@@ -62,8 +61,7 @@ public class StoreController {
   @Parameter(name = "storeId", description = "가게 Id, path variable 입니다.", example = "1")
   @Parameter(name = "page", description = "페이지 번호 (0부터 시작하지 않고, 1부터 시작)", example = "1")
   public ApiResponse<MissionListResponseDto.MissionsPreViewListDto> getMissionList(
-      @PathVariable(name = "storeId") @ExistStore Long storeId,
-      @RequestParam(name = "page") @PageCheck Integer page) {
+      @PathVariable(name = "storeId") @ExistStore Long storeId, @PageCheck Integer page) {
     Long memberId = 1L;
     Page<Mission> missionList = missionServiceImpl.getMissionList(memberId, storeId, page);
     return ApiResponse.onSuccess(MissionConverter.toMissionListResponseDto(missionList));
@@ -76,8 +74,7 @@ public class StoreController {
   @Parameter(name = "storeId", description = "가게 Id, path variable 입니다.", example = "1")
   @Parameter(name = "page", description = "페이지 번호 (1부터 시작)", example = "1")
   public ApiResponse<MissionListResponseDto.MissionsPreViewListDto> getMissionListAsSlice(
-      @PathVariable(name = "storeId") @ExistStore Long storeId,
-      @RequestParam(name = "page") @PageCheck Integer page) {
+      @PathVariable(name = "storeId") @ExistStore Long storeId, @PageCheck Integer page) {
     Long memberId = 1L; // TODO: 인증 적용 시 변경 필요
     Slice<Mission> missionSlice = missionServiceImpl.getMissionListAsSlice(memberId, storeId, page);
     return ApiResponse.onSuccess(MissionConverter.toMissionListResponseDto(missionSlice));

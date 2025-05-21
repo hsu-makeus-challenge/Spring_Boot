@@ -17,6 +17,7 @@ import umc.spring.global.validation.annotation.PageCheck;
 public class PageArgumentResolver implements HandlerMethodArgumentResolver {
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
+    log.info("resolver 호출");
     return parameter.hasParameterAnnotation(PageCheck.class);
   }
 
@@ -43,7 +44,7 @@ public class PageArgumentResolver implements HandlerMethodArgumentResolver {
     if (page < 1) {
       throw new globalHandler(ErrorStatus.PAGE_MINIMUM);
     }
-
+    System.out.println(page - 1);
     return page - 1;
   }
 }
