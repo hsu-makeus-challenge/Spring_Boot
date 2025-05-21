@@ -28,7 +28,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
 
         Member member = memberRepository.findById(1L).orElseThrow(null); // 임시 느낌
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_REQUIRED));
-        Review review = ReviewConverter.toReview(request, member.getId(), store);
+        Review review = ReviewConverter.toReview(request, member, store);
         return reviewRepository.save(review);
     }
 

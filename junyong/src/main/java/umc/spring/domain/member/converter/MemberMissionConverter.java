@@ -1,11 +1,16 @@
 package umc.spring.domain.member.converter;
 
+import org.springframework.data.domain.Page;
 import umc.spring.domain.member.data.Member;
 import umc.spring.domain.member.data.mapping.MemberMission;
+import umc.spring.domain.member.web.dto.MemberResponseDTO;
 import umc.spring.domain.mission.data.Mission;
 import umc.spring.domain.mission.data.enums.MissionStatus;
 import umc.spring.domain.mission.web.dto.MissionResponseDTO;
+import umc.spring.global.common.converter.PageConverter;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 public class MemberMissionConverter {
@@ -27,6 +32,39 @@ public class MemberMissionConverter {
                 .missionId(memberMission.getMission().getId())
                 .memberId(memberMission.getMember().getId())
                 .createdAt(memberMission.getCreatedAt())
+                .build();
+    }
+
+    public static MemberResponseDTO.MissionDto toMissionDto(MemberMission memberMission) {
+
+        Mission mission = memberMission.getMission();
+
+        return MemberResponseDTO.MissionDto.builder()
+                .missionId(mission.getId())
+                .storeName(mission.getStore().getName())
+                .missionContent(mission.getContent())
+                .missionReward(mission.getReward())
+                .deadLine(mission.getDeadline())
+                .status(memberMission.getStatus().getStatus())
+                .build();
+    }
+
+    public static MemberResponseDTO.MissionListDto toMissionListDto(Page<MemberMission> memberMissionList) {
+        List<MemberResponseDTO.MissionDto> missionDtoList = memberMissionList.stream()
+                .map(MemberMissionConverter::toMissionDto)
+                .toList();
+
+        return MemberResponseDTO.MissionListDto.builder()
+                .missionList(missionDtoList)
+                .pageInfo(PageConverter.pageToListPageDto(memberMissionList))
+                .build();
+    }
+
+    public static MemberResponseDTO.CompleteDto toCompleteDto(MemberMission memberMission) {
+        return MemberResponseDTO.CompleteDto.builder()
+                .memberMissionId(memberMission.getId())
+                .missionId(memberMission.getMission().getId())
+                .completedAt(LocalDateTime.now())
                 .build();
     }
 

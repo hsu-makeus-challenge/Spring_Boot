@@ -28,6 +28,7 @@ public class PointHistory extends BaseEntity {
 
     // 포인트 교환 유형 필드 추가, 기본값은 기타(etc)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PointType actionType = PointType.ETC;
 
     // 연관관계

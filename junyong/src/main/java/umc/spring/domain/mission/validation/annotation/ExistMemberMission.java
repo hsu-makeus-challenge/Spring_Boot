@@ -10,8 +10,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = MemberMissionExistValidator.class)
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MemberMissionExist {
-    String message() default "이미 도전중인 미션입니다";
+public @interface ExistMemberMission {
+    String message() default "오류야 오류";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
