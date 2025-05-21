@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class StoreExistValidator implements ConstraintValidator<ExistStore, List<Long>> {
+public class StoreExistValidator implements ConstraintValidator<ExistStore, Long> {
 
     private final StoreRepository storeRepository;
 
@@ -22,13 +22,12 @@ public class StoreExistValidator implements ConstraintValidator<ExistStore, List
     }
 
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(value -> storeRepository.existsById(value));
+    public boolean isValid(Long value, ConstraintValidatorContext context) {
+        boolean isValid = storeRepository.existsById(value);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus._BAD_REQUEST.toString()).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorStatus.STORE_NOT_FOUND.getMessage()).addConstraintViolation();
         }
 
         return isValid;

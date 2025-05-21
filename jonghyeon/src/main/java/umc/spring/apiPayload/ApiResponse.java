@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.validation.annotation.Validated;
 import umc.spring.apiPayload.code.BaseCode;
 import umc.spring.apiPayload.code.status.SuccessStatus;
 
@@ -14,19 +15,17 @@ import umc.spring.apiPayload.code.status.SuccessStatus;
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class ApiResponse<T> {
 
-    @JsonProperty("isSuccess")
-    @Schema(example = "true")
+    @Schema(description = "성공 여부", example = "true")
     private final Boolean isSuccess;
-    @Schema(example = "COMMON200")
+    @Schema(description = "응답 코드", example = "COMMON200")
     private final String code;
-    @Schema(example = "성공입니다.11")
+    @Schema(description = "응답 메시지", example = "성공입니다.")
     private final String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "응답 데이터")
     private T result;
 
 
     // 성공한 경우 응답 생성
-
     public static <T> ApiResponse<T> onSuccess(T result){
         return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
     }
@@ -34,7 +33,6 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> of(BaseCode code, T result){
             return new ApiResponse<>(true, code.getReasonHttpStatus().getCode() , code.getReasonHttpStatus().getMessage(), result);
     }
-
 
     // 실패한 경우 응답 생성
     public static <T> ApiResponse<T> onFailure(String code, String message, T data){

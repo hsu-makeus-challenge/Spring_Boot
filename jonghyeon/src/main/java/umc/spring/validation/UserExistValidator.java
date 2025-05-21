@@ -6,30 +6,29 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import umc.spring.apiPayload.exception.ErrorStatus;
 import umc.spring.repository.MissionRepository.MissionRepository;
-import umc.spring.repository.StoreRepository.StoreRepository;
+import umc.spring.repository.UserRepository;
 
 import java.util.List;
 
 
 @Component
 @RequiredArgsConstructor
-public class MissionExistValidator implements ConstraintValidator<ExistMission, List<Long>> {
+public class UserExistValidator implements ConstraintValidator<ExistUser, Long> {
 
-    private final MissionRepository missionRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public void initialize(ExistMission constraintAnnotation) {
+    public void initialize(ExistUser constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(value ->  missionRepository.existsById(value));
+    public boolean isValid(Long values, ConstraintValidatorContext context) {
+        boolean isValid = userRepository.existsById(values);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus._BAD_REQUEST.toString()).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorStatus.MEMBER_NOT_FOUND.getMessage()).addConstraintViolation();
         }
 
         return isValid;
