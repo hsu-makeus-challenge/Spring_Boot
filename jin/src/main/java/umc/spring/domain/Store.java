@@ -43,7 +43,7 @@ public class Store extends BaseEntity {
     private String address;
 
     @OneToMany(mappedBy = "store",cascade = CascadeType.ALL)
-    private List<Review> storeReviewList = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Mission> storeMissionList = new ArrayList<>();

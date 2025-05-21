@@ -16,6 +16,10 @@ public class Review extends BaseEntity {
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
@@ -26,7 +30,17 @@ public class Review extends BaseEntity {
 
     // 연관관계 편의 메서드
     public void setStore(Store store) {
+        if(this.store != null)
+            store.getReviewList().remove(this);
         this.store = store;
-        store.getStoreReviewList().add(this);
+        store.getReviewList().add(this);
     }
+
+    public void setUser(User user) {
+        if(this.user != null)
+            user.getReviewList().remove(this);
+        this.user = user;
+        store.getReviewList().add(this);
+    }
+
 }
