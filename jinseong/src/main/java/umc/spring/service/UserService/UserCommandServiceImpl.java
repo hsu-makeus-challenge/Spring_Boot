@@ -1,6 +1,7 @@
 package umc.spring.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
@@ -28,6 +29,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final NotificationRepository notificationRepository;
     private final PointHistoryRepository pointHistoryRepository;
     private final FoodCategoryRepository foodCategoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void deleteUserWithRelatedEntities(Long userId) {
@@ -46,6 +48,8 @@ public class UserCommandServiceImpl implements UserCommandService {
     public User joinMember(UserRequestDTO.JoinDto request) {
 
         User newUser = UserConverter.toUser(request);
+
+        newUser.encodePassword(passwordEncoder.encode(request.getPassword()));
 
         List<FoodCategory> foodCategoryList = request.getPreferCategory().stream()
                 .map(category -> {

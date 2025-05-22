@@ -37,7 +37,8 @@ public class UserConverter {
 
         return User.builder()
                 .name(request.getName())
-                .nickname(request.getNickname())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .gender(gender)
                 .address(request.getAddress())
                 .detailAddress(request.getDetailAddress())
@@ -45,7 +46,9 @@ public class UserConverter {
                 .birthMonth(request.getBirthMonth())
                 .birthDay(request.getBirthDay())
                 .userFoodCategoryList(new ArrayList<>())
-                .build();
+                .role(request.getRole())
+                .build()
+                ;
     }
 
     public static UserResponseDTO.UserReviewPreViewDTO reviewPreViewDTO(Review review){
