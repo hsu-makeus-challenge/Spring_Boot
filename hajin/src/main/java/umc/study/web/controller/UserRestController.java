@@ -25,6 +25,7 @@ import umc.study.service.UserService.UserCommandService;
 import umc.study.service.UserService.UserMissionService;
 import umc.study.service.UserService.UserQueryService;
 import umc.study.validation.annotation.AlreadyJoinedMission;
+import umc.study.validation.annotation.PageParam;
 import umc.study.web.dto.*;
 
 import java.util.List;
@@ -66,7 +67,7 @@ public class UserRestController {
     @Parameters({
             @Parameter(name = "userId", description = "유저의 아이디, path variable 입니다!")
     })
-    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(@PathVariable(name = "userId") Integer userId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(@PathVariable(name = "userId") Integer userId, @PageParam Integer page){
         Page<Review> reviewList = userQueryService.getReviewList(userId,page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
     }
@@ -83,7 +84,7 @@ public class UserRestController {
     @Parameters({
             @Parameter(name = "userId", description = "유저의 아이디, path variable 입니다!")
     })
-    public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionList(@PathVariable(name = "userId") Integer userId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionList(@PathVariable(name = "userId") Integer userId, @PageParam Integer page){
         // 방법 1. userId가 ?인 usermission을 페이징해서 id 값에따른 미션을 리스트로 바꾸고 또 그걸 페이징 해서 출력
         // 방법 2. jpql이나 queryDSL로 페이징
         Page<Mission> missionList = userMissionService.getMissionList(userId,page);

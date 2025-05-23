@@ -18,6 +18,7 @@ import umc.study.domain.Mission;
 import umc.study.domain.Review;
 import umc.study.service.StoreService.StoreQueryService;
 import umc.study.validation.annotation.ExistStore;
+import umc.study.validation.annotation.PageParam;
 import umc.study.web.dto.MissionResponseDTO;
 import umc.study.web.dto.ReviewResponseDTO;
 
@@ -42,7 +43,7 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(@PathVariable(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(@PathVariable(name = "storeId") Long storeId, @PageParam Integer page){
         Page<Review> reviewList = storeQueryService.getReviewList(storeId,page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
     }
@@ -59,7 +60,7 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionList(@RequestParam(name = "storeId") Long storeId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionList(@RequestParam(name = "storeId") Long storeId, @PageParam Integer page){
         Page<Mission> missionList = storeQueryService.getMissionList(storeId,page);
         return ApiResponse.onSuccess(MissionConverter.missionListDTO(missionList));
     }
