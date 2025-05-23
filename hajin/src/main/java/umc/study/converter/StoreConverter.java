@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class StoreConverter {
 
-    public static ReviewResponseDTO.ReviewPreViewDTO reviewPreViewDTO(Review review){
-        return ReviewResponseDTO.ReviewPreViewDTO.builder()
+    public static ReviewResponseDTO.ReviewDetailDTO reviewDetailDTO(Review review){
+        return ReviewResponseDTO.ReviewDetailDTO.builder()
                 .ownerNickname(review.getUser().getName())
                 .score(review.getScore())
                 .createdAt(review.getCreatedAt().toLocalDate())
@@ -19,8 +19,8 @@ public class StoreConverter {
     }
     public static ReviewResponseDTO.ReviewPreViewListDTO reviewPreViewListDTO(Page<Review> reviewList){
 
-        List<ReviewResponseDTO.ReviewPreViewDTO> reviewPreViewDTOList = reviewList.stream()
-                .map(StoreConverter::reviewPreViewDTO).collect(Collectors.toList());
+        List<ReviewResponseDTO.ReviewDetailDTO> reviewPreViewDTOList = reviewList.stream()
+                .map(StoreConverter::reviewDetailDTO).collect(Collectors.toList());
 
         return ReviewResponseDTO.ReviewPreViewListDTO.builder()
                 .isLast(reviewList.isLast())

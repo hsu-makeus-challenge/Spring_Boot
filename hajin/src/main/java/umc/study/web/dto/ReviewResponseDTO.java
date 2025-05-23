@@ -18,12 +18,13 @@ public class ReviewResponseDTO {
         LocalDateTime createdAt;
     }
 
+    //리뷰 조회
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReviewPreViewListDTO {
-        List<ReviewPreViewDTO> reviewList;
+        List<ReviewDetailDTO> reviewList;
         Integer listSize;
         Integer totalPage;
         Long totalElements;
@@ -35,7 +36,7 @@ public class ReviewResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ReviewPreViewDTO {
+    public static class ReviewDetailDTO {
         String ownerNickname;
         Float score;
         String body;
