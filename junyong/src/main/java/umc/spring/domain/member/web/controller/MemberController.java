@@ -28,11 +28,12 @@ public class MemberController {
     private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
 
-    @PostMapping("/")
-    public ApiResponse<MemberResponseDTO.JoinResultDto> join(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
-        Member member = memberCommandService.joinMember(request);
-        return ApiResponse.onSuccess(MemberConverter.toJoinResultDto(member));
-    }
+    // 10주차 하느라 주석처리
+//    @PostMapping("/")
+//    public ApiResponse<MemberResponseDTO.JoinResultDto> join(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
+//        Member member = memberCommandService.joinMember(request);
+//        return ApiResponse.onSuccess(MemberConverter.toJoinResultDto(member));
+//    }
 
     @GetMapping("/missions")
     @Operation(summary = "내가 도전중인 미션 목록 조회하기 API", description = "내가 도전 중/도전 완료한 미션을 조회합니다. page와 status가 필요합니다")
