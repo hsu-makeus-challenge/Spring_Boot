@@ -11,6 +11,7 @@ import umc.spring.domain.mapping.MissionByUser;
 import umc.spring.repository.MissionByUserRepository;
 import umc.spring.repository.MissionRepository;
 import umc.spring.repository.UserRepository;
+import umc.spring.service.UserService.UserQueryService;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class MissionByUserCommandServiceImpl implements MissionByUserCommandServ
     private final MissionRepository missionRepository;
     private final MissionByUserRepository missionByUserRepository;
     private final UserRepository userRepository;
+    private final UserQueryService userQueryService;
 
     @Override
     public MissionByUser challengeMission(Long missionId){
@@ -39,5 +41,19 @@ public class MissionByUserCommandServiceImpl implements MissionByUserCommandServ
 
         return missionByUserRepository.save(missionByUser);
     }
+
+
+//    // 미션 완료하기
+//    @Override
+//    public MissionByUser completeMission(Long userId, Long missionId, Boolean isCompleted){
+//        User user = userRepository.findById(1L).orElse(null);
+//
+//        // 미션 존재 여부
+//        Mission mission = missionRepository.findById(missionId)
+//                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
+//
+//        Mission mission = missi
+//        MissionByUser missionByUser = MissionByUser.builder()
+//    }
 
 }

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import umc.spring.domain.enums.StoreCategory;
 
-@Getter
 public class StoreRequestDTO {
 
     @Getter

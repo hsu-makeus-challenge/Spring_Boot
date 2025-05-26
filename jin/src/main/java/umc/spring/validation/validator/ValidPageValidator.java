@@ -1,6 +1,7 @@
 package umc.spring.validation.validator;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -14,6 +15,7 @@ import umc.spring.validation.annotation.ValidPage;
  * 커스텀 어노테이션 @ValidPage가 붙은 page 파라미터를 검증하고,
  * 유효한 경우 0-based 인덱스로 변환하여 컨트롤러에 넘겨주는 Validator
  */
+@Component
 public class ValidPageValidator implements HandlerMethodArgumentResolver {
 
     /**
@@ -40,7 +42,7 @@ public class ValidPageValidator implements HandlerMethodArgumentResolver {
             throw new PageNumberHandler(ErrorStatus.PAGE_NOT_FOUND);
         }
 
-        // 0보다 작거나 같을 경우
+        // 0보다 작을 경우
         int page = Integer.parseInt(pageParam);
         if (page <= 0) {
             throw new PageNumberHandler(ErrorStatus.INVALID_PAGE_NUMBER);
