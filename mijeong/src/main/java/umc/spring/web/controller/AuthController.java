@@ -5,12 +5,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.service.UserService.UserCommandService;
 import umc.spring.web.dto.user.UserRequest;
@@ -38,5 +36,13 @@ public class AuthController {
     public ApiResponse<UserResponse.JoinResultDto> join(@RequestBody @Valid UserRequest.JoinDto request){
         UserResponse.JoinResultDto response = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(response);
+    }
+
+    // 로그인
+    @Operation(summary = "유저 로그인 API",description = "유저가 로그인하는 API입니다.")
+    @PostMapping("/login")
+    public ApiResponse<UserResponse.LoginResultDto> login(@RequestBody @Valid UserRequest.LoginRequestDto request,
+                                                          HttpServletResponse response) {
+        return ApiResponse.onSuccess(userCommandService.loginUser(request, response));
     }
 }

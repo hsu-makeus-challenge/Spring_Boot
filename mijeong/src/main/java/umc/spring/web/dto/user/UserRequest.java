@@ -29,9 +29,11 @@ public class UserRequest {
         String email;
 
         @NotBlank
+        @Schema(description = "비밀번호")
         String password;    // 비밀번호 필드 추가
 
         @NotNull
+        @Schema(description = "유저 역할", example = "USER")
         Role role;    // 역할 필드 추가
 
         @NotNull
@@ -67,4 +69,17 @@ public class UserRequest {
         List<Long> preferCategory;
     }
 
+    @Getter
+    @Setter
+    @Schema(description = "로그인 요청 정보")
+    public static class LoginRequestDto{
+        @NotBlank(message = "이메일은 필수입니다.")
+        @Email(message = "올바른 이메일 형식이어야 합니다.")
+        @Schema(description = "이메일", example = "test@gmail.com")
+        private String email;
+
+        @NotBlank(message = "패스워드는 필수입니다.")
+        @Schema(description = "비밀번호")
+        private String password;
+    }
 }

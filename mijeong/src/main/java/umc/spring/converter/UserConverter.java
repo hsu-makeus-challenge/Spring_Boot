@@ -36,6 +36,20 @@ public class UserConverter {
                 .build();
     }
 
+    // 로그인 응답
+    public static UserResponse.LoginResultDto toLoginResultDto(Long userId) {
+        return UserResponse.LoginResultDto.builder().userId(userId).build();
+    }
+
+    // 유저 정보 응답
+    public static UserResponse.UserInfoDto toUserInfoDto(User user) {
+        return UserResponse.UserInfoDto.builder()
+                .nickName(user.getNickName())
+                .email(user.getEmail())
+                .gender(user.getGender().toString())
+                .build();
+    }
+
     // 전체 주소 포맷팅 메서드
     private static String formatFullAddress(String address, String addressDetail) {
         return String.format("%s %s", address, addressDetail);
