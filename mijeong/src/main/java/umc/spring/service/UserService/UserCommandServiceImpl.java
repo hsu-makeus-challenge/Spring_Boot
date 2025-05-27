@@ -2,6 +2,7 @@ package umc.spring.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.converter.OAuthConverter;
@@ -32,12 +33,18 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UserPretendFoodRepository userPretendFoodRepository;
     private final FoodCategoryQueryService foodCategoryQueryService;
 
+    private final PasswordEncoder passwordEncoder;
+
     // 회원가입
     @Transactional
     @Override
     public UserResponse.JoinResultDto joinUser(UserRequest.JoinDto requestDto) {
         // 유저 생성
         User user = UserConverter.toUser(requestDto);
+        log.info("email: {}", requestDto.getEmail());
+        log.info("password: {}", requestDto.getPassword());
+        user.encodePassword(passwordEncoder.encode(requestDto.getPassword()));
+
         // 유저 저장
         userRepository.save(user);
 

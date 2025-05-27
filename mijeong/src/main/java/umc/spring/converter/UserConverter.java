@@ -13,6 +13,8 @@ public class UserConverter {
     public static User toUser(UserRequest.JoinDto request){
         return User.builder()
                 .email(request.getEmail())
+                .password(request.getPassword())   // 추가된 코드
+                .role(request.getRole())   // 추가된 코드
                 .nickName(request.getNickName())
                 .gender(request.getGender())
                 .birth(request.getBirth())

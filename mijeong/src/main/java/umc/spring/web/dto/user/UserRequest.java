@@ -2,10 +2,15 @@ package umc.spring.web.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import umc.spring.domain.enums.Gender;
+import umc.spring.domain.enums.Role;
 import umc.spring.domain.enums.SocialType;
 import umc.spring.validation.annotation.ExistCategories;
 
@@ -13,12 +18,21 @@ import java.util.List;
 
 public class UserRequest {
 
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Getter
+    @Setter
     @Schema(description = "회원가입 요청 정보")
     public static class JoinDto{
         @NotNull @Email
         @Schema(description = "이메일", example = "test@gmail.com")
         String email;
+
+        @NotBlank
+        String password;    // 비밀번호 필드 추가
+
+        @NotNull
+        Role role;    // 역할 필드 추가
 
         @NotNull
         @Schema(description = "소셜 로그인 타입", example = "GOOGLE")
@@ -52,6 +66,5 @@ public class UserRequest {
         @Schema(description = "선호 음식 카테고리 아이디", example = "[1, 2]")
         List<Long> preferCategory;
     }
-
 
 }
