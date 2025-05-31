@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +33,7 @@ public class UserRestController {
     private final UserCommandService userCommandService;
     private final UserQueryService userQueryService;
 
-    @PostMapping("/")
+    @PostMapping("/join")
     public ApiResponse<UserResponseDTO.JoinResultDTO> join(
             @RequestBody @Valid UserRequestDTO.JoinDto request) {
         User user = userCommandService.joinMember(request);
@@ -79,5 +81,20 @@ public class UserRestController {
         Page<UserMission> userMissionList = userQueryService.getMissionList(userId, status, page);
 
         return ApiResponse.onSuccess(UserConverter.userMissionPreViewListDTO(userMissionList));
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "유저 로그인 API",description = "유저가 로그인하는 API입니다.")
+    public ApiResponse<UserResponseDTO.LoginResultDTO> login(@RequestBody @Valid UserRequestDTO.LoginRequestDTO request) {
+        return ApiResponse.onSuccess(userCommandService.loginUser(request));
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다.",
+            security = { @SecurityRequirement(name = "JWT TOKEN") }
+    )
+    public ApiResponse<UserResponseDTO.UserInfoDTO> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(userQueryService.getUserInfo(request));
     }
 }

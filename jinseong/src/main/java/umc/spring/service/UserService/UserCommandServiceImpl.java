@@ -1,11 +1,15 @@
 package umc.spring.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.FoodCategoryHandler;
+import umc.spring.apiPayload.exception.handler.UserHandler;
+import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.converter.UserConverter;
 import umc.spring.converter.UserPreferConverter;
 import umc.spring.domain.FoodCategory;
@@ -16,7 +20,9 @@ import umc.spring.repository.NotificationRepository;
 import umc.spring.repository.PointHistoryRepository;
 import umc.spring.repository.UserRepository.UserRepository;
 import umc.spring.web.dto.UserDTO.UserRequestDTO;
+import umc.spring.web.dto.UserDTO.UserResponseDTO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +36,8 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final PointHistoryRepository pointHistoryRepository;
     private final FoodCategoryRepository foodCategoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+
 
     @Override
     public void deleteUserWithRelatedEntities(Long userId) {
@@ -61,5 +69,27 @@ public class UserCommandServiceImpl implements UserCommandService {
         userPreferList.forEach(userPrefer -> {userPrefer.setUser(newUser);});
 
         return userRepository.save(newUser);
+    }
+
+    @Override
+    public UserResponseDTO.LoginResultDTO loginUser(UserRequestDTO.LoginRequestDTO request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(()-> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new UserHandler(ErrorStatus.INVALID_PASSWORD);
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getEmail(), null,
+                Collections.singleton(() -> user.getRole().name())
+        );
+
+        String accessToken = jwtTokenProvider.generateToken(authentication);
+
+        return UserConverter.toLoginResultDTO(
+                user.getId(),
+                accessToken
+        );
     }
 }
