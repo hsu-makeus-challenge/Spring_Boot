@@ -19,3 +19,9 @@ spring:
   sql:
     init:
       mode: never
+
+jwt:
+  token:
+    secretKey: umceightfightingjwttokenauthentication
+    expiration:
+      access: 14400000
