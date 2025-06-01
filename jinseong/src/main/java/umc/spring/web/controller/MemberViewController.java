@@ -16,43 +16,48 @@ public class MemberViewController {
 
     private final UserCommandService userCommandService;
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
+//    @GetMapping("/login")
+//    public String loginPage() {
+//        return "login";
+//    }
+//
+//    @GetMapping("/signup")
+//    public String signupPage(Model model) {
+//        model.addAttribute("memberJoinDto", new UserRequestDTO.JoinDto());
+//        return "signup";
+//    }
+//
+//    @GetMapping("/home")
+//    public String home() {
+//        return "home";
+//    }
+//
+//    @GetMapping("/admin")
+//    public String admin() {
+//        return "admin";
+//    }
+//
+//
+//    @PostMapping("/users/signup")
+//    public String joinMember(@ModelAttribute("memberJoinDto") UserRequestDTO.JoinDto request,
+//                             BindingResult bindingResult,
+//                             Model model) {
+//        if (bindingResult.hasErrors()) {
+//            return "signup";
+//        }
+//
+//        try {
+//            userCommandService.joinMember(request);
+//            return "redirect:/login";
+//        } catch (Exception e) {
+//            model.addAttribute("error", e.getMessage());
+//            return "signup";
+//        }
+//    }
 
-    @GetMapping("/signup")
-    public String signupPage(Model model) {
-        model.addAttribute("memberJoinDto", new UserRequestDTO.JoinDto());
-        return "signup";
-    }
-
-    @GetMapping("/home")
+    @GetMapping("/oauth")
     public String home() {
-        return "home";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
-
-
-    @PostMapping("/users/signup")
-    public String joinMember(@ModelAttribute("memberJoinDto") UserRequestDTO.JoinDto request,
-                             BindingResult bindingResult,
-                             Model model) {
-        if (bindingResult.hasErrors()) {
-            return "signup";
-        }
-
-        try {
-            userCommandService.joinMember(request);
-            return "redirect:/login";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            return "signup";
-        }
+        return "oauth";
     }
 
 }

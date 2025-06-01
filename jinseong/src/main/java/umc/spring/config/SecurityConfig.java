@@ -12,12 +12,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import umc.spring.config.security.jwt.JwtAuthenticationFilter;
 import umc.spring.config.security.jwt.JwtTokenProvider;
+import umc.spring.config.security.oauth.CustomOAuth2UserService;
+import umc.spring.config.security.oauth.OAuth2SuccessHandler;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
@@ -29,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                                 //해당 경로 허용
 //                        .requestMatchers("/", "/home", "/signup", "/users/signup","/css/**").permitAll()
-                                .requestMatchers("/", "/users/join", "/users/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                                .requestMatchers("/", "/users/join", "/users/login", "/swagger-ui/**", "/v3/api-docs/**", "/oauth2/**", "/oauth").permitAll()
                                 // 해당 경로는 ADMIN 권한 필요
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 // 이외 경로 모두 인증 필요
@@ -47,6 +51,12 @@ public class SecurityConfig {
                 );*/
                 .csrf().disable()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint().userService(customOAuth2UserService)
+                        .and()
+                        .successHandler(oAuth2SuccessHandler)
+                )
+
         ;
 
         return http.build();

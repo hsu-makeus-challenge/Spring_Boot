@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import umc.spring.apiPayload.code.status.ErrorStatus;
@@ -32,7 +33,23 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Authentication authentication) {
-        String email = authentication.getName();
+//        String email = authentication.getName();
+
+        String email;
+
+        Object principal = authentication.getPrincipal();
+
+        // 일반 로그인
+        if (principal instanceof String) {
+            email = authentication.getName();
+        }
+        // OAuth2 로그인
+        else if (principal instanceof OAuth2User oAuth2User) {
+            email = (String) oAuth2User.getAttributes().get("email");
+        }
+        else {
+            throw new IllegalStateException("지원 X principal type");
+        }
 
         return Jwts.builder()
                 .setSubject(email)
