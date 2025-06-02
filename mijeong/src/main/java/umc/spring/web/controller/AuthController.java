@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
+import umc.spring.service.OAuthService.OAuthService;
 import umc.spring.service.UserService.UserCommandService;
 import umc.spring.web.dto.user.UserRequest;
 import umc.spring.web.dto.user.UserResponse;
@@ -21,6 +22,7 @@ import umc.spring.web.dto.user.UserResponse;
 public class AuthController {
 
     private final UserCommandService userCommandService;
+    private final OAuthService oAuthService;
 
     // 회원가입
     @Operation(
@@ -44,5 +46,13 @@ public class AuthController {
     public ApiResponse<UserResponse.LoginResultDto> login(@RequestBody @Valid UserRequest.LoginRequestDto request,
                                                           HttpServletResponse response) {
         return ApiResponse.onSuccess(userCommandService.loginUser(request, response));
+    }
+
+    // 카카오 로그인 API
+    @Operation(summary = "카카오 로그인 API",description = "카카오 소셜 로그인 API입니다.")
+    @PostMapping("/login/kakao")
+    public ApiResponse<UserResponse.LoginResultDto> kakaoLogin(@RequestParam("code") String accessCodet,
+                                                          HttpServletResponse response) {
+        return ApiResponse.onSuccess(oAuthService.kakaoOAuthLogin(accessCodet, response));
     }
 }

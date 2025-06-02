@@ -40,8 +40,6 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     // 유저 정보 조회
-
-
     @Override
     public UserResponse.UserInfoDto getUserInfo(HttpServletRequest request) {
         // JwtTokenProvider에 정의한 extractAuthentication 메소드를 통해 토큰을 파싱하고, Authentication 객체를 추출
