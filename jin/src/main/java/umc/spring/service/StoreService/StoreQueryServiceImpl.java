@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.StoreIdHandler;
-import umc.spring.apiPayload.exception.handler.UserIdHandler;
+import umc.spring.apiPayload.exception.handler.UserHandler;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
 import umc.spring.domain.User;
@@ -57,7 +57,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
         Store store = storeRepository.findById(StoreId)
                 .orElseThrow(() -> new StoreIdHandler(ErrorStatus.STORE_NOT_FOUND));
         User user = userRepository.findById(UserId)
-                .orElseThrow(() -> new UserIdHandler(ErrorStatus.USER_NOT_FOUND));
+                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
         Page<Review> MyStoreReviewPage = reviewRepository.findAllByStoreAndUser(store, user, PageRequest.of(page, 10));
         return MyStoreReviewPage;
     }

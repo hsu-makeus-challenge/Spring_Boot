@@ -19,6 +19,21 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long userId, String accessToken) {
+        return UserResponseDTO.LoginResultDTO.builder()
+                .userId(userId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static UserResponseDTO.UserInfoDTO toUserInfoDTO(User user){
+        return UserResponseDTO.UserInfoDTO.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .gender(user.getGender().name())
+                .build();
+    }
+
     public static User toUser(UserRequestDTO.JoinDto request) {
         if (request.getGender() == null) {
             log.error("gender 값이 null입니다.");

@@ -1,11 +1,15 @@
 package umc.spring.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.FoodCategoryHandler;
+import umc.spring.apiPayload.exception.handler.UserHandler;
+import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.converter.UserConverter;
 import umc.spring.converter.UserPreferConverter;
 import umc.spring.domain.FoodCategory;
@@ -14,7 +18,9 @@ import umc.spring.domain.mapping.UserPrefer;
 import umc.spring.repository.FoodCategoryRepository.FoodCategoryRepository;
 import umc.spring.repository.UserRepository;
 import umc.spring.web.dto.user.UserRequestDTO;
+import umc.spring.web.dto.user.UserResponseDTO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +33,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final FoodCategoryRepository foodCategoryRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     @Transactional // 트랜잭션 설정(자동 커밋, 롤백)
@@ -48,5 +55,27 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         return userRepository.save(newUser);
 
+    }
+
+    @Override
+    public UserResponseDTO.LoginResultDTO loginUser(UserRequestDTO.LoginRequestDTO request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new UserHandler(ErrorStatus.INVALID_PASSWORD);
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getEmail(), null,
+                Collections.singleton(() -> user.getRole().name())
+        );
+
+        String accessToken = jwtTokenProvider.generateToken(authentication);
+
+        return UserConverter.toLoginResultDTO(
+            user.getId(),
+            accessToken
+        );
     }
 }
