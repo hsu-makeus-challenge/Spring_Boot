@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
+import umc.spring.service.AuthService.AuthService;
 import umc.spring.service.OAuthService.OAuthService;
 import umc.spring.service.UserService.UserCommandService;
 import umc.spring.web.dto.user.UserRequest;
@@ -23,6 +25,7 @@ public class AuthController {
 
     private final UserCommandService userCommandService;
     private final OAuthService oAuthService;
+    private final AuthService authService;
 
     // 회원가입
     @Operation(
@@ -54,5 +57,17 @@ public class AuthController {
     public ApiResponse<UserResponse.LoginResultDto> kakaoLogin(@RequestParam("code") String accessCodet,
                                                           HttpServletResponse response) {
         return ApiResponse.onSuccess(oAuthService.kakaoOAuthLogin(accessCodet, response));
+    }
+
+    // Access & RefreshToken 재발급 API
+    @Operation(
+            summary = "토큰 재발급 API",
+            description = "만료된 AccessToken을 갱신하고, 새로운 AccessToken과 RefreshToken을 재발급받는 API입니다."
+    )
+    @PostMapping("/regenerate")
+    public ApiResponse<?> regenerateToken(HttpServletRequest request, HttpServletResponse response) {
+        authService.reissueTokens(request, response);
+
+        return ApiResponse.onSuccess(null);
     }
 }

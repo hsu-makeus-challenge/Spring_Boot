@@ -10,7 +10,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import umc.spring.web.dto.OAuth2.KakaoDto;
 
 @Component
 @RequiredArgsConstructor

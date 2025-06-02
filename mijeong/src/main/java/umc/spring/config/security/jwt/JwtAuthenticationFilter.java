@@ -67,10 +67,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // "Authorization" 헤더에서 "Bearer " 접두사를 제거한 순수 토큰 추출
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(Constants.AUTH_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(Constants.TOKEN_PREFIX)) {
-            return bearerToken.substring(Constants.TOKEN_PREFIX.length());
+        String bearerToken = request.getHeader(Constants.ACCESS_TOKEN_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(Constants.BEARER_PREFIX)) {
+            return bearerToken.substring(Constants.BEARER_PREFIX.length());
         }
         return null;
+    }
+
+    // 재발급 API 경로는 JWT 필터를 타지 않도록 예외 처리
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.equals("/api/auth/regenerate");
     }
 }

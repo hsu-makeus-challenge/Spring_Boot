@@ -1,8 +1,10 @@
 package umc.spring.config.security.jwt;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -12,16 +14,21 @@ import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.ErrorHandler;
 import umc.spring.config.properties.Constants;
 import umc.spring.config.properties.JwtProperties;
+import umc.spring.repository.RefreshTokenRepository.RefreshTokenRepository;
 
 import java.security.Key;
-import java.util.Date;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes());
@@ -75,9 +82,9 @@ public class JwtTokenProvider {
 
     // HTTP 요청의 헤더에서 JWT 토큰을 추출
     public static String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(Constants.AUTH_HEADER);
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(Constants.TOKEN_PREFIX)) {
-            return bearerToken.substring(Constants.TOKEN_PREFIX.length());
+        String bearerToken = request.getHeader(Constants.ACCESS_TOKEN_HEADER);
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(Constants.BEARER_PREFIX)) {
+            return bearerToken.substring(Constants.BEARER_PREFIX.length());
         }
         return null;
     }
@@ -90,5 +97,54 @@ public class JwtTokenProvider {
             throw new ErrorHandler(ErrorStatus.INVALID_TOKEN);
         }
         return getAuthentication(accessToken);
+    }
+
+    // RefreshToken 생성
+    public String generateRefreshToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getRefresh()))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // RefreshToken 저장
+    public void storeRefreshToken(String email, String refreshToken) {
+        refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .email(email)
+                        .token(refreshToken)
+                        .build()
+        );
+    }
+
+    // RefreshToken 삭제
+    public void deleteRefreshToken(String email) {
+        refreshTokenRepository.deleteById(email);
+    }
+
+    // AccessToken 생성 및 RefreshToken 회전 (기존 토큰 삭제 후 재발급)
+    // AccessToken과 RefreshToken을 모두 반환
+    public Map<String, String> regenerateAccessTokenAndRotateRefreshToken(String email) {
+        // 기존 RefreshToken 삭제
+        deleteRefreshToken(email);
+
+        // 새로운 RefreshToken 발급 및 저장
+        String newRefreshToken = generateRefreshToken(email);
+        storeRefreshToken(email, newRefreshToken);
+
+        // 새로운 AccessToken 발급
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                email, null, Collections.singleton(() -> "ROLE_USER")
+        );
+        String newAccessToken = generateToken(auth);
+
+        // AccessToken, RefreshToken 함께 반환
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", newAccessToken);
+        tokens.put("refreshToken", newRefreshToken);
+
+        return tokens;
     }
 }

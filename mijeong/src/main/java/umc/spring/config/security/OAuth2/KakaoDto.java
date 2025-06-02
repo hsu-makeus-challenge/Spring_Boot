@@ -1,4 +1,4 @@
-package umc.spring.web.dto.OAuth2;
+package umc.spring.config.security.OAuth2;
 
 import lombok.Getter;
 

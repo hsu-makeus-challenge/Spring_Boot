@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.spring.config.properties.Constants;
 import umc.spring.config.security.OAuth2.KakaoUtil;
 import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.converter.OAuthConverter;
@@ -18,7 +19,7 @@ import umc.spring.domain.enums.Role;
 import umc.spring.domain.enums.SocialType;
 import umc.spring.repository.OAuthRepository.OAuthRepository;
 import umc.spring.repository.UserRepository.UserRepository;
-import umc.spring.web.dto.OAuth2.KakaoDto;
+import umc.spring.config.security.OAuth2.KakaoDto;
 import umc.spring.web.dto.user.UserResponse;
 
 import java.util.Collections;
@@ -56,17 +57,8 @@ public class OAuthServiceImpl implements OAuthService {
         User user = userRepository.findByEmail(email).orElseGet(() -> {
             isNewUser.set(true);  // 새 사용자임을 표시
 
-            // 더미 데이터로 사용자 생성
-            User newUser = User.builder()
-                    .email(email)
-                    .nickName(nickname)
-                    .role(Role.USER)
-                    .gender(Gender.NONE)
-                    .birth("2004/01/08")
-                    .address("test address")
-                    .phone("010-1111-1111")
-                    .build();
-
+            // 임시 데이터로 사용자 생성
+            User newUser = UserConverter.toUser(email, nickname);
             return userRepository.save(newUser);
         });
 
@@ -83,11 +75,18 @@ public class OAuthServiceImpl implements OAuthService {
                 Collections.singleton(() -> user.getRole().name())
         );
 
+        // 6. Access Token 발급
         String accessToken = jwtTokenProvider.generateToken(authentication);
-        response.setHeader("Authorization", "Bearer " + accessToken);
 
-        // 6. 로그인 성공 DTO 반환
-        log.info("로그인 완료, userId: {}, Access Token: {}", user.getId(), accessToken);
+        // 7. Refresh Token 발급 및 저장
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        jwtTokenProvider.storeRefreshToken(user.getEmail(), refreshToken);
+
+        // 8. 응답 헤더 설정
+        Constants.setAllTokens(response, accessToken, refreshToken);
+
+        // 9. 로그인 성공 DTO 반환
+        log.info("카카오 로그인 완료, userId: {}, Access Token: {}, Refresh Token: {}", user.getId(), accessToken, refreshToken);
         return UserConverter.toLoginResultDto(
                 user.getId()
         );

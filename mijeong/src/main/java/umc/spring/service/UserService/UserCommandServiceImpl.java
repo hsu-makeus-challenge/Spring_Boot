@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.ErrorHandler;
+import umc.spring.config.properties.Constants;
 import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.converter.OAuthConverter;
 import umc.spring.converter.UserConverter;
@@ -94,10 +95,17 @@ public class UserCommandServiceImpl implements UserCommandService {
                 Collections.singleton(() -> user.getRole().name())
         );
 
+        // Access Token 발급
         String accessToken = jwtTokenProvider.generateToken(authentication);
-        response.setHeader("Authorization", "Bearer " + accessToken);
 
-        log.info("로그인 완료, userId: {}, Access Token: {}", user.getId(), accessToken);
+        // Refresh Token 발급 및 저장
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        jwtTokenProvider.storeRefreshToken(user.getEmail(), refreshToken);
+
+        // 응답 헤더 설정
+        Constants.setAllTokens(response, accessToken, refreshToken);
+
+        log.info("로그인 완료, userId: {}, Access Token: {}, Refresh Token: {}", user.getId(), accessToken, refreshToken);
         return UserConverter.toLoginResultDto(
                 user.getId()
         );
