@@ -14,7 +14,7 @@ import umc.spring.apiPayload.code.status.SuccessStatus;
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class ApiResponse<T> {
-
+    @JsonProperty("isSuccess")
     @Schema(description = "성공 여부", example = "true")
     private final Boolean isSuccess;
     @Schema(description = "응답 코드", example = "COMMON200")
