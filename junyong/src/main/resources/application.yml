@@ -17,7 +17,45 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: { CLIENT_ID }
+            client-secret: { CLIENT_SECRET }
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+
 
 discord:
   name: discord-feign-client
   webhook-url: https://discord.com/api/webhooks/1369411881374187633/OSmD5a7C760NaYXpQ0V5b8AGcU6T9viSTt1qdklzBoy7yZeNEg8wAF_f-bieOcxiX_ry
+
+jwt:
+  token:
+    secretKey: { JWT_KEY }
+    expiration:
+      access: 3600000
+      refresh: 86400000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    umc.spring: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
