@@ -111,10 +111,11 @@ public class UserConverter {
                 ;
     }
 
-    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long userId, String accessToken) {
+    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long userId, String accessToken, String refreshToken) {
         return UserResponseDTO.LoginResultDTO.builder()
                 .userId(userId)
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -126,4 +127,10 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserResponseDTO.ReissueTokenDTO toReissueResultDTO(String accessToken, String refreshToken){
+        return UserResponseDTO.ReissueTokenDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }

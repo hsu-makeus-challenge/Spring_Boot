@@ -47,6 +47,10 @@ public class JwtTokenProvider {
         else if (principal instanceof OAuth2User oAuth2User) {
             email = (String) oAuth2User.getAttributes().get("email");
         }
+        // JWT 토큰에서 복원된 Authentication (User 객체)
+        else if (principal instanceof User user) {
+            email = user.getUsername();
+        }
         else {
             throw new IllegalStateException("지원 X principal type");
         }
@@ -56,6 +60,32 @@ public class JwtTokenProvider {
                 .claim("role", authentication.getAuthorities().iterator().next().getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getAccess()))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(Authentication authentication) {
+        String email;
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof String) {
+            email = authentication.getName();
+        }
+        else if (principal instanceof OAuth2User oAuth2User) {
+            email = (String) oAuth2User.getAttributes().get("email");
+        }
+        else if (principal instanceof User user) {
+            email = user.getUsername();
+        }
+        else {
+            throw new IllegalStateException("지원 X principal type");
+        }
+
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration().getRefresh()))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -100,5 +130,14 @@ public class JwtTokenProvider {
             throw new UserHandler(ErrorStatus.INVALID_TOKEN);
         }
         return getAuthentication(accessToken);
+    }
+
+    public String getSubject(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }

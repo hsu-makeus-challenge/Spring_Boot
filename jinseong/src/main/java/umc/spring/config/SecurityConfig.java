@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                                 //해당 경로 허용
 //                        .requestMatchers("/", "/home", "/signup", "/users/signup","/css/**").permitAll()
-                                .requestMatchers("/", "/users/join", "/users/login", "/swagger-ui/**", "/v3/api-docs/**", "/oauth2/**", "/oauth").permitAll()
+                                .requestMatchers("/", "/users/join", "/users/login", "/swagger-ui/**", "/v3/api-docs/**", "/oauth2/**", "/oauth", "/users/reissue").permitAll()
                                 // 해당 경로는 ADMIN 권한 필요
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 // 이외 경로 모두 인증 필요

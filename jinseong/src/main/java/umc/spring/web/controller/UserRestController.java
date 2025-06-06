@@ -97,4 +97,20 @@ public class UserRestController {
     public ApiResponse<UserResponseDTO.UserInfoDTO> getMyInfo(HttpServletRequest request) {
         return ApiResponse.onSuccess(userQueryService.getUserInfo(request));
     }
+
+
+    @PostMapping("/reissue")
+    @Operation(summary = "액세스 토큰 재발급 API - 리프레시 토큰 필요",
+            description = "리프레시 토큰으로 토큰을 재발급받는 API입니다."
+    )
+    public ApiResponse<UserResponseDTO.ReissueTokenDTO> reissueAccessToken(
+            @Parameter(
+                    description = "리프레시 토큰 (Bearer {refresh_token} 형태)",
+                    required = true,
+                    in = ParameterIn.HEADER
+            )
+            @RequestHeader("Authorization") String bearerToken) {
+
+        return ApiResponse.onSuccess(userCommandService.reissueAccessToken(bearerToken));
+    }
 }
