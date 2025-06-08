@@ -1,12 +1,18 @@
 package umc.study.service.UserService;
 
-import jakarta.transaction.Transactional;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.transaction.annotation.Transactional; // ✅ readOnly 가능
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import umc.study.apiPayload.code.status.ErrorStatus;
+import umc.study.apiPayload.exception.handler.UserHandler;
+import umc.study.config.security.jwt.JwtTokenProvider;
+import umc.study.converter.UserConverter;
 import umc.study.converter.UserMissionConverter;
 import umc.study.domain.Mission;
 import umc.study.domain.Users;
@@ -15,6 +21,7 @@ import umc.study.repository.MissionRepository.MissionRepository;
 import umc.study.repository.UserMissionRepository.UserMissionRepository;
 import umc.study.repository.UserRepository.UserRepository;
 import umc.study.web.dto.UserMissionRequestDTO;
+import umc.study.web.dto.UserResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

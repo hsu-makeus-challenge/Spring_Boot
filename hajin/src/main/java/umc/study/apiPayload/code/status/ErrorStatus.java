@@ -19,8 +19,12 @@ public enum ErrorStatus implements BaseErrorCode {
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON400", "잘못된 요청입니다."),
     // 멤버 관려 에러
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4003", "패스워드가 불일치합니다."),
     // 페이징 에러
-    PAGE_INVALID(HttpStatus.BAD_REQUEST, "PAGE001", "page는 1 이상의 값이어야 합니다.");
+    PAGE_INVALID(HttpStatus.BAD_REQUEST, "PAGE001", "page는 1 이상의 값이어야 합니다."),
+
+    // 인증 에러
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH001", "유효하지 않은 토큰입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.Gender;
+import umc.study.domain.enums.Role;
 import umc.study.domain.enums.SocialType;
 import umc.study.domain.enums.UserStatus;
 import umc.study.domain.mapping.FoodPreference;
@@ -29,7 +30,7 @@ public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // jpa가 통신을 하는 dbms의 방식을 따른다는 의미.
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, length = 20)
     private String name;
@@ -40,51 +41,63 @@ public class Users extends BaseEntity {
 
     private LocalDateTime birth;
 
-    private int age;
+    private Integer age;
 
     @Column(nullable = false, length = 40)
     private String address;
 
     @ColumnDefault("0")
-    private int point;
+    @Builder.Default
+    private Integer point = 0;
 
     @Column(nullable = false, length = 40)
     private String email;
 
-    @Column(nullable = false, length = 40)
+    @Column(length = 40)
     private String phone_number;
 
-    private boolean phone_certification;
+    private Boolean phone_certification;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'ACTIVE'")
     private UserStatus userStatus;
 
     @Enumerated(EnumType.STRING) //ORDINAL(순서저장)->STRING
-    @Column(nullable = false, length = 20)
+    @Column(nullable = true, length = 20)
     private SocialType socialType;
 
     private LocalDateTime inactiveDate;
 
-    @OneToMany(mappedBy ="user", cascade =CascadeType.ALL)
+    // 비밀번호, 권한 추가
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(mappedBy ="user", cascade = CascadeType.ALL)
     private List<UserAgree> memberAgreeList = new ArrayList<>();
 
-    @OneToMany(mappedBy ="user", cascade =CascadeType.ALL)
+    @OneToMany(mappedBy ="user", cascade = CascadeType.ALL)
     private List<FoodPreference> foodPreferenceList = new ArrayList<>();
 
-    @OneToMany(mappedBy ="user", cascade =CascadeType.ALL)
+    @OneToMany(mappedBy ="user", cascade = CascadeType.ALL)
     private List<Inquiry> inquiryList = new ArrayList<>();
 
-    @OneToMany(mappedBy ="user", cascade =CascadeType.ALL)
+    @OneToMany(mappedBy ="user", cascade = CascadeType.ALL)
     private List<Notification> notificationList = new ArrayList<>();
 
-    @OneToMany(mappedBy ="user", cascade =CascadeType.ALL)
+    @OneToMany(mappedBy ="user", cascade = CascadeType.ALL)
     private List<UserMission> userMissionList  = new ArrayList<>();
 
-    //CascadeType.All -> User의 변화에 따라 Review, FoodPreference 등의 entity가 영향을 받는다.
 
+    //CascadeType.All -> User의 변화에 따라 Review, FoodPreference 등의 entity가 영향을 받는다.
     public void addUserMission(UserMission usermission) {
         this.userMissionList.add(usermission);
         usermission.setUser(this); // 연관 관계 동기화
+    }
+
+    public void encodePassword(String password) {
+        this.password = password;
     }
 }

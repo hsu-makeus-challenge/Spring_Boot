@@ -4,14 +4,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import umc.study.config.properties.JwtProperties;
 import umc.study.service.StoreService.StoreQueryService;
 
 @SpringBootApplication
 @EntityScan(basePackages = "umc.study.domain")
 @EnableJpaAuditing // 데이터베이스 엔티티의 생성과 수정 정보 자동 기록, 관리
+@EnableConfigurationProperties(JwtProperties.class)
 public class Application {
 
 	public static void main(String[] args) {

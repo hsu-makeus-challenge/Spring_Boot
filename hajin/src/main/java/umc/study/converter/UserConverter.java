@@ -17,11 +17,28 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long memberId, String accessToken) {
+        return UserResponseDTO.LoginResultDTO.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static UserResponseDTO.UserInfoDTO toUserInfoDTO(Users user){
+        return UserResponseDTO.UserInfoDTO.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .gender(user.getGender().name())
+                .build();
+    }
+
     public static Users toUser(UserRequestDTO.JoinDto request) {
 
         Gender gender = null;
 
-        switch (request.getGender()) {
+        int genderCode = Integer.parseInt(request.getGender());
+
+        switch (genderCode) {
             case 1:
                 gender = Gender.MALE;
                 break;
@@ -38,10 +55,13 @@ public class UserConverter {
                 .gender(gender)
                 .age(request.getAge())
                 .name(request.getName())
+                .email(request.getEmail())   // 추가된 코드
+                .password(request.getPassword())   // 추가된 코드
                 .foodPreferenceList(new ArrayList<>())
                 .email(request.getEmail())
                 .birth(request.getBirth())
                 .point(request.getPoint())
+                .role(request.getRole())
                 .build();
     }
 }
