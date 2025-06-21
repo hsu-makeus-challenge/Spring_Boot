@@ -37,7 +37,8 @@ public class UserConverter {
 
         return User.builder()
                 .name(request.getName())
-                .nickname(request.getNickname())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .gender(gender)
                 .address(request.getAddress())
                 .detailAddress(request.getDetailAddress())
@@ -45,7 +46,9 @@ public class UserConverter {
                 .birthMonth(request.getBirthMonth())
                 .birthDay(request.getBirthDay())
                 .userFoodCategoryList(new ArrayList<>())
-                .build();
+                .role(request.getRole())
+                .build()
+                ;
     }
 
     public static UserResponseDTO.UserReviewPreViewDTO reviewPreViewDTO(Review review){
@@ -106,5 +109,28 @@ public class UserConverter {
                 .userMissionList(userMissionPreViewDTOList)
                 .build()
                 ;
+    }
+
+    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long userId, String accessToken, String refreshToken) {
+        return UserResponseDTO.LoginResultDTO.builder()
+                .userId(userId)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public static UserResponseDTO.UserInfoDTO toUserInfoDTO(User user){
+        return UserResponseDTO.UserInfoDTO.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .gender(user.getGender().name())
+                .build();
+    }
+
+    public static UserResponseDTO.ReissueTokenDTO toReissueResultDTO(String accessToken, String refreshToken){
+        return UserResponseDTO.ReissueTokenDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }

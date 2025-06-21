@@ -75,4 +75,33 @@ public class UserResponseDTO {
         LocalDate deadline;
         LocalDate createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResultDTO {
+        Long userId;
+        String accessToken;
+        String refreshToken;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserInfoDTO{
+        String name;
+        String email;
+        String gender;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReissueTokenDTO{
+        String accessToken;
+        String refreshToken;
+    }
 }

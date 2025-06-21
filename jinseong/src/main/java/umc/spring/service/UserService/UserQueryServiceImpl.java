@@ -1,15 +1,19 @@
 package umc.spring.service.UserService;
 
 import com.querydsl.core.Tuple;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.UserHandler;
+import umc.spring.config.security.jwt.JwtTokenProvider;
+import umc.spring.converter.UserConverter;
 import umc.spring.domain.QUser;
 import umc.spring.domain.Review;
 import umc.spring.domain.User;
@@ -18,6 +22,7 @@ import umc.spring.domain.mapping.UserMission;
 import umc.spring.repository.ReviewRepository;
 import umc.spring.repository.UserMissionRepository.UserMissionRepository;
 import umc.spring.repository.UserRepository.UserRepository;
+import umc.spring.web.dto.UserDTO.UserResponseDTO;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +35,7 @@ public class UserQueryServiceImpl implements UserQueryService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final UserMissionRepository userMissionRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public Tuple findUserInfoById(Long userId) {
@@ -93,5 +99,16 @@ public class UserQueryServiceImpl implements UserQueryService {
         List<UserMission> userMissions = userMissionRepository.findUserMissionsWithFetchByIds(ids);
 
         return new PageImpl<>(userMissions, pageable, userMissionIdPage.getTotalElements());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDTO.UserInfoDTO getUserInfo(HttpServletRequest request){
+        Authentication authentication = jwtTokenProvider.extractAuthentication(request);
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new UserHandler(ErrorStatus.USER_NOT_FOUND));
+        return UserConverter.toUserInfoDTO(user);
     }
 }

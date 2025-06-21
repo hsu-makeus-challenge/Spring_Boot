@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
+import umc.spring.domain.enums.Role;
 import umc.spring.domain.enums.UserStatus;
 import umc.spring.domain.mapping.UserFoodCategory;
 import umc.spring.domain.mapping.UserMission;
@@ -27,16 +28,19 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String email;
 
-//    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false, length = 30)
+//    @Column(nullable = false, length = 30)
     private String nickname;
 
 //    @Column(nullable = false, length = 20)
@@ -105,4 +109,10 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OAuth> oAuthList = new ArrayList<>();
+
+
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }
