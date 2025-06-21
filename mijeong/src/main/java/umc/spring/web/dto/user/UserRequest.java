@@ -2,10 +2,15 @@ package umc.spring.web.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import umc.spring.domain.enums.Gender;
+import umc.spring.domain.enums.Role;
 import umc.spring.domain.enums.SocialType;
 import umc.spring.validation.annotation.ExistCategories;
 
@@ -13,12 +18,23 @@ import java.util.List;
 
 public class UserRequest {
 
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Getter
+    @Setter
     @Schema(description = "회원가입 요청 정보")
     public static class JoinDto{
         @NotNull @Email
         @Schema(description = "이메일", example = "test@gmail.com")
         String email;
+
+        @NotBlank
+        @Schema(description = "비밀번호")
+        String password;    // 비밀번호 필드 추가
+
+        @NotNull
+        @Schema(description = "유저 역할", example = "USER")
+        Role role;    // 역할 필드 추가
 
         @NotNull
         @Schema(description = "소셜 로그인 타입", example = "GOOGLE")
@@ -53,5 +69,17 @@ public class UserRequest {
         List<Long> preferCategory;
     }
 
+    @Getter
+    @Setter
+    @Schema(description = "로그인 요청 정보")
+    public static class LoginRequestDto{
+        @NotBlank(message = "이메일은 필수입니다.")
+        @Email(message = "올바른 이메일 형식이어야 합니다.")
+        @Schema(description = "이메일", example = "test@gmail.com")
+        private String email;
 
+        @NotBlank(message = "패스워드는 필수입니다.")
+        @Schema(description = "비밀번호")
+        private String password;
+    }
 }

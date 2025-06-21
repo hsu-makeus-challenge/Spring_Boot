@@ -1,9 +1,17 @@
 package umc.spring.service.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.spring.apiPayload.code.status.ErrorStatus;
+import umc.spring.apiPayload.exception.handler.ErrorHandler;
+import umc.spring.config.properties.Constants;
+import umc.spring.config.security.jwt.JwtTokenProvider;
 import umc.spring.converter.OAuthConverter;
 import umc.spring.converter.UserConverter;
 import umc.spring.converter.UserPretendFoodConverter;
@@ -11,7 +19,6 @@ import umc.spring.domain.FoodCategory;
 import umc.spring.domain.OAuth;
 import umc.spring.domain.User;
 import umc.spring.domain.mapping.UserPretendFood;
-import umc.spring.repository.FoodCategoryRepository.FoodCategoryRepository;
 import umc.spring.repository.OAuthRepository.OAuthRepository;
 import umc.spring.repository.UserPretendFoodRepository.UserPretendFoodRepository;
 import umc.spring.repository.UserRepository.UserRepository;
@@ -19,6 +26,7 @@ import umc.spring.service.FoodCategoryService.FoodCategoryQueryService;
 import umc.spring.web.dto.user.UserRequest;
 import umc.spring.web.dto.user.UserResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -32,12 +40,19 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UserPretendFoodRepository userPretendFoodRepository;
     private final FoodCategoryQueryService foodCategoryQueryService;
 
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+
     // 회원가입
     @Transactional
     @Override
     public UserResponse.JoinResultDto joinUser(UserRequest.JoinDto requestDto) {
         // 유저 생성
         User user = UserConverter.toUser(requestDto);
+        log.info("email: {}", requestDto.getEmail());
+        log.info("password: {}", requestDto.getPassword());
+        user.encodePassword(passwordEncoder.encode(requestDto.getPassword()));
+
         // 유저 저장
         userRepository.save(user);
 
@@ -63,5 +78,36 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         log.info("회원가입 완료, userId: {}", user.getId());
         return UserConverter.toJoinResultDTO(user);
+    }
+
+    // 로그인
+    @Override
+    public UserResponse.LoginResultDto loginUser(UserRequest.LoginRequestDto requestDto, HttpServletResponse response) {
+        User user = userRepository.findByEmail(requestDto.getEmail())
+                .orElseThrow(()-> new ErrorHandler(ErrorStatus.USER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new ErrorHandler(ErrorStatus.INVALID_PASSWORD);
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getEmail(), null,
+                Collections.singleton(() -> user.getRole().name())
+        );
+
+        // Access Token 발급
+        String accessToken = jwtTokenProvider.generateToken(authentication);
+
+        // Refresh Token 발급 및 저장
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        jwtTokenProvider.storeRefreshToken(user.getEmail(), refreshToken);
+
+        // 응답 헤더 설정
+        Constants.setAllTokens(response, accessToken, refreshToken);
+
+        log.info("로그인 완료, userId: {}, Access Token: {}, Refresh Token: {}", user.getId(), accessToken, refreshToken);
+        return UserConverter.toLoginResultDto(
+                user.getId()
+        );
     }
 }

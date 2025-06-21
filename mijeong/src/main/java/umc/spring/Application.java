@@ -1,21 +1,10 @@
 package umc.spring;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import umc.spring.domain.enums.MissionStatus;
-import umc.spring.domain.mapping.UserMission;
-import umc.spring.service.StoreService.StoreQueryService;
-import umc.spring.service.UserMissionService.UserMissionQueryService;
-import umc.spring.service.UserService.UserQueryService;
-import umc.spring.web.dto.mission.MissionResponse;
-import umc.spring.web.dto.user.UserResponse;
 
 
 @EnableFeignClients(basePackages = "umc.spring")

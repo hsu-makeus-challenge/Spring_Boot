@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,13 @@ import umc.spring.domain.enums.MissionStatus;
 import umc.spring.service.ReviewService.ReviewQueryService;
 import umc.spring.service.UserMissionService.UserMissionCommandService;
 import umc.spring.service.UserMissionService.UserMissionQueryService;
+import umc.spring.service.UserService.UserQueryService;
 import umc.spring.validation.annotation.CheckPage;
 import umc.spring.validation.annotation.ExistStoreMission;
 import umc.spring.validation.annotation.ExistUser;
 import umc.spring.validation.annotation.ExistUserMission;
 import umc.spring.web.dto.review.ReviewResponse;
+import umc.spring.web.dto.user.UserResponse;
 import umc.spring.web.dto.userMission.UserMissionResponse;
 
 
@@ -33,6 +37,7 @@ public class UserController {
     private final ReviewQueryService reviewQueryService;
     private final UserMissionCommandService userMissionCommandService;
     private final UserMissionQueryService userMissionQueryService;
+    private final UserQueryService userQueryService;
 
     @Operation(
             summary = "유저의 리뷰 목록 조회",
@@ -134,5 +139,15 @@ public class UserController {
         UserMissionResponse.UserMissionResultDto response = userMissionCommandService.updateUserMissionStatus(userId, userMissionId, status);
 
         return ApiResponse.onSuccess(response);
+    }
+
+    // 유저 정보 조회
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다.",
+            security = { @SecurityRequirement(name = "JWT TOKEN") }
+    )
+    public ApiResponse<UserResponse.UserInfoDto> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(userQueryService.getUserInfo(request));
     }
 }

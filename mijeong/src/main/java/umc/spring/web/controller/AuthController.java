@@ -5,13 +5,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
+import umc.spring.service.AuthService.AuthService;
+import umc.spring.service.OAuthService.OAuthService;
 import umc.spring.service.UserService.UserCommandService;
 import umc.spring.web.dto.user.UserRequest;
 import umc.spring.web.dto.user.UserResponse;
@@ -23,6 +24,8 @@ import umc.spring.web.dto.user.UserResponse;
 public class AuthController {
 
     private final UserCommandService userCommandService;
+    private final OAuthService oAuthService;
+    private final AuthService authService;
 
     // 회원가입
     @Operation(
@@ -38,5 +41,33 @@ public class AuthController {
     public ApiResponse<UserResponse.JoinResultDto> join(@RequestBody @Valid UserRequest.JoinDto request){
         UserResponse.JoinResultDto response = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(response);
+    }
+
+    // 로그인
+    @Operation(summary = "유저 로그인 API",description = "유저가 로그인하는 API입니다.")
+    @PostMapping("/login")
+    public ApiResponse<UserResponse.LoginResultDto> login(@RequestBody @Valid UserRequest.LoginRequestDto request,
+                                                          HttpServletResponse response) {
+        return ApiResponse.onSuccess(userCommandService.loginUser(request, response));
+    }
+
+    // 카카오 로그인 API
+    @Operation(summary = "카카오 로그인 API",description = "카카오 소셜 로그인 API입니다.")
+    @PostMapping("/login/kakao")
+    public ApiResponse<UserResponse.LoginResultDto> kakaoLogin(@RequestParam("code") String accessCodet,
+                                                          HttpServletResponse response) {
+        return ApiResponse.onSuccess(oAuthService.kakaoOAuthLogin(accessCodet, response));
+    }
+
+    // Access & RefreshToken 재발급 API
+    @Operation(
+            summary = "토큰 재발급 API",
+            description = "만료된 AccessToken을 갱신하고, 새로운 AccessToken과 RefreshToken을 재발급받는 API입니다."
+    )
+    @PostMapping("/regenerate")
+    public ApiResponse<?> regenerateToken(HttpServletRequest request, HttpServletResponse response) {
+        authService.reissueTokens(request, response);
+
+        return ApiResponse.onSuccess(null);
     }
 }

@@ -31,4 +31,28 @@ public class UserResponse {
         @Schema(description = "유저 가입 날짜")
         LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "로그인 응답 정보")
+    public static class LoginResultDto {
+        @Schema(description = "로그인에 성공한 유저 아이디", example = "1")
+        Long userId;
+
+        // accessToken은 response header에
+    }
+
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "유저 조회 응답 정보")
+    public static class UserInfoDto{
+        String nickName;
+        String email;
+        String gender;
+    }
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+    <style>
+        /* 스타일은 필요에 따라 추가 */
+    </style>
+</head>
+<body>
+<h2>회원가입</h2>
+<form th:action="@{/users/signup}" th:object="${userJoinDto}" method="post">
+    <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+
+    <div>
+        <label for="email">이메일:</label>
+        <input type="email" id="email" th:field="*{email}" placeholder="test@gmail.com" required>
+    </div>
+
+    <div>
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" th:field="*{password}" required>
+    </div>
+
+    <div>
+        <label for="role">역할:</label>
+        <select id="role" th:field="*{role}" required>
+            <option value="USER">일반 사용자</option>
+            <option value="ADMIN">관리자</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="socialType">소셜 로그인 타입:</label>
+        <select id="socialType" th:field="*{socialType}" required>
+            <option value="GOOGLE">GOOGLE</option>
+            <option value="KAKAO">KAKAO</option>
+            <option value="NAVER">NAVER</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="nickName">닉네임:</label>
+        <input type="text" id="nickName" th:field="*{nickName}" placeholder="미정" required>
+    </div>
+
+    <div>
+        <label for="gender">성별:</label>
+        <select id="gender" th:field="*{gender}" required>
+            <option value="MALE">남성</option>
+            <option value="FEMALE">여성</option>
+            <option value="NONE">선택안함</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="birth">출생일:</label>
+        <input type="date" id="birth" th:field="*{birth}" required>
+    </div>
+
+    <div>
+        <label for="address">주소:</label>
+        <input type="text" id="address" th:field="*{address}" placeholder="서울시 성북구" required>
+    </div>
+
+    <div>
+        <label for="addressDetail">상세 주소:</label>
+        <input type="text" id="addressDetail" th:field="*{addressDetail}" placeholder="공학관">
+    </div>
+
+    <div>
+        <label for="phone">전화번호:</label>
+        <input type="tel" id="phone" th:field="*{phone}" placeholder="010-0000-0000" required>
+    </div>
+
+    <div>
+        <label>선호 카테고리:</label>
+        <div class="preferCategory">
+            <label><input type="checkbox" th:field="*{preferCategory}" value="1"> 한식</label>
+            <label><input type="checkbox" th:field="*{preferCategory}" value="2"> 중식</label>
+            <label><input type="checkbox" th:field="*{preferCategory}" value="3"> 일식</label>
+        </div>
+    </div>
+
+    <button type="submit">가입하기</button>
+</form>
+</body>
+</html>
