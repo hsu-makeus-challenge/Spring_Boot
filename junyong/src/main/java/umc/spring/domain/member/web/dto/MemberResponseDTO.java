@@ -59,5 +59,13 @@ public class MemberResponseDTO {
         LocalDateTime completedAt;
     }
 
+    @Builder
+    @Getter
+    public static class MemberInfoDto{
+        String name;
+        String email;
+        String gender;
+    }
+
 
 }

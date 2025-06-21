@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import umc.spring.domain.member.data.enums.Role;
 import umc.spring.domain.member.data.mapping.MemberMission;
 import umc.spring.domain.member.data.mapping.MemberPrefer;
 import umc.spring.domain.notice.data.EventNotice;
@@ -55,7 +56,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 10)
     private String birth;
 
-    @Column(nullable = true, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
     @ColumnDefault("0") // 점수 기본값 0
@@ -69,6 +70,12 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private Boolean marketingAgree;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     // 매핑
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -85,5 +92,14 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberMission> memberMissionList = new ArrayList<>();
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
+
+    public Member update(String name) {
+        this.name = name;
+        return this;
+    }
 
 }

@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +14,7 @@ import umc.spring.domain.member.converter.MemberConverter;
 import umc.spring.domain.member.data.Member;
 import umc.spring.domain.member.service.MemberCommandService;
 import umc.spring.domain.member.service.MemberQueryService;
+import umc.spring.domain.member.web.dto.LoginDto;
 import umc.spring.domain.member.web.dto.MemberRequestDTO;
 import umc.spring.domain.member.web.dto.MemberResponseDTO;
 import umc.spring.domain.mission.data.enums.MissionStatus;
@@ -28,11 +31,12 @@ public class MemberController {
     private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
 
-    @PostMapping("/")
-    public ApiResponse<MemberResponseDTO.JoinResultDto> join(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
-        Member member = memberCommandService.joinMember(request);
-        return ApiResponse.onSuccess(MemberConverter.toJoinResultDto(member));
-    }
+    // 10주차 하느라 주석처리
+//    @PostMapping("/")
+//    public ApiResponse<MemberResponseDTO.JoinResultDto> join(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
+//        Member member = memberCommandService.joinMember(request);
+//        return ApiResponse.onSuccess(MemberConverter.toJoinResultDto(member));
+//    }
 
     @GetMapping("/missions")
     @Operation(summary = "내가 도전중인 미션 목록 조회하기 API", description = "내가 도전 중/도전 완료한 미션을 조회합니다. page와 status가 필요합니다")
@@ -60,6 +64,29 @@ public class MemberController {
     public ApiResponse<MemberResponseDTO.CompleteDto> completeMission(@ExistMemberMission @PathVariable("memberMissionId") Long memberMissionId, @RequestParam("confirmNumber") String confirmNumber) {
         MemberResponseDTO.CompleteDto completeDto = memberCommandService.completeMission(memberMissionId, confirmNumber);
         return ApiResponse.onSuccess(completeDto);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "유저 로그인 API", description = "유저가 로그인하는 API입니다")
+    public ApiResponse<LoginDto.LoginResultDto> login(@RequestBody @Valid LoginDto.LoginRequestDto request) {
+        return ApiResponse.onSuccess(memberCommandService.loginMember(request));
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다",
+            security = {@SecurityRequirement(name = "JWT TOKEN")}
+    )
+    public ApiResponse<MemberResponseDTO.MemberInfoDto> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(memberQueryService.getMemberInfo(request));
+    }
+
+    @PostMapping("/join")
+    @Operation(summary = "유저 회원가입 API",
+                description = "유저가 회원가입하는 API입니다")
+    public ApiResponse<MemberResponseDTO.JoinResultDto> join(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
+        Member member = memberCommandService.joinMember(request);
+        return ApiResponse.onSuccess(MemberConverter.toJoinResultDto(member));
     }
 
 }

@@ -21,23 +21,25 @@ public class MemberConverter {
         Gender gender = null;
 
         switch (request.getGender()) {
-            case 1:
+            case "1":
                 gender = Gender.MALE;
                 break;
-            case 2:
+            case "2":
                 gender = Gender.FEMALE;
                 break;
-            case 3:
+            case "3":
                 gender = Gender.NONE;
                 break;
         }
 
         return Member.builder()
                 .address(request.getAddress())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .specAddress(request.getSpecAddress())
                 .gender(gender)
                 .name(request.getName())
-                .email("tempEmail@gmail.com")
+                .email(request.getEmail())
                 .birth(request.getBirth())
                 .locationAgree(false)
                 .marketingAgree(false)
@@ -47,8 +49,16 @@ public class MemberConverter {
                 .reviewNoticeList(new ArrayList<>())
                 .memberMissionList(new ArrayList<>())
                 .memberPreferList(new ArrayList<>())
+                .role(request.getRole())
                 .build();
     }
 
+    public static MemberResponseDTO.MemberInfoDto toMemberInfoDto(Member member) {
+        return MemberResponseDTO.MemberInfoDto.builder()
+                .name(member.getName())
+                .email(member.getEmail())
+                .gender(member.getGender().name())
+                .build();
+    }
 
 }
