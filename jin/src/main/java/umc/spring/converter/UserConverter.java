@@ -1,5 +1,6 @@
 package umc.spring.converter;
 
+import lombok.extern.slf4j.Slf4j;
 import umc.spring.domain.User;
 import umc.spring.domain.enums.Gender;
 import umc.spring.web.dto.user.UserRequestDTO;
@@ -8,6 +9,7 @@ import umc.spring.web.dto.user.UserResponseDTO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+@Slf4j
 public class UserConverter {
 
     public static UserResponseDTO.JoinResultDTO toJoinResultDTO(User user) {
@@ -17,30 +19,49 @@ public class UserConverter {
                 .build();
     }
 
-    public static User toUser(UserRequestDTO.JoinDto request) {
-        Gender gender = null;
+    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long userId, String accessToken) {
+        return UserResponseDTO.LoginResultDTO.builder()
+                .userId(userId)
+                .accessToken(accessToken)
+                .build();
+    }
 
-        switch (request.getGender()) {
-            case 1:
-                gender = Gender.MALE;
-                break;
-            case 2:
-                gender = Gender.FEMALE;
-                break;
-            case 3:
-                gender = Gender.NONE;
-                break;
+    public static UserResponseDTO.UserInfoDTO toUserInfoDTO(User user){
+        return UserResponseDTO.UserInfoDTO.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .gender(user.getGender().name())
+                .build();
+    }
+
+    public static User toUser(UserRequestDTO.JoinDto request) {
+        if (request.getGender() == null) {
+            log.error("gender 값이 null입니다.");
+            throw new IllegalArgumentException("성별은 필수입니다.");
         }
+
+        Gender gender = switch (request.getGender()) {
+            case 1 -> Gender.MALE;
+            case 2 -> Gender.FEMALE;
+            case 3 -> Gender.NONE;
+            default -> throw new IllegalArgumentException("올바르지 않은 성별 값입니다.");
+        };
+
         return User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .address(request.getAddress())
                 .gender(gender)
-                .name(request.getName())
+                .role(request.getRole())
                 .userPreferList(new ArrayList<>())
                 .birth(request.getBirth())
-                .isLocationAgreed(request.getIs_location_agreed())
-                .isMarketingAgreed(request.getIs_marketing_agreed())
-                .isPhoneVerified(request.getIs_phone_vertified())
-                .isPrivateAgreed(request.getIs_private_agreed())
+                .isLocationAgreed(false)
+                .isMarketingAgreed(false)
+                .isPhoneVerified(false)
+                .isPrivateAgreed(false)
+                .isServiceAgreed(false)
+                .isAlarmAgreed(false)
                 .build();
     }
 }

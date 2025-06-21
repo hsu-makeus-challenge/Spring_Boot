@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
 import umc.spring.domain.enums.MemberStatus;
+import umc.spring.domain.enums.Role;
 import umc.spring.domain.enums.SocialType;
 import umc.spring.domain.mapping.Alarm;
 import umc.spring.domain.mapping.MissionByUser;
@@ -41,8 +42,14 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(10)")
     private SocialType socialLoginType;
 
-//    @Column(nullable = false, length = 50)
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(nullable = false)
     private Boolean isServiceAgreed = false;
@@ -57,7 +64,7 @@ public class User extends BaseEntity {
     private Boolean isMarketingAgreed = false;
 
     @Column(nullable = false)
-    private Boolean alarmAgreed = false;
+    private Boolean isAlarmAgreed = false;
 
     @Column(nullable = false, length = 40)
     private String address;
@@ -93,4 +100,8 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Inquiry> userInquiryList = new ArrayList<>();
+
+    public void encodePassword (String password) {
+        this.password = password;
+    }
 }

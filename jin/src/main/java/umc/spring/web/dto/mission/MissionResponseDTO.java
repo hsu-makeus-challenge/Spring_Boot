@@ -54,5 +54,13 @@ public class MissionResponseDTO {
         Boolean isReviewed;
     }
 
+    @Builder
+    @Getter
+    public static class CompleteMissionDTO{
+        private Long userId;
+        private Long missionId;
+        private Boolean isCompleted;
+        private LocalDateTime completedAt;
+    }
 
 }

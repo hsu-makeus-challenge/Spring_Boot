@@ -61,10 +61,12 @@ public class StoreRestController {
     @Operation(summary = "특정 가게의 나의 리뷰 목록 조회 API",description = "특정 가게의 나의 리뷰 목록을 조회하는 API이며, 페이징을 포함합니다")
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!"),
-            @Parameter(name = "userId", description = "나의 아이디, path variable 입니다!")
+            @Parameter(name = "userId", description = "나의 아이디, path variable 입니다!"),
+            @Parameter(name = "page", description = "페이지 번호 입니다.")
     })
     public ApiResponse<StoreResponseDTO.ReviewPreViewListDto> getMyReviewList(@ExistStores @PathVariable(name = "storeId") Long storeId,
-                                                                              @PathVariable(name = "userId") Long userId, @Parameter(name = "page") @ValidPage Integer page){
+                                                                              @PathVariable(name = "userId") Long userId,
+                                                                              @ValidPage Integer page){
         Page<Review> myReviewList = storeQueryService.getMyReviewList(storeId, userId, page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(myReviewList));
     }
