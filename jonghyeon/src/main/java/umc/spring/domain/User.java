@@ -3,12 +3,16 @@ package umc.spring.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import umc.spring.domain.enums.Role;
+import umc.spring.domain.enums.TandF;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -31,6 +35,9 @@ public class User extends BaseEntity {
         M,F,Other
     }
 
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
     @ColumnDefault("'M'")
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -49,6 +56,9 @@ public class User extends BaseEntity {
     public enum Active{
         Active, Inactive
     }
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ColumnDefault("'Active'")
     @Enumerated(EnumType.STRING)
@@ -91,4 +101,8 @@ public class User extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PointRecord> pointRecordList = new ArrayList<>();
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }

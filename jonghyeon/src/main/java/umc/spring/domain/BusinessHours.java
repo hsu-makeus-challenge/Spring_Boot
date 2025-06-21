@@ -3,6 +3,7 @@ package umc.spring.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import umc.spring.domain.enums.TandF;
 
 import java.sql.Time;
 import java.time.LocalTime;

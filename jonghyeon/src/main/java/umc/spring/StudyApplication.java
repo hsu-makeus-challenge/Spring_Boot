@@ -15,6 +15,7 @@ public class StudyApplication {
 		SpringApplication.run(StudyApplication.class, args);
 	}
 
+
 //	@Bean
 //	public CommandLineRunner run(ApplicationContext context) {
 //		return args -> {

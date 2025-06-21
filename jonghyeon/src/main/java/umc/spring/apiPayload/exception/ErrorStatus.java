@@ -45,7 +45,19 @@ public enum ErrorStatus implements BaseErrorCode {
 
     PAGE_NOT_NUMBER(HttpStatus.BAD_REQUEST, "PAGE4003", "페이지는 숫자여야 합니다."),
     PAGE_ERROR(HttpStatus.BAD_REQUEST, "PAGE4004", "페이지 오류입니다."),
-    PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "PAGE4005", "페이지는 1보다 작을 수 없습니다.");
+    PAGE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "PAGE4005", "페이지는 1보다 작을 수 없습니다."),
+
+    // 인증 관련 에러
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH4011", "유효하지 않은 토큰입니다."),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "AUTH4012", "비밀번호가 일치하지 않습니다."),
+
+
+    // 지역
+    REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "지역이 없습니다."),
+
+    //카테고리
+    CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY4001", "카테고리가 없습니다.");
+
 
 
 
